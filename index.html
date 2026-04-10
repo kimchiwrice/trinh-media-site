@@ -652,43 +652,84 @@
             object-fit: cover;
             object-position: center 30%;
             opacity: 0;
-            animation: t4Fade 20s ease-in-out infinite;
-            will-change: opacity, transform;
+            animation: t4Fade 25s ease-in-out infinite;
+            will-change: opacity, transform, filter;
+            filter: saturate(1.1) contrast(1.05);
         }
 
-        .t4-slideshow img:nth-child(1) { animation-delay: 0s; animation-name: t4Fade, t4Zoom1; }
-        .t4-slideshow img:nth-child(2) { animation-delay: 4s; animation-name: t4Fade, t4Zoom2; }
-        .t4-slideshow img:nth-child(3) { animation-delay: 8s; animation-name: t4Fade, t4Zoom1; }
-        .t4-slideshow img:nth-child(4) { animation-delay: 12s; animation-name: t4Fade, t4Zoom2; }
-        .t4-slideshow img:nth-child(5) { animation-delay: 16s; animation-name: t4Fade, t4Zoom1; }
+        /* Each image gets a unique cinematic motion — push-in, drift-right, pull-out, pan-left, slow-rise */
+        .t4-slideshow img:nth-child(1) { animation-delay: 0s; animation-name: t4Fade, t4Move1; }
+        .t4-slideshow img:nth-child(2) { animation-delay: 5s; animation-name: t4Fade, t4Move2; }
+        .t4-slideshow img:nth-child(3) { animation-delay: 10s; animation-name: t4Fade, t4Move3; }
+        .t4-slideshow img:nth-child(4) { animation-delay: 15s; animation-name: t4Fade, t4Move4; }
+        .t4-slideshow img:nth-child(5) { animation-delay: 20s; animation-name: t4Fade, t4Move5; }
 
         @keyframes t4Fade {
-            0% { opacity: 0; }
-            3% { opacity: 1; }
-            18% { opacity: 1; }
-            22% { opacity: 0; }
+            0% { opacity: 0; filter: saturate(0.6) contrast(1.05) brightness(0.8); }
+            2% { opacity: 1; filter: saturate(1.1) contrast(1.05) brightness(1); }
+            16% { opacity: 1; filter: saturate(1.15) contrast(1.08) brightness(1.02); }
+            20% { opacity: 0; filter: saturate(1.1) contrast(1.05) brightness(0.9); }
             100% { opacity: 0; }
         }
 
-        @keyframes t4Zoom1 {
-            0% { transform: scale(1.05); }
-            20% { transform: scale(1.15); }
-            100% { transform: scale(1.15); }
+        /* Push-in center */
+        @keyframes t4Move1 {
+            0% { transform: scale(1.02); }
+            20% { transform: scale(1.18); }
+            100% { transform: scale(1.18); }
+        }
+        /* Drift right with slight zoom */
+        @keyframes t4Move2 {
+            0% { transform: scale(1.12) translateX(-3%); }
+            20% { transform: scale(1.08) translateX(1%); }
+            100% { transform: scale(1.08) translateX(1%); }
+        }
+        /* Pull-out with tilt */
+        @keyframes t4Move3 {
+            0% { transform: scale(1.2) translateY(-2%); }
+            20% { transform: scale(1.05) translateY(0%); }
+            100% { transform: scale(1.05) translateY(0%); }
+        }
+        /* Pan left slow */
+        @keyframes t4Move4 {
+            0% { transform: scale(1.1) translateX(2%); }
+            20% { transform: scale(1.14) translateX(-2%); }
+            100% { transform: scale(1.14) translateX(-2%); }
+        }
+        /* Slow rise */
+        @keyframes t4Move5 {
+            0% { transform: scale(1.08) translateY(3%); }
+            20% { transform: scale(1.15) translateY(-1%); }
+            100% { transform: scale(1.15) translateY(-1%); }
         }
 
-        @keyframes t4Zoom2 {
-            0% { transform: scale(1.15) translateX(-2%); }
-            20% { transform: scale(1.05) translateX(0%); }
-            100% { transform: scale(1.05) translateX(0%); }
-        }
-
+        /* Cinematic vignette + warm gradient overlay */
         .t4-slideshow::after {
             content: '';
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(26,26,46,0.3), rgba(26,26,46,0.1));
+            background:
+                radial-gradient(ellipse at center, transparent 40%, rgba(26,26,46,0.5) 100%),
+                linear-gradient(135deg, rgba(201,169,110,0.08), transparent 50%, rgba(91,107,138,0.06));
             z-index: 1;
             pointer-events: none;
+        }
+
+        /* Animated light sweep across the card */
+        .t4-slideshow::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+            z-index: 2;
+            pointer-events: none;
+            animation: t4LightSweep 8s ease-in-out infinite;
+        }
+
+        @keyframes t4LightSweep {
+            0% { left: -60%; }
+            50% { left: 120%; }
+            100% { left: 120%; }
         }
 
         /* ==================== REVEALS ==================== */
