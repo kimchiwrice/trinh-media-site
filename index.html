@@ -621,6 +621,18 @@
         .footer-logo span { color: var(--gold); }
         .footer-sub { color: var(--text-muted); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
 
+        /* ==================== ABOUT 3D ==================== */
+        .about { position: relative; }
+        .about-3d {
+            position: absolute;
+            top: 50%; right: 0;
+            transform: translateY(-50%);
+            width: 450px; height: 450px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.25;
+        }
+
         /* ==================== REVEALS ==================== */
         .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1); }
         .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -647,6 +659,7 @@
             .process-step::before { top: -1px; left: 0; width: 0; height: 1px; }
             .process-step:hover::before { width: 100%; height: 1px; }
             .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+            .about-3d { display: none; }
             .hero h1 { font-size: clamp(2.5rem, 7vw, 4rem); }
             .hero-bottom { flex-direction: column; gap: 2rem; }
             .portfolio-item { flex: 0 0 85vw; }
@@ -740,6 +753,7 @@
 
     <!-- ABOUT -->
     <section class="about" id="about">
+        <div class="about-3d" id="about-3d"></div>
         <div class="container">
             <div class="about-layout">
                 <div class="about-left reveal">
@@ -913,6 +927,7 @@
         </div>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
     // ==================== CUSTOM CURSOR ====================
     const cursor = document.getElementById('cursor');
@@ -956,126 +971,253 @@
         });
     });
 
-    // ==================== HERO PARTICLES ====================
+    // ==================== SIMPLEX-LIKE NOISE ====================
+    function noise3D(x, y, z) {
+        const p = x * 1.17 + y * 2.36 + z * 3.59;
+        return (Math.sin(p) * Math.sin(x * 0.97 + z * 1.31) +
+                Math.sin(y * 1.27 + x * 0.73 + z * 0.53) +
+                Math.sin(z * 1.71 + y * 0.91 + x * 1.43)) / 3;
+    }
+
+    // ==================== HERO 3D MORPHING SPHERE ====================
     (function() {
-        const c = document.getElementById('hero-canvas');
-        const ctx = c.getContext('2d');
-        let w, h, pts, mx = 0, my = 0;
+        const container = document.querySelector('.hero');
+        const canvas = document.getElementById('hero-canvas');
+        let w = container.offsetWidth, h = container.offsetHeight;
+        let mouseX = 0, mouseY = 0;
 
-        function resize() {
-            w = c.width = c.parentElement.offsetWidth;
-            h = c.height = c.parentElement.offsetHeight;
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(55, w / h, 0.1, 1000);
+        camera.position.z = 4.5;
+
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+        renderer.setSize(w, h);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setClearColor(0x000000, 0);
+
+        // Morphing sphere
+        const sphereGeo = new THREE.IcosahedronGeometry(1.8, 40);
+        const originalPositions = sphereGeo.attributes.position.array.slice();
+        const sphereMat = new THREE.MeshBasicMaterial({
+            color: 0xD4A853,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.12
+        });
+        const sphere = new THREE.Mesh(sphereGeo, sphereMat);
+        scene.add(sphere);
+
+        // Inner glow sphere
+        const innerGeo = new THREE.IcosahedronGeometry(1.5, 20);
+        const innerMat = new THREE.MeshBasicMaterial({
+            color: 0xC27340,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.04
+        });
+        const innerSphere = new THREE.Mesh(innerGeo, innerMat);
+        scene.add(innerSphere);
+
+        // Floating particles around sphere
+        const particleCount = 120;
+        const pGeo = new THREE.BufferGeometry();
+        const pPositions = new Float32Array(particleCount * 3);
+        const pVelocities = [];
+        for (let i = 0; i < particleCount; i++) {
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(2 * Math.random() - 1);
+            const r = 2.2 + Math.random() * 1.2;
+            pPositions[i*3] = r * Math.sin(phi) * Math.cos(theta);
+            pPositions[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+            pPositions[i*3+2] = r * Math.cos(phi);
+            pVelocities.push({
+                speed: 0.001 + Math.random() * 0.003,
+                offset: Math.random() * Math.PI * 2,
+                radius: r,
+                theta: theta,
+                phi: phi
+            });
         }
+        pGeo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
+        const pMat = new THREE.PointsMaterial({
+            color: 0xD4A853,
+            size: 0.02,
+            transparent: true,
+            opacity: 0.5,
+            sizeAttenuation: true
+        });
+        const particles = new THREE.Points(pGeo, pMat);
+        scene.add(particles);
 
-        c.parentElement.addEventListener('mousemove', e => {
-            const r = c.getBoundingClientRect();
-            mx = e.clientX - r.left;
-            my = e.clientY - r.top;
+        container.addEventListener('mousemove', e => {
+            const r = container.getBoundingClientRect();
+            mouseX = ((e.clientX - r.left) / r.width - 0.5) * 2;
+            mouseY = ((e.clientY - r.top) / r.height - 0.5) * 2;
         });
 
-        class P {
-            constructor() { this.init(); }
-            init() {
-                this.x = Math.random() * w;
-                this.y = Math.random() * h;
-                this.vx = (Math.random() - 0.5) * 0.25;
-                this.vy = (Math.random() - 0.5) * 0.25;
-                this.r = Math.random() * 1.2 + 0.3;
-                this.a = Math.random() * 0.4 + 0.08;
-                this.p = Math.random() * 6.28;
+        let time = 0;
+        function animate() {
+            time += 0.008;
+            const pos = sphereGeo.attributes.position.array;
+            for (let i = 0; i < pos.length; i += 3) {
+                const ox = originalPositions[i], oy = originalPositions[i+1], oz = originalPositions[i+2];
+                const n = noise3D(ox * 0.8 + time, oy * 0.8 + time * 0.6, oz * 0.8 + time * 0.4);
+                const displacement = 1 + n * 0.18;
+                pos[i] = ox * displacement;
+                pos[i+1] = oy * displacement;
+                pos[i+2] = oz * displacement;
             }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.p += 0.008;
-                const ddx = this.x - mx, ddy = this.y - my;
-                const d = Math.sqrt(ddx*ddx + ddy*ddy);
-                if (d < 120) {
-                    const f = (120-d)/120*0.015;
-                    this.vx += (ddx/d)*f;
-                    this.vy += (ddy/d)*f;
-                }
-                this.vx *= 0.992; this.vy *= 0.992;
-                if (this.x < 0) this.x = w; if (this.x > w) this.x = 0;
-                if (this.y < 0) this.y = h; if (this.y > h) this.y = 0;
+            sphereGeo.attributes.position.needsUpdate = true;
+
+            sphere.rotation.y += 0.002;
+            sphere.rotation.x += 0.001;
+            sphere.rotation.y += mouseX * 0.003;
+            sphere.rotation.x += mouseY * 0.002;
+
+            innerSphere.rotation.y -= 0.003;
+            innerSphere.rotation.x -= 0.001;
+
+            // Orbit particles
+            const pp = particles.geometry.attributes.position.array;
+            for (let i = 0; i < particleCount; i++) {
+                const v = pVelocities[i];
+                v.theta += v.speed;
+                v.phi += v.speed * 0.3;
+                const drift = Math.sin(time + v.offset) * 0.15;
+                const r = v.radius + drift;
+                pp[i*3] = r * Math.sin(v.phi) * Math.cos(v.theta);
+                pp[i*3+1] = r * Math.sin(v.phi) * Math.sin(v.theta);
+                pp[i*3+2] = r * Math.cos(v.phi);
             }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.r, 0, 6.28);
-                ctx.fillStyle = `rgba(212,168,83,${this.a + Math.sin(this.p)*0.1})`;
-                ctx.fill();
-            }
+            particles.geometry.attributes.position.needsUpdate = true;
+            particles.rotation.y += 0.0005;
+
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
         }
 
-        function init() {
-            resize();
-            pts = [];
-            const n = Math.min(Math.floor(w*h/15000), 100);
-            for (let i = 0; i < n; i++) pts.push(new P());
-        }
+        animate();
 
-        function loop() {
-            ctx.clearRect(0,0,w,h);
-            for (let i = 0; i < pts.length; i++) {
-                pts[i].update(); pts[i].draw();
-                for (let j = i+1; j < pts.length; j++) {
-                    const ddx = pts[i].x-pts[j].x, ddy = pts[i].y-pts[j].y;
-                    const d = Math.sqrt(ddx*ddx+ddy*ddy);
-                    if (d < 110) {
-                        ctx.beginPath();
-                        ctx.moveTo(pts[i].x, pts[i].y);
-                        ctx.lineTo(pts[j].x, pts[j].y);
-                        ctx.strokeStyle = `rgba(212,168,83,${(1-d/110)*0.08})`;
-                        ctx.lineWidth = 0.4;
-                        ctx.stroke();
-                    }
-                }
-            }
-            requestAnimationFrame(loop);
-        }
-
-        init(); loop();
-        window.addEventListener('resize', init);
+        window.addEventListener('resize', () => {
+            w = container.offsetWidth; h = container.offsetHeight;
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h);
+        });
     })();
 
-    // ==================== T4 CANVAS ====================
+    // ==================== T4 3D TORUS ====================
     (function() {
-        const c = document.getElementById('t4-canvas');
-        if (!c) return;
-        const ctx = c.getContext('2d');
-        let w, h, t = 0;
+        const container = document.getElementById('t4-canvas');
+        if (!container) return;
+        const parent = container.parentElement;
+        // Remove the old canvas, replace with a div for Three.js
+        const wrapper = document.createElement('div');
+        wrapper.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;';
+        parent.replaceChild(wrapper, container);
 
-        function resize() { w = c.width = c.parentElement.offsetWidth; h = c.height = c.parentElement.offsetHeight; }
+        let w = parent.offsetWidth, h = parent.offsetHeight;
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 100);
+        camera.position.z = 5;
 
-        function draw() {
-            t += 0.004;
-            ctx.fillStyle = '#08080C';
-            ctx.fillRect(0,0,w,h);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(w, h);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setClearColor(0x08080C, 1);
+        wrapper.appendChild(renderer.domElement);
+        renderer.domElement.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;';
 
-            for (let l = 0; l < 5; l++) {
-                ctx.beginPath();
-                const amp = 15 + l*10, freq = 0.003 - l*0.0004, sp = t*(1+l*0.25), yb = h*0.4 + l*20;
-                ctx.moveTo(0,h);
-                for (let x = 0; x <= w; x += 3) {
-                    ctx.lineTo(x, yb + Math.sin(x*freq+sp)*amp + Math.sin(x*freq*2.3+sp*1.4)*(amp*0.25));
-                }
-                ctx.lineTo(w,h); ctx.closePath();
-                const g = ctx.createLinearGradient(0,yb-amp,0,h);
-                g.addColorStop(0, `rgba(212,168,83,${0.05-l*0.008})`);
-                g.addColorStop(1, 'rgba(212,168,83,0)');
-                ctx.fillStyle = g; ctx.fill();
-            }
+        // Torus
+        const torusGeo = new THREE.TorusGeometry(1.4, 0.45, 24, 80);
+        const torusMat = new THREE.MeshBasicMaterial({
+            color: 0xD4A853,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.18
+        });
+        const torus = new THREE.Mesh(torusGeo, torusMat);
+        scene.add(torus);
 
-            ctx.font = `bold ${Math.min(w*0.18,140)}px Syne`;
-            ctx.fillStyle = 'rgba(212,168,83,0.03)';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText('T4', w/2, h*0.38);
-            requestAnimationFrame(draw);
+        // Inner torus
+        const innerTorusGeo = new THREE.TorusGeometry(1.1, 0.2, 16, 50);
+        const innerTorusMat = new THREE.MeshBasicMaterial({
+            color: 0xC27340,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.06
+        });
+        const innerTorus = new THREE.Mesh(innerTorusGeo, innerTorusMat);
+        scene.add(innerTorus);
+
+        // Orbiting particles
+        const orbCount = 60;
+        const orbGeo = new THREE.BufferGeometry();
+        const orbPos = new Float32Array(orbCount * 3);
+        const orbData = [];
+        for (let i = 0; i < orbCount; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const r = 1.6 + Math.random() * 0.8;
+            orbData.push({ angle, r, speed: 0.005 + Math.random() * 0.01, yOff: (Math.random() - 0.5) * 1.5 });
+            orbPos[i*3] = Math.cos(angle) * r;
+            orbPos[i*3+1] = orbData[i].yOff;
+            orbPos[i*3+2] = Math.sin(angle) * r;
         }
+        orbGeo.setAttribute('position', new THREE.BufferAttribute(orbPos, 3));
+        const orbMat = new THREE.PointsMaterial({
+            color: 0xD4A853, size: 0.035, transparent: true, opacity: 0.6, sizeAttenuation: true
+        });
+        const orbParticles = new THREE.Points(orbGeo, orbMat);
+        scene.add(orbParticles);
 
-        resize(); draw();
-        window.addEventListener('resize', resize);
+        // Ghost text "T4" using a 2D canvas texture
+        const tCanvas = document.createElement('canvas');
+        tCanvas.width = 512; tCanvas.height = 256;
+        const tCtx = tCanvas.getContext('2d');
+        tCtx.font = 'bold 180px Syne, sans-serif';
+        tCtx.fillStyle = 'rgba(212,168,83,0.06)';
+        tCtx.textAlign = 'center';
+        tCtx.textBaseline = 'middle';
+        tCtx.fillText('T4', 256, 128);
+        const texture = new THREE.CanvasTexture(tCanvas);
+        const textPlane = new THREE.Mesh(
+            new THREE.PlaneGeometry(4, 2),
+            new THREE.MeshBasicMaterial({ map: texture, transparent: true, depthWrite: false })
+        );
+        textPlane.position.z = -1;
+        scene.add(textPlane);
+
+        let t = 0;
+        function animate() {
+            t += 0.008;
+            torus.rotation.x = Math.PI * 0.35 + Math.sin(t * 0.3) * 0.1;
+            torus.rotation.y += 0.004;
+            torus.rotation.z += 0.002;
+
+            innerTorus.rotation.x = Math.PI * 0.5 + Math.cos(t * 0.2) * 0.15;
+            innerTorus.rotation.y -= 0.006;
+
+            const op = orbParticles.geometry.attributes.position.array;
+            for (let i = 0; i < orbCount; i++) {
+                const d = orbData[i];
+                d.angle += d.speed;
+                op[i*3] = Math.cos(d.angle) * d.r;
+                op[i*3+1] = d.yOff + Math.sin(t + d.angle) * 0.3;
+                op[i*3+2] = Math.sin(d.angle) * d.r;
+            }
+            orbParticles.geometry.attributes.position.needsUpdate = true;
+
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            w = parent.offsetWidth; h = parent.offsetHeight;
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h);
+        });
     })();
 
     // ==================== NAV ====================
@@ -1109,6 +1251,70 @@
         b.textContent = 'Sent'; b.style.background = '#4CAF50';
         setTimeout(() => { b.textContent = 'Send Message'; b.style.background = ''; e.target.reset(); }, 3000);
     }
+
+    // ==================== ABOUT 3D ICOSAHEDRON ====================
+    (function() {
+        const container = document.getElementById('about-3d');
+        if (!container) return;
+        let w = 450, h = 450;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+        camera.position.z = 4;
+
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(w, h);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setClearColor(0x000000, 0);
+        container.appendChild(renderer.domElement);
+
+        // Outer icosahedron
+        const icoGeo = new THREE.IcosahedronGeometry(1.5, 1);
+        const icoMat = new THREE.MeshBasicMaterial({
+            color: 0xD4A853,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.15
+        });
+        const ico = new THREE.Mesh(icoGeo, icoMat);
+        scene.add(ico);
+
+        // Inner icosahedron rotating opposite
+        const innerIcoGeo = new THREE.IcosahedronGeometry(1.0, 0);
+        const innerIcoMat = new THREE.MeshBasicMaterial({
+            color: 0xC27340,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.08
+        });
+        const innerIco = new THREE.Mesh(innerIcoGeo, innerIcoMat);
+        scene.add(innerIco);
+
+        // Tiny dot at center
+        const dotGeo = new THREE.SphereGeometry(0.05, 8, 8);
+        const dotMat = new THREE.MeshBasicMaterial({ color: 0xD4A853, transparent: true, opacity: 0.4 });
+        scene.add(new THREE.Mesh(dotGeo, dotMat));
+
+        let t = 0;
+        function animate() {
+            t += 0.005;
+            ico.rotation.x += 0.003;
+            ico.rotation.y += 0.005;
+            ico.rotation.z += 0.001;
+
+            innerIco.rotation.x -= 0.004;
+            innerIco.rotation.y -= 0.003;
+            innerIco.rotation.z += 0.006;
+
+            // Subtle breathing
+            const scale = 1 + Math.sin(t * 2) * 0.04;
+            ico.scale.set(scale, scale, scale);
+
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+        animate();
+    })();
 
     // ==================== SMOOTH SCROLL ====================
     document.querySelectorAll('a[href^="#"]').forEach(a => {
