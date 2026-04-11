@@ -1,1 +1,10 @@
+.env
+.env.local
+.env.production
+node_modules/
+*.log
+*.backup
+*.docx
+deploy-out.txt
+deploy-err.txt
 .vercel

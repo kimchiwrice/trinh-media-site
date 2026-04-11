@@ -1257,9 +1257,27 @@
     // ==================== FORM ====================
     function handleSubmit(e) {
         e.preventDefault();
-        const b = e.target.querySelector('button[type="submit"]');
-        b.textContent = 'Sent'; b.style.background = '#4CAF50';
-        setTimeout(() => { b.textContent = 'Send Message'; b.style.background = ''; e.target.reset(); }, 3000);
+        const form = e.target;
+        const inputs = form.querySelectorAll('input, select, textarea');
+        const name = inputs[0].value.trim();
+        const email = inputs[1].value.trim();
+        const business = inputs[2].value.trim();
+        const service = inputs[3].value.trim();
+        const message = inputs[4].value.trim();
+        const body = [
+            'Name: ' + name,
+            'Email: ' + email,
+            'Business: ' + (business || 'N/A'),
+            'Service: ' + (service || 'N/A'),
+            '',
+            'Message:',
+            message
+        ].join('%0A');
+        const subject = encodeURIComponent('New Lead from Trinh Media');
+        window.location.href = 'mailto:trinhmedia.sean@gmail.com?subject=' + subject + '&body=' + body;
+        const b = form.querySelector('button[type="submit"]');
+        b.textContent = 'Opening email...'; b.style.background = '#4CAF50';
+        setTimeout(() => { b.textContent = 'Send Message'; b.style.background = ''; form.reset(); }, 3000);
     }
 
     // ==================== SMOOTH SCROLL ====================
