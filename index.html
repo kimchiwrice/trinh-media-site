@@ -10,18 +10,18 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --gold: #C9A96E;
-            --gold-dark: #A8894F;
-            --copper: #B07A50;
-            --cream: #F2EDE4;
-            --dark: #1A1A2E;
-            --dark-2: #1F1F35;
-            --dark-3: #25253D;
-            --text: #EAE6DF;
-            --text-muted: #8A8590;
+            --gold: #8B7355;
+            --gold-dark: #6B5740;
+            --copper: #A67C52;
+            --cream: #E8E4D9;
+            --dark: #0D1F0D;
+            --dark-2: #132613;
+            --dark-3: #1A2E1A;
+            --text: #E5E0D5;
+            --text-muted: #A8B8A0;
             --glass: rgba(255, 255, 255, 0.04);
             --glass-border: rgba(255, 255, 255, 0.09);
-            --accent-cool: #5B6B8A;
+            --accent-cool: #4A6741;
         }
 
         html { scroll-behavior: smooth; }
@@ -67,7 +67,7 @@
         .cursor-glow {
             width: 300px;
             height: 300px;
-            background: radial-gradient(circle, rgba(201,169,110,0.05), transparent 70%);
+            background: radial-gradient(circle, rgba(139,115,85,0.05), transparent 70%);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
@@ -138,7 +138,7 @@
             background: transparent;
             color: var(--gold) !important;
             padding: 0.55rem 1.4rem;
-            border: 1px solid rgba(201,169,110,0.4);
+            border: 1px solid rgba(139,115,85,0.4);
             border-radius: 4px;
             font-weight: 600;
             font-size: 0.82rem;
@@ -253,7 +253,7 @@
             position: relative;
             overflow: hidden;
         }
-        .btn-primary:hover { background: var(--copper); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(201,169,110,0.2); }
+        .btn-primary:hover { background: var(--copper); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(139,115,85,0.2); }
 
         .btn-outline {
             display: inline-block;
@@ -425,7 +425,7 @@
 
         .service-item:last-child { border-bottom: 1px solid var(--glass-border); }
 
-        .service-item:hover { padding-left: 1.5rem; border-color: rgba(201,169,110,0.3); }
+        .service-item:hover { padding-left: 1.5rem; border-color: rgba(139,115,85,0.3); }
 
         .service-num {
             font-family: 'Syne', sans-serif;
@@ -486,7 +486,7 @@
 
         .portfolio-item:hover {
             border-color: var(--gold);
-            box-shadow: 0 20px 60px rgba(201,169,110,0.08);
+            box-shadow: 0 20px 60px rgba(139,115,85,0.08);
         }
 
         .portfolio-item canvas, .portfolio-item .t4-slideshow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
@@ -495,7 +495,7 @@
             position: absolute;
             bottom: 0; left: 0; right: 0;
             padding: 2.5rem;
-            background: linear-gradient(to top, rgba(26,26,46,0.95) 30%, transparent);
+            background: linear-gradient(to top, rgba(13,31,13,0.95) 30%, transparent);
             z-index: 2;
         }
 
@@ -542,7 +542,7 @@
 
         .process-step:first-child { border-left: none; }
 
-        .process-step:hover { background: rgba(201,169,110,0.03); }
+        .process-step:hover { background: rgba(139,115,85,0.03); }
 
         .process-step::before {
             content: '';
@@ -614,7 +614,7 @@
         .form-textarea { min-height: 100px; resize: none; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
 
-        select.form-input { appearance: auto; background: #1A1A2E; }
+        select.form-input { appearance: auto; background: #0D1F0D; }
 
         /* ==================== FOOTER ==================== */
         footer { padding: 4rem 0 3rem; text-align: center; }
@@ -622,21 +622,96 @@
         .footer-logo span { color: var(--gold); }
         .footer-sub { color: var(--text-muted); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
 
-        /* ==================== HERO GRADIENT BG ==================== */
+        /* ==================== HERO IMAGE BG ==================== */
         .hero-bg {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: 0;
-            background: radial-gradient(ellipse at 30% 50%, rgba(201,169,110,0.08) 0%, transparent 60%),
-                        radial-gradient(ellipse at 70% 30%, rgba(91,107,138,0.06) 0%, transparent 50%),
-                        radial-gradient(ellipse at 50% 80%, rgba(176,122,80,0.05) 0%, transparent 50%);
-            animation: heroGradient 12s ease-in-out infinite alternate;
+            background:
+                linear-gradient(135deg, rgba(13,31,13,0.78) 0%, rgba(13,31,13,0.52) 50%, rgba(13,31,13,0.72) 100%),
+                url('images/hero-bg.png') center/cover no-repeat;
+            animation: heroScale 20s ease-in-out infinite alternate;
         }
 
-        @keyframes heroGradient {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.05); }
-            100% { opacity: 1; transform: scale(1.02); }
+        @keyframes heroScale {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.06); }
+        }
+
+        /* ==================== NICHE SHOWCASE ==================== */
+        .niches { padding: 8rem 0; }
+
+        .niches-header { margin-bottom: 3.5rem; }
+        .niches-header h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--cream);
+            letter-spacing: -0.03em;
+            margin-top: 1rem;
+        }
+
+        .niche-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1.2rem;
+        }
+
+        .niche-card {
+            position: relative;
+            aspect-ratio: 3/4;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            cursor: default;
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
+        }
+
+        .niche-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(139,115,85,0.35);
+        }
+
+        .niche-card img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: saturate(0.9) brightness(0.85);
+        }
+
+        .niche-card:hover img {
+            transform: scale(1.06);
+            filter: saturate(1.05) brightness(0.95);
+        }
+
+        .niche-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 1.5rem 1.2rem 1.2rem;
+            background: linear-gradient(to top, rgba(13,31,13,0.92) 40%, transparent);
+        }
+
+        .niche-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.25rem;
+        }
+
+        .niche-card h3 {
+            font-size: 1rem;
+            color: var(--cream);
+            letter-spacing: -0.01em;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+        }
+
+        @media (max-width: 968px) {
+            .niche-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .niche-grid { grid-template-columns: repeat(2, 1fr); }
+            .niche-card:last-child { display: none; }
         }
 
         /* ==================== T4 SLIDESHOW ==================== */
@@ -709,8 +784,8 @@
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             background:
-                radial-gradient(ellipse at center, transparent 40%, rgba(26,26,46,0.5) 100%),
-                linear-gradient(135deg, rgba(201,169,110,0.08), transparent 50%, rgba(91,107,138,0.06));
+                radial-gradient(ellipse at center, transparent 40%, rgba(13,31,13,0.5) 100%),
+                linear-gradient(135deg, rgba(139,115,85,0.08), transparent 50%, rgba(74,103,65,0.06));
             z-index: 1;
             pointer-events: none;
         }
@@ -852,8 +927,7 @@
 
     <!-- ABOUT -->
     <section class="about" id="about">
-        <div class="about-3d" id="about-3d" style="position:absolute;top:50%;right:2rem;transform:translateY(-50%);width:400px;height:400px;pointer-events:none;z-index:0;opacity:0.35;"></div>
-        <div class="container">
+<div class="container">
             <div class="about-layout">
                 <div class="about-left reveal">
                     <div class="section-eyebrow"><span class="eyebrow-line"></span> About</div>
@@ -899,12 +973,12 @@
                 <div class="service-item reveal">
                     <div class="service-num">01</div>
                     <h3>Custom Websites</h3>
-                    <p>Hand-coded from scratch — no WordPress, no Squarespace, no templates. Fast, mobile-first sites that actually represent your brand and bring in business.</p>
+                    <p>Hand-coded from scratch — no WordPress, no Squarespace, no templates. Fast, mobile-first sites that actually represent your brand. Starting at $1,500.</p>
                 </div>
                 <div class="service-item reveal reveal-d1">
                     <div class="service-num">02</div>
                     <h3>Meta + Instagram Ads</h3>
-                    <p>Targeted ad campaigns on Facebook and Instagram that bring real local customers through your door. Strategy, creative, targeting, and monthly reporting.</p>
+                    <p>Targeted ad campaigns on Facebook and Instagram that bring real local customers through your door. Strategy, creative, targeting, and reporting. From $500/mo.</p>
                 </div>
                 <div class="service-item reveal reveal-d2">
                     <div class="service-num">03</div>
@@ -914,12 +988,59 @@
                 <div class="service-item reveal reveal-d3">
                     <div class="service-num">04</div>
                     <h3>Social Media Management</h3>
-                    <p>Consistent content, real engagement, and a feed that makes your brand look alive. I handle the posting so you can focus on running your business.</p>
+                    <p>Consistent content, real engagement, and a feed that makes your brand look alive. I handle the posting so you can handle the business. From $400/mo.</p>
                 </div>
                 <div class="service-item reveal reveal-d4">
                     <div class="service-num">05</div>
                     <h3>Hosting + Maintenance</h3>
-                    <p>Global CDN hosting, updates, and ongoing support. Your site stays fast, secure, and always live. I don't build it and disappear.</p>
+                    <p>Global CDN hosting, updates, and ongoing support. Your site stays fast, secure, and always live. I don't build it and disappear. From $100/mo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NICHE SHOWCASE -->
+    <section class="niches">
+        <div class="container">
+            <div class="niches-header reveal">
+                <div class="section-eyebrow"><span class="eyebrow-line"></span> Who I Work With</div>
+                <h2>Built for local businesses<br>that want to stand out.</h2>
+            </div>
+            <div class="niche-grid">
+                <div class="niche-card reveal">
+                    <img src="images/niche-restaurant.png" alt="Restaurant & Food">
+                    <div class="niche-overlay">
+                        <div class="niche-label">Niche</div>
+                        <h3>Food & Drink</h3>
+                    </div>
+                </div>
+                <div class="niche-card reveal reveal-d1">
+                    <img src="images/niche-retail.png" alt="Retail">
+                    <div class="niche-overlay">
+                        <div class="niche-label">Niche</div>
+                        <h3>Retail</h3>
+                    </div>
+                </div>
+                <div class="niche-card reveal reveal-d2">
+                    <img src="images/niche-professional.png" alt="Professional Services">
+                    <div class="niche-overlay">
+                        <div class="niche-label">Niche</div>
+                        <h3>Professional Services</h3>
+                    </div>
+                </div>
+                <div class="niche-card reveal reveal-d3">
+                    <img src="images/niche-creative.png" alt="Creative">
+                    <div class="niche-overlay">
+                        <div class="niche-label">Niche</div>
+                        <h3>Creative Studios</h3>
+                    </div>
+                </div>
+                <div class="niche-card reveal reveal-d4">
+                    <img src="images/niche-wellness.png" alt="Wellness">
+                    <div class="niche-overlay">
+                        <div class="niche-label">Niche</div>
+                        <h3>Health & Wellness</h3>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1045,7 +1166,6 @@
         </div>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
     // ==================== CUSTOM CURSOR ====================
     const cursor = document.getElementById('cursor');
@@ -1089,379 +1209,6 @@
         });
     });
 
-    // ==================== 3D NOISE UTILITY ====================
-    function noise3D(x, y, z) {
-        const p = x * 1.17 + y * 2.36 + z * 3.59;
-        return (Math.sin(p) * Math.sin(x * 0.97 + z * 1.31) +
-                Math.sin(y * 1.27 + x * 0.73 + z * 0.53) +
-                Math.sin(z * 1.71 + y * 0.91 + x * 1.43)) / 3;
-    }
-
-    // ==================== HERO 3D — PREMIUM LIT SPHERE ====================
-    (function() {
-        const container = document.getElementById('hero-3d');
-        if (!container) return;
-        let w = container.offsetWidth || window.innerWidth;
-        let h = container.offsetHeight || window.innerHeight;
-        let mouseX = 0, mouseY = 0;
-
-        const scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x1A1A2E, 0.08);
-        const camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 1000);
-        camera.position.z = 5;
-
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-        renderer.setSize(w, h);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.setClearColor(0x000000, 0);
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.2;
-        container.appendChild(renderer.domElement);
-        renderer.domElement.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;';
-
-        // Dramatic lighting
-        const ambient = new THREE.AmbientLight(0x5B6B8A, 0.4);
-        scene.add(ambient);
-        const keyLight = new THREE.DirectionalLight(0xC9A96E, 1.0);
-        keyLight.position.set(3, 4, 5);
-        scene.add(keyLight);
-        const rimLight = new THREE.PointLight(0xB07A50, 0.8, 12);
-        rimLight.position.set(-4, -2, 3);
-        scene.add(rimLight);
-        const topLight = new THREE.PointLight(0x5B6B8A, 0.5, 10);
-        topLight.position.set(0, 5, -3);
-        scene.add(topLight);
-
-        // Main sphere — smooth phong material (glass-like)
-        const sphereGeo = new THREE.IcosahedronGeometry(1.6, 5);
-        const originalPositions = sphereGeo.attributes.position.array.slice();
-        const sphereMat = new THREE.MeshPhongMaterial({
-            color: 0xC9A96E,
-            emissive: 0x1A1A2E,
-            emissiveIntensity: 0.15,
-            specular: 0xFFEECC,
-            shininess: 120,
-            transparent: true,
-            opacity: 0.35,
-            side: THREE.DoubleSide
-        });
-        const sphere = new THREE.Mesh(sphereGeo, sphereMat);
-        scene.add(sphere);
-
-        // Inner glowing core
-        const coreGeo = new THREE.IcosahedronGeometry(0.9, 4);
-        const coreMat = new THREE.MeshPhongMaterial({
-            color: 0xB07A50,
-            emissive: 0xC9A96E,
-            emissiveIntensity: 0.3,
-            specular: 0xFFFFFF,
-            shininess: 200,
-            transparent: true,
-            opacity: 0.2
-        });
-        const core = new THREE.Mesh(coreGeo, coreMat);
-        scene.add(core);
-
-        // Floating dust particles
-        const dustCount = 200;
-        const dustGeo = new THREE.BufferGeometry();
-        const dustPos = new Float32Array(dustCount * 3);
-        const dustData = [];
-        for (let i = 0; i < dustCount; i++) {
-            const theta = Math.random() * Math.PI * 2;
-            const phi = Math.acos(2 * Math.random() - 1);
-            const r = 2.0 + Math.random() * 2.5;
-            dustPos[i*3] = r * Math.sin(phi) * Math.cos(theta);
-            dustPos[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
-            dustPos[i*3+2] = r * Math.cos(phi);
-            dustData.push({ speed: 0.0008 + Math.random() * 0.002, offset: Math.random() * 6.28, radius: r, theta, phi });
-        }
-        dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
-        const dustMat = new THREE.PointsMaterial({ color: 0xC9A96E, size: 0.025, transparent: true, opacity: 0.4, sizeAttenuation: true });
-        const dust = new THREE.Points(dustGeo, dustMat);
-        scene.add(dust);
-
-        document.querySelector('.hero').addEventListener('mousemove', e => {
-            const r = container.getBoundingClientRect();
-            mouseX = ((e.clientX - r.left) / r.width - 0.5) * 2;
-            mouseY = ((e.clientY - r.top) / r.height - 0.5) * 2;
-        });
-
-        let time = 0;
-        function animate() {
-            time += 0.006;
-
-            // Morph vertices
-            const pos = sphereGeo.attributes.position.array;
-            for (let i = 0; i < pos.length; i += 3) {
-                const ox = originalPositions[i], oy = originalPositions[i+1], oz = originalPositions[i+2];
-                const n = noise3D(ox * 0.7 + time, oy * 0.7 + time * 0.5, oz * 0.7 + time * 0.3);
-                const d = 1 + n * 0.15;
-                pos[i] = ox * d;
-                pos[i+1] = oy * d;
-                pos[i+2] = oz * d;
-            }
-            sphereGeo.attributes.position.needsUpdate = true;
-            sphereGeo.computeVertexNormals();
-
-            sphere.rotation.y += 0.0015 + mouseX * 0.002;
-            sphere.rotation.x += 0.001 + mouseY * 0.0015;
-            core.rotation.y -= 0.003;
-            core.rotation.x -= 0.002;
-
-            // Breathing scale
-            const breath = 1 + Math.sin(time * 1.5) * 0.03;
-            core.scale.set(breath, breath, breath);
-
-            // Animate lights
-            rimLight.position.x = Math.sin(time * 0.4) * 5;
-            rimLight.position.z = Math.cos(time * 0.4) * 5;
-
-            // Orbit dust
-            const dp = dust.geometry.attributes.position.array;
-            for (let i = 0; i < dustCount; i++) {
-                const v = dustData[i];
-                v.theta += v.speed;
-                v.phi += v.speed * 0.2;
-                const drift = Math.sin(time + v.offset) * 0.12;
-                const r = v.radius + drift;
-                dp[i*3] = r * Math.sin(v.phi) * Math.cos(v.theta);
-                dp[i*3+1] = r * Math.sin(v.phi) * Math.sin(v.theta);
-                dp[i*3+2] = r * Math.cos(v.phi);
-            }
-            dust.geometry.attributes.position.needsUpdate = true;
-
-            renderer.render(scene, camera);
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        window.addEventListener('resize', () => {
-            w = container.offsetWidth; h = container.offsetHeight;
-            camera.aspect = w / h;
-            camera.updateProjectionMatrix();
-            renderer.setSize(w, h);
-        });
-    })();
-
-    // ==================== T4 — NOW USES PHOTO SLIDESHOW (CSS ONLY) ====================
-    // No JS needed — handled by CSS animations on .t4-slideshow img elements
-
-    // ==================== [LEGACY REMOVED] ====================
-    (function() {
-        const container = null;
-        if (!container) return;
-        const parent = container.parentElement;
-        const wrapper = document.createElement('div');
-        wrapper.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;';
-        parent.replaceChild(wrapper, container);
-
-        let w = parent.offsetWidth, h = parent.offsetHeight;
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(40, w / h, 0.1, 100);
-        camera.position.set(0, 0.3, 6);
-
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-        renderer.setSize(w, h);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.setClearColor(0x1A1A2E, 1);
-        wrapper.appendChild(renderer.domElement);
-        renderer.domElement.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;';
-
-        const goldWire = new THREE.MeshBasicMaterial({ color: 0xC9A96E, wireframe: true, transparent: true, opacity: 0.22 });
-        const copperWire = new THREE.MeshBasicMaterial({ color: 0xB07A50, wireframe: true, transparent: true, opacity: 0.12 });
-        const goldSolid = new THREE.MeshBasicMaterial({ color: 0xC9A96E, transparent: true, opacity: 0.06 });
-        const pearlMat = new THREE.MeshBasicMaterial({ color: 0x8B6914, transparent: true, opacity: 0.35 });
-
-        // Cup body — tapered cylinder
-        const cupGeo = new THREE.CylinderGeometry(0.7, 0.55, 2.2, 20, 8, true);
-        const cup = new THREE.Mesh(cupGeo, goldWire);
-        cup.position.y = -5; // starts off screen
-        scene.add(cup);
-
-        // Cup bottom
-        const bottomGeo = new THREE.CircleGeometry(0.55, 20);
-        const bottom = new THREE.Mesh(bottomGeo, goldWire.clone());
-        bottom.rotation.x = -Math.PI / 2;
-        bottom.position.y = -5;
-        scene.add(bottom);
-
-        // Liquid fill — slightly smaller cylinder inside cup
-        const liquidGeo = new THREE.CylinderGeometry(0.62, 0.48, 0, 16, 1);
-        const liquidMat = new THREE.MeshBasicMaterial({ color: 0xC9A96E, transparent: true, opacity: 0.08 });
-        const liquid = new THREE.Mesh(liquidGeo, liquidMat);
-        liquid.position.y = -5;
-        scene.add(liquid);
-
-        // Lid — flat cylinder on top
-        const lidGeo = new THREE.CylinderGeometry(0.78, 0.74, 0.08, 20);
-        const lid = new THREE.Mesh(lidGeo, copperWire);
-        lid.position.y = 5; // starts above
-        scene.add(lid);
-
-        // Lid dome
-        const domeGeo = new THREE.SphereGeometry(0.4, 16, 8, 0, Math.PI * 2, 0, Math.PI / 2);
-        const dome = new THREE.Mesh(domeGeo, copperWire.clone());
-        dome.position.y = 5;
-        scene.add(dome);
-
-        // Straw — thin tall cylinder
-        const strawGeo = new THREE.CylinderGeometry(0.04, 0.04, 3.2, 8);
-        const straw = new THREE.Mesh(strawGeo, goldWire.clone());
-        straw.position.y = 6; // starts way above
-        scene.add(straw);
-
-        // Boba pearls — small spheres
-        const pearls = [];
-        const pearlCount = 14;
-        for (let i = 0; i < pearlCount; i++) {
-            const pGeo = new THREE.SphereGeometry(0.08, 8, 8);
-            const pearl = new THREE.Mesh(pGeo, pearlMat.clone());
-            pearl.position.set(
-                (Math.random() - 0.5) * 0.7,
-                4 + Math.random() * 3, // scattered above
-                (Math.random() - 0.5) * 0.7
-            );
-            pearl.userData = {
-                targetX: (Math.random() - 0.5) * 0.6,
-                targetY: -1.0 + Math.random() * 0.5,
-                targetZ: (Math.random() - 0.5) * 0.6,
-                delay: 0.3 + Math.random() * 0.4,
-                wobble: Math.random() * Math.PI * 2
-            };
-            scene.add(pearl);
-            pearls.push(pearl);
-        }
-
-        // Steam particles
-        const steamCount = 30;
-        const steamGeo = new THREE.BufferGeometry();
-        const steamPos = new Float32Array(steamCount * 3);
-        const steamData = [];
-        for (let i = 0; i < steamCount; i++) {
-            steamPos[i*3] = (Math.random() - 0.5) * 0.5;
-            steamPos[i*3+1] = 3;
-            steamPos[i*3+2] = (Math.random() - 0.5) * 0.5;
-            steamData.push({ speed: 0.003 + Math.random() * 0.006, offset: Math.random() * 6.28 });
-        }
-        steamGeo.setAttribute('position', new THREE.BufferAttribute(steamPos, 3));
-        const steamMat = new THREE.PointsMaterial({ color: 0xC9A96E, size: 0.025, transparent: true, opacity: 0 });
-        const steam = new THREE.Points(steamGeo, steamMat);
-        scene.add(steam);
-
-        // Ghost "T4" text
-        const tCanvas = document.createElement('canvas');
-        tCanvas.width = 512; tCanvas.height = 256;
-        const tCtx = tCanvas.getContext('2d');
-        tCtx.font = 'bold 180px Syne, sans-serif';
-        tCtx.fillStyle = 'rgba(201,169,110,0.04)';
-        tCtx.textAlign = 'center';
-        tCtx.textBaseline = 'middle';
-        tCtx.fillText('T4', 256, 128);
-        const texture = new THREE.CanvasTexture(tCanvas);
-        const textPlane = new THREE.Mesh(
-            new THREE.PlaneGeometry(4, 2),
-            new THREE.MeshBasicMaterial({ map: texture, transparent: true, depthWrite: false })
-        );
-        textPlane.position.z = -2;
-        scene.add(textPlane);
-
-        // Easing
-        function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
-        function easeInOutQuart(t) { return t < 0.5 ? 8*t*t*t*t : 1 - Math.pow(-2*t+2,4)/2; }
-
-        // Animation timeline (loops every ~10 seconds)
-        const CYCLE = 10;
-        let t = 0;
-        function animate() {
-            t += 0.016;
-            const loopT = t % CYCLE;
-            const phase = loopT / CYCLE; // 0-1
-
-            // Phase 0.00-0.15: Cup slides up from below
-            const cupP = Math.min(1, Math.max(0, phase / 0.15));
-            const cupY = -5 + easeOutCubic(cupP) * 5;
-            cup.position.y = cupY;
-            bottom.position.y = cupY - 1.1;
-
-            // Phase 0.12-0.35: Liquid fills up inside cup
-            const liqP = Math.min(1, Math.max(0, (phase - 0.12) / 0.23));
-            const liqH = easeInOutQuart(liqP) * 1.6;
-            liquid.geometry.dispose();
-            liquid.geometry = new THREE.CylinderGeometry(0.62, 0.48, liqH, 16, 1);
-            liquid.position.y = cupY - 1.1 + liqH / 2;
-            liquidMat.opacity = 0.08 * liqP;
-
-            // Phase 0.25-0.50: Boba pearls rain down
-            pearls.forEach((p, i) => {
-                const pStart = 0.25 + p.userData.delay * 0.25;
-                const pp = Math.min(1, Math.max(0, (phase - pStart) / 0.15));
-                const ep = easeOutCubic(pp);
-                p.position.x = p.userData.targetX;
-                p.position.y = (1-ep) * (4 + i*0.2) + ep * (cupY + p.userData.targetY);
-                p.position.z = p.userData.targetZ;
-                // Wobble after landing
-                if (pp >= 1) {
-                    p.position.x += Math.sin(t * 1.5 + p.userData.wobble) * 0.01;
-                }
-            });
-
-            // Phase 0.55-0.70: Lid descends from above
-            const lidP = Math.min(1, Math.max(0, (phase - 0.55) / 0.15));
-            const lidY = (1-easeOutCubic(lidP)) * 5 + cupY + 1.14;
-            lid.position.y = lidY;
-            dome.position.y = lidY + 0.04;
-
-            // Phase 0.70-0.85: Straw drops in
-            const strawP = Math.min(1, Math.max(0, (phase - 0.70) / 0.12));
-            const strawY = (1-easeOutCubic(strawP)) * 6 + cupY + 0.5;
-            straw.position.y = strawY;
-
-            // Phase 0.80-0.95: Steam rises
-            const steamP = Math.min(1, Math.max(0, (phase - 0.80) / 0.15));
-            steamMat.opacity = steamP * 0.35;
-            const sp = steam.geometry.attributes.position.array;
-            for (let i = 0; i < steamCount; i++) {
-                const sd = steamData[i];
-                sp[i*3] = Math.sin(t * 2 + sd.offset) * 0.25;
-                sp[i*3+1] = lidY + 0.3 + steamP * (t % 2) * sd.speed * 80;
-                sp[i*3+2] = Math.cos(t * 2 + sd.offset) * 0.25;
-            }
-            steam.geometry.attributes.position.needsUpdate = true;
-
-            // Phase 0.92-1.0: Everything fades/drops to reset
-            if (phase > 0.92) {
-                const fadeP = (phase - 0.92) / 0.08;
-                const drop = fadeP * 3;
-                cup.position.y -= drop;
-                bottom.position.y -= drop;
-                liquid.position.y -= drop;
-                lid.position.y -= drop;
-                dome.position.y -= drop;
-                straw.position.y -= drop;
-                pearls.forEach(p => p.position.y -= drop);
-                goldWire.opacity = 0.22 * (1 - fadeP);
-                steamMat.opacity *= (1 - fadeP);
-            } else {
-                goldWire.opacity = 0.22;
-            }
-
-            // Slow scene rotation for cinematic feel
-            scene.rotation.y = Math.sin(t * 0.15) * 0.25;
-
-            renderer.render(scene, camera);
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        window.addEventListener('resize', () => {
-            w = parent.offsetWidth; h = parent.offsetHeight;
-            camera.aspect = w / h;
-            camera.updateProjectionMatrix();
-            renderer.setSize(w, h);
-        });
-    })();
-
     // ==================== NAV ====================
     window.addEventListener('scroll', () => {
         document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
@@ -1493,85 +1240,6 @@
         b.textContent = 'Sent'; b.style.background = '#4CAF50';
         setTimeout(() => { b.textContent = 'Send Message'; b.style.background = ''; e.target.reset(); }, 3000);
     }
-
-    // ==================== ABOUT 3D — PREMIUM LIT ICOSAHEDRON ====================
-    (function() {
-        const container = document.getElementById('about-3d');
-        if (!container) return;
-        if (window.innerWidth < 968) return; // Skip on mobile
-        let w = 400, h = 400;
-
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
-        camera.position.z = 4.5;
-
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-        renderer.setSize(w, h);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.setClearColor(0x000000, 0);
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.1;
-        container.appendChild(renderer.domElement);
-
-        // Lighting
-        scene.add(new THREE.AmbientLight(0x5B6B8A, 0.5));
-        const dLight = new THREE.DirectionalLight(0xC9A96E, 0.9);
-        dLight.position.set(2, 3, 4);
-        scene.add(dLight);
-        const pLight = new THREE.PointLight(0xB07A50, 0.6, 10);
-        pLight.position.set(-3, -1, 2);
-        scene.add(pLight);
-
-        // Outer icosahedron — smooth glass
-        const icoGeo = new THREE.IcosahedronGeometry(1.4, 2);
-        const icoMat = new THREE.MeshPhongMaterial({
-            color: 0xC9A96E,
-            emissive: 0x1A1A2E,
-            emissiveIntensity: 0.1,
-            specular: 0xFFEECC,
-            shininess: 150,
-            transparent: true,
-            opacity: 0.25,
-            side: THREE.DoubleSide
-        });
-        const ico = new THREE.Mesh(icoGeo, icoMat);
-        scene.add(ico);
-
-        // Inner core — bright accent
-        const coreGeo = new THREE.IcosahedronGeometry(0.7, 1);
-        const coreMat = new THREE.MeshPhongMaterial({
-            color: 0xB07A50,
-            emissive: 0xC9A96E,
-            emissiveIntensity: 0.25,
-            specular: 0xFFFFFF,
-            shininess: 200,
-            transparent: true,
-            opacity: 0.15
-        });
-        const icoCore = new THREE.Mesh(coreGeo, coreMat);
-        scene.add(icoCore);
-
-        let t = 0;
-        function animate() {
-            t += 0.004;
-            ico.rotation.x += 0.002;
-            ico.rotation.y += 0.004;
-            ico.rotation.z += 0.001;
-            icoCore.rotation.x -= 0.003;
-            icoCore.rotation.y -= 0.002;
-            icoCore.rotation.z += 0.005;
-
-            const scale = 1 + Math.sin(t * 2) * 0.03;
-            ico.scale.set(scale, scale, scale);
-
-            pLight.position.x = Math.sin(t * 0.5) * 4;
-            pLight.position.z = Math.cos(t * 0.5) * 4;
-
-            renderer.render(scene, camera);
-            requestAnimationFrame(animate);
-        }
-        animate();
-    })();
 
     // ==================== SMOOTH SCROLL ====================
     document.querySelectorAll('a[href^="#"]').forEach(a => {
