@@ -10,8 +10,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --gold: #8B7355;
-            --gold-dark: #6B5740;
             --copper: #A67C52;
             --cream: #E8E4D9;
             --dark: #0D1F0D;
@@ -37,14 +35,14 @@
 
         h1, h2, h3 { font-family: 'Syne', sans-serif; font-weight: 700; line-height: 1.05; }
 
-        a { color: var(--gold); text-decoration: none; transition: all 0.3s ease; cursor: none; }
+        a { color: var(--copper); text-decoration: none; transition: all 0.3s ease; cursor: none; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
 
         /* ==================== CUSTOM CURSOR ==================== */
         .cursor {
             width: 16px;
             height: 16px;
-            border: 1.5px solid var(--gold);
+            border: 1.5px solid var(--copper);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
@@ -56,7 +54,7 @@
         .cursor-dot {
             width: 4px;
             height: 4px;
-            background: var(--gold);
+            background: var(--copper);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
@@ -67,7 +65,7 @@
         .cursor-glow {
             width: 300px;
             height: 300px;
-            background: radial-gradient(circle, rgba(139,115,85,0.05), transparent 70%);
+            background: radial-gradient(circle, rgba(166,124,82,0.05), transparent 70%);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
@@ -80,7 +78,7 @@
             width: 50px;
             height: 50px;
             border-color: var(--copper);
-            background: rgba(201, 169, 110, 0.08);
+            background: rgba(166, 124, 82, 0.08);
         }
 
         /* ==================== FILM GRAIN ==================== */
@@ -113,7 +111,7 @@
         }
 
         nav.scrolled {
-            background: rgba(26, 26, 46, 0.92);
+            background: rgba(13, 31, 13, 0.92);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
             padding: 1rem 2rem;
@@ -128,7 +126,7 @@
             color: var(--text);
             letter-spacing: -0.02em;
         }
-        .nav-logo span { color: var(--gold); }
+        .nav-logo span { color: var(--copper); }
 
         .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
         .nav-links a { color: var(--text-muted); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
@@ -136,15 +134,15 @@
 
         .nav-cta {
             background: transparent;
-            color: var(--gold) !important;
+            color: var(--copper) !important;
             padding: 0.55rem 1.4rem;
-            border: 1px solid rgba(139,115,85,0.4);
+            border: 1px solid rgba(166,124,82,0.4);
             border-radius: 4px;
             font-weight: 600;
             font-size: 0.82rem;
             transition: all 0.3s ease;
         }
-        .nav-cta:hover { background: var(--gold); color: var(--dark) !important; }
+        .nav-cta:hover { background: var(--copper); color: var(--dark) !important; }
 
         .mobile-toggle { display: none; background: none; border: none; cursor: none; padding: 0.5rem; }
         .mobile-toggle span { display: block; width: 22px; height: 1.5px; background: var(--text); margin: 5px 0; }
@@ -164,12 +162,6 @@
             overflow: hidden;
         }
 
-        .hero-bg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0;
-        }
-
         .hero-content { position: relative; z-index: 2; width: 100%; }
 
         .hero-label {
@@ -177,7 +169,7 @@
             font-weight: 600;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: var(--gold);
+            color: var(--copper);
             margin-bottom: 2rem;
             opacity: 0;
             animation: fadeUp 0.8s 0.3s forwards;
@@ -216,7 +208,7 @@
 
         .hero h1 em {
             font-style: italic;
-            color: var(--gold);
+            color: var(--copper);
             font-weight: 800;
         }
 
@@ -240,7 +232,7 @@
 
         .btn-primary {
             display: inline-block;
-            background: var(--gold);
+            background: var(--copper);
             color: var(--dark);
             padding: 0.9rem 2.2rem;
             border-radius: 4px;
@@ -253,7 +245,7 @@
             position: relative;
             overflow: hidden;
         }
-        .btn-primary:hover { background: var(--copper); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(139,115,85,0.2); }
+        .btn-primary:hover { background: var(--copper); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(166,124,82,0.2); }
 
         .btn-outline {
             display: inline-block;
@@ -266,7 +258,7 @@
             transition: all 0.3s ease;
             cursor: none;
         }
-        .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+        .btn-outline:hover { border-color: var(--copper); color: var(--copper); }
 
         .scroll-indicator {
             position: absolute;
@@ -283,7 +275,7 @@
 
         .scroll-line-h {
             width: 50px; height: 1px;
-            background: linear-gradient(90deg, var(--gold), transparent);
+            background: linear-gradient(90deg, var(--copper), transparent);
             animation: scrollPulse 2s ease-in-out infinite;
         }
 
@@ -320,7 +312,7 @@
         .marquee-item .dot {
             display: inline-block;
             width: 4px; height: 4px;
-            background: var(--gold);
+            background: var(--copper);
             border-radius: 50%;
             margin-left: 2.5rem;
             vertical-align: middle;
@@ -332,7 +324,7 @@
         }
 
         /* ==================== ABOUT ==================== */
-        .about { padding: 10rem 0 8rem; position: relative; }
+        .about { padding: 6rem 0 5rem; position: relative; }
 
         .about-layout {
             display: grid;
@@ -348,14 +340,14 @@
             font-weight: 600;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: var(--gold);
+            color: var(--copper);
             margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
             gap: 1rem;
         }
 
-        .eyebrow-line { width: 30px; height: 1px; background: var(--gold); }
+        .eyebrow-line { width: 30px; height: 1px; background: var(--copper); }
 
         .about h2 {
             font-size: clamp(2.2rem, 4vw, 3.2rem);
@@ -379,13 +371,13 @@
             border-top: 1px solid var(--glass-border);
             transition: border-color 0.3s;
         }
-        .stat-block:hover { border-color: var(--gold); }
+        .stat-block:hover { border-color: var(--copper); }
 
         .stat-number {
             font-family: 'Syne', sans-serif;
             font-size: 3rem;
             font-weight: 800;
-            color: var(--gold);
+            color: var(--copper);
             line-height: 1;
             margin-bottom: 0.3rem;
         }
@@ -393,7 +385,7 @@
         .stat-label { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
 
         /* ==================== SERVICES ==================== */
-        .services { padding: 8rem 0; }
+        .services { padding: 5rem 0; }
 
         .services-header {
             display: flex;
@@ -425,13 +417,13 @@
 
         .service-item:last-child { border-bottom: 1px solid var(--glass-border); }
 
-        .service-item:hover { padding-left: 1.5rem; border-color: rgba(139,115,85,0.3); }
+        .service-item:hover { padding-left: 1.5rem; border-color: rgba(166,124,82,0.3); }
 
         .service-num {
             font-family: 'Syne', sans-serif;
             font-size: 1rem;
             font-weight: 800;
-            color: var(--gold);
+            color: var(--copper);
             opacity: 0.4;
             padding-top: 0.3rem;
         }
@@ -443,12 +435,12 @@
             transition: color 0.3s;
         }
 
-        .service-item:hover h3 { color: var(--gold); }
+        .service-item:hover h3 { color: var(--copper); }
 
         .service-item p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
 
         /* ==================== PORTFOLIO ==================== */
-        .portfolio { padding: 8rem 0; overflow: hidden; }
+        .portfolio { padding: 5rem 0; overflow: hidden; }
 
         .portfolio-header {
             display: flex;
@@ -485,8 +477,8 @@
         }
 
         .portfolio-item:hover {
-            border-color: var(--gold);
-            box-shadow: 0 20px 60px rgba(139,115,85,0.08);
+            border-color: var(--copper);
+            box-shadow: 0 20px 60px rgba(166,124,82,0.08);
         }
 
         .portfolio-item canvas, .portfolio-item .t4-slideshow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
@@ -501,7 +493,7 @@
 
         .portfolio-tag {
             font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em;
-            text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem;
+            text-transform: uppercase; color: var(--copper); margin-bottom: 0.5rem;
         }
 
         .portfolio-item h3 { font-size: 2rem; color: var(--cream); margin-bottom: 0.3rem; letter-spacing: -0.02em; }
@@ -524,7 +516,7 @@
         .portfolio-placeholder p { font-size: 0.8rem; color: rgba(112,107,98,0.5); }
 
         /* ==================== PROCESS ==================== */
-        .process { padding: 8rem 0; background: var(--dark-2); }
+        .process { padding: 5rem 0; background: var(--dark-2); }
 
         .process-grid {
             display: grid;
@@ -542,14 +534,14 @@
 
         .process-step:first-child { border-left: none; }
 
-        .process-step:hover { background: rgba(139,115,85,0.03); }
+        .process-step:hover { background: rgba(166,124,82,0.03); }
 
         .process-step::before {
             content: '';
             position: absolute;
             top: 0; left: -1px;
             width: 1px; height: 0;
-            background: var(--gold);
+            background: var(--copper);
             transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -558,7 +550,7 @@
         .step-num {
             font-family: 'Syne', sans-serif;
             font-size: 3rem; font-weight: 800;
-            color: var(--gold); opacity: 0.12;
+            color: var(--copper); opacity: 0.12;
             line-height: 1; margin-bottom: 1.5rem;
         }
 
@@ -566,7 +558,7 @@
         .process-step p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.65; }
 
         /* ==================== CTA ==================== */
-        .cta { padding: 10rem 0; text-align: center; position: relative; }
+        .cta { padding: 6rem 0; text-align: center; position: relative; }
 
         .cta h2 {
             font-size: clamp(2.8rem, 5.5vw, 5rem);
@@ -574,7 +566,7 @@
             letter-spacing: -0.04em;
             margin-bottom: 1.5rem;
         }
-        .cta h2 em { font-style: italic; color: var(--gold); }
+        .cta h2 em { font-style: italic; color: var(--copper); }
         .cta p { color: var(--text-muted); font-size: 1rem; max-width: 480px; margin: 0 auto 2.5rem; }
 
         /* ==================== CONTACT ==================== */
@@ -593,7 +585,7 @@
             display: flex; align-items: center; gap: 1rem;
             margin-bottom: 1rem; color: var(--text-muted); font-size: 0.9rem;
         }
-        .contact-detail span:first-child { color: var(--gold); font-size: 0.9rem; width: 16px; }
+        .contact-detail span:first-child { color: var(--copper); font-size: 0.9rem; width: 16px; }
 
         .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
 
@@ -610,7 +602,7 @@
             border-radius: 0;
             cursor: none;
         }
-        .form-input:focus, .form-textarea:focus { border-color: var(--gold); }
+        .form-input:focus, .form-textarea:focus { border-color: var(--copper); }
         .form-textarea { min-height: 100px; resize: none; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
 
@@ -619,7 +611,7 @@
         /* ==================== FOOTER ==================== */
         footer { padding: 4rem 0 3rem; text-align: center; }
         .footer-logo { font-family: 'Syne'; font-size: 1.1rem; font-weight: 800; color: var(--text); margin-bottom: 0.5rem; letter-spacing: -0.02em; }
-        .footer-logo span { color: var(--gold); }
+        .footer-logo span { color: var(--copper); }
         .footer-sub { color: var(--text-muted); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
 
         /* ==================== HERO IMAGE BG ==================== */
@@ -639,7 +631,7 @@
         }
 
         /* ==================== NICHE SHOWCASE ==================== */
-        .niches { padding: 8rem 0; }
+        .niches { padding: 5rem 0; }
 
         .niches-header { margin-bottom: 3.5rem; }
         .niches-header h2 {
@@ -667,7 +659,7 @@
 
         .niche-card:hover {
             transform: translateY(-6px);
-            border-color: rgba(139,115,85,0.35);
+            border-color: rgba(166,124,82,0.35);
         }
 
         .niche-card img {
@@ -694,7 +686,7 @@
             font-weight: 600;
             letter-spacing: 0.18em;
             text-transform: uppercase;
-            color: var(--gold);
+            color: var(--copper);
             margin-bottom: 0.25rem;
         }
 
@@ -785,7 +777,7 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background:
                 radial-gradient(ellipse at center, transparent 40%, rgba(13,31,13,0.5) 100%),
-                linear-gradient(135deg, rgba(139,115,85,0.08), transparent 50%, rgba(74,103,65,0.06));
+                linear-gradient(135deg, rgba(166,124,82,0.08), transparent 50%, rgba(74,103,65,0.06));
             z-index: 1;
             pointer-events: none;
         }
@@ -927,7 +919,7 @@
 
     <!-- ABOUT -->
     <section class="about" id="about">
-<div class="container">
+        <div class="container">
             <div class="about-layout">
                 <div class="about-left reveal">
                     <div class="section-eyebrow"><span class="eyebrow-line"></span> About</div>
@@ -973,12 +965,12 @@
                 <div class="service-item reveal">
                     <div class="service-num">01</div>
                     <h3>Custom Websites</h3>
-                    <p>Hand-coded from scratch — no WordPress, no Squarespace, no templates. Fast, mobile-first sites that actually represent your brand. Starting at $1,500.</p>
+                    <p>Hand-coded from scratch — no WordPress, no Squarespace, no templates. Fast, mobile-first sites that actually represent your brand. Let's talk about yours.</p>
                 </div>
                 <div class="service-item reveal reveal-d1">
                     <div class="service-num">02</div>
                     <h3>Meta + Instagram Ads</h3>
-                    <p>Targeted ad campaigns on Facebook and Instagram that bring real local customers through your door. Strategy, creative, targeting, and reporting. From $500/mo.</p>
+                    <p>Targeted ad campaigns on Facebook and Instagram that bring real local customers through your door. Strategy, creative, targeting, and reporting — all handled.</p>
                 </div>
                 <div class="service-item reveal reveal-d2">
                     <div class="service-num">03</div>
@@ -988,12 +980,12 @@
                 <div class="service-item reveal reveal-d3">
                     <div class="service-num">04</div>
                     <h3>Social Media Management</h3>
-                    <p>Consistent content, real engagement, and a feed that makes your brand look alive. I handle the posting so you can handle the business. From $400/mo.</p>
+                    <p>Consistent content, real engagement, and a feed that makes your brand look alive. I handle the posting so you can handle the business.</p>
                 </div>
                 <div class="service-item reveal reveal-d4">
                     <div class="service-num">05</div>
                     <h3>Hosting + Maintenance</h3>
-                    <p>Global CDN hosting, updates, and ongoing support. Your site stays fast, secure, and always live. I don't build it and disappear. From $100/mo.</p>
+                    <p>Global CDN hosting, updates, and ongoing support. Your site stays fast, secure, and always live. I don't build it and disappear.</p>
                 </div>
             </div>
         </div>
@@ -1008,35 +1000,35 @@
             </div>
             <div class="niche-grid">
                 <div class="niche-card reveal">
-                    <img src="images/niche-restaurant.png" alt="Restaurant & Food">
+                    <img src="images/niche-restaurant.png" alt="Restaurant & Food" loading="lazy">
                     <div class="niche-overlay">
                         <div class="niche-label">Niche</div>
                         <h3>Food & Drink</h3>
                     </div>
                 </div>
                 <div class="niche-card reveal reveal-d1">
-                    <img src="images/niche-retail.png" alt="Retail">
+                    <img src="images/niche-retail.png" alt="Retail" loading="lazy">
                     <div class="niche-overlay">
                         <div class="niche-label">Niche</div>
                         <h3>Retail</h3>
                     </div>
                 </div>
                 <div class="niche-card reveal reveal-d2">
-                    <img src="images/niche-professional.png" alt="Professional Services">
+                    <img src="images/niche-professional.png" alt="Professional Services" loading="lazy">
                     <div class="niche-overlay">
                         <div class="niche-label">Niche</div>
                         <h3>Professional Services</h3>
                     </div>
                 </div>
                 <div class="niche-card reveal reveal-d3">
-                    <img src="images/niche-creative.png" alt="Creative">
+                    <img src="images/niche-creative.png" alt="Creative" loading="lazy">
                     <div class="niche-overlay">
                         <div class="niche-label">Niche</div>
                         <h3>Creative Studios</h3>
                     </div>
                 </div>
                 <div class="niche-card reveal reveal-d4">
-                    <img src="images/niche-wellness.png" alt="Wellness">
+                    <img src="images/niche-wellness.png" alt="Wellness" loading="lazy">
                     <div class="niche-overlay">
                         <div class="niche-label">Niche</div>
                         <h3>Health & Wellness</h3>
@@ -1059,11 +1051,11 @@
         <div class="portfolio-scroll" style="padding-left: max(2rem, calc((100vw - 1200px)/2 + 2rem));">
             <a href="https://t4-folsom.vercel.app" target="_blank" class="portfolio-item reveal">
                 <div class="t4-slideshow">
-                    <img src="https://t4-folsom.vercel.app/images/2H0A1219.jpg" alt="Jasmine Milk Tea">
-                    <img src="https://t4-folsom.vercel.app/images/DSC00290.jpg" alt="Brown Sugar Coffee Latte">
-                    <img src="https://t4-folsom.vercel.app/images/DSC09328-HDR.jpg" alt="Green Thai Milk Tea">
-                    <img src="https://t4-folsom.vercel.app/images/2H0A1226.jpg" alt="Honey Peach Royal Tea">
-                    <img src="https://t4-folsom.vercel.app/images/2H0A3400.jpg" alt="Passion Fruit Smoothie">
+                    <img src="https://t4-folsom.vercel.app/images/2H0A1219.jpg" alt="Jasmine Milk Tea" loading="lazy">
+                    <img src="https://t4-folsom.vercel.app/images/DSC00290.jpg" alt="Brown Sugar Coffee Latte" loading="lazy">
+                    <img src="https://t4-folsom.vercel.app/images/DSC09328-HDR.jpg" alt="Green Thai Milk Tea" loading="lazy">
+                    <img src="https://t4-folsom.vercel.app/images/2H0A1226.jpg" alt="Honey Peach Royal Tea" loading="lazy">
+                    <img src="https://t4-folsom.vercel.app/images/2H0A3400.jpg" alt="Passion Fruit Smoothie" loading="lazy">
                 </div>
                 <div class="portfolio-info">
                     <div class="portfolio-tag">Restaurant + Online Ordering</div>
@@ -1132,7 +1124,7 @@
                 <div class="reveal">
                     <h2>Let's talk.</h2>
                     <p class="contact-text">Tell me a little about your business and what you're looking for. No commitment — just a conversation to see if I can help.</p>
-                    <div class="contact-detail"><span>@</span><span>trinhmedia.sean@gmail.com</span></div>
+                    <div class="contact-detail"><span>@</span><span>seantrinh5031@gmail.com</span></div>
                     <div class="contact-detail"><span>&#9679;</span><span>Sacramento, CA</span></div>
                 </div>
                 <form class="contact-form reveal reveal-d1" onsubmit="handleSubmit(event)">
