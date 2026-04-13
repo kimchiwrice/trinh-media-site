@@ -93,36 +93,243 @@
         /* === HERO === */
         .hero {
             position: relative; min-height: 100vh;
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
+            display: flex; align-items: center;
+            overflow: hidden; padding: 120px 0 80px;
         }
         .hero-bg { position: absolute; inset: 0; z-index: 0; }
         .hero-bg canvas { width: 100%; height: 100%; }
-        .hero-overlay {
+        .hero-grid {
             position: absolute; inset: 0; z-index: 1;
-            background: linear-gradient(180deg, rgba(13,31,13,0.3) 0%, rgba(13,31,13,0.6) 60%, rgba(13,31,13,0.95) 100%);
+            background-image: radial-gradient(rgba(166,124,82,0.08) 1px, transparent 1px);
+            background-size: 32px 32px;
+            mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.8) 0%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.8) 0%, transparent 70%);
+            opacity: 0.6;
+        }
+        .hero-overlay {
+            position: absolute; inset: 0; z-index: 2;
+            background:
+                radial-gradient(ellipse 80% 60% at 30% 50%, rgba(13,31,13,0.0) 0%, rgba(13,31,13,0.7) 100%),
+                linear-gradient(180deg, rgba(13,31,13,0.4) 0%, rgba(13,31,13,0.85) 100%);
+            pointer-events: none;
         }
         .hero-content {
-            position: relative; z-index: 2;
-            text-align: center; max-width: 800px; padding: 0 32px;
+            position: relative; z-index: 3;
+            width: 100%;
+            display: grid;
+            grid-template-columns: minmax(0,1.3fr) minmax(0,1fr);
+            gap: 64px;
+            align-items: center;
+            max-width: 1240px; margin: 0 auto; padding: 0 32px;
         }
+        .hero-left { max-width: 680px; }
         .hero-tag {
-            display: inline-block; font-size: 0.75rem; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 10px;
+            font-size: 0.72rem; font-weight: 600;
             letter-spacing: 3px; text-transform: uppercase;
-            color: var(--accent); margin-bottom: 24px;
-            padding: 8px 20px; border: 1px solid rgba(166,124,82,0.3);
+            color: var(--accent); margin-bottom: 28px;
+            padding: 8px 18px; border: 1px solid rgba(166,124,82,0.35);
+            background: rgba(166,124,82,0.06);
+            border-radius: 999px; backdrop-filter: blur(10px);
+        }
+        .hero-tag::before {
+            content: ''; width: 6px; height: 6px; border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 0 0 rgba(166,124,82,0.7);
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot {
+            0%   { box-shadow: 0 0 0 0 rgba(166,124,82,0.7); }
+            70%  { box-shadow: 0 0 0 10px rgba(166,124,82,0); }
+            100% { box-shadow: 0 0 0 0 rgba(166,124,82,0); }
         }
         .hero h1 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 600; line-height: 1.1;
-            margin-bottom: 24px; color: var(--cream);
-        }        .hero h1 span { color: var(--accent); }
-        .hero-sub {
-            font-size: 1.125rem; color: var(--text-muted);
-            max-width: 560px; margin: 0 auto 40px; line-height: 1.7;
+            font-size: clamp(2.75rem, 7.5vw, 5.75rem);
+            font-weight: 600; line-height: 1.02;
+            letter-spacing: -0.02em;
+            margin-bottom: 28px; color: var(--cream);
         }
-        .hero-cta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .hero h1 .line { display: block; overflow: hidden; }
+        .hero h1 .line > span {
+            display: inline-block; transform: translateY(110%);
+            animation: reveal-up 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .hero h1 .line:nth-child(1) > span { animation-delay: 0.15s; }
+        .hero h1 .line:nth-child(2) > span { animation-delay: 0.30s; }
+        .hero h1 .line:nth-child(3) > span { animation-delay: 0.45s; }
+        @keyframes reveal-up { to { transform: translateY(0); } }
+        .hero h1 em {
+            position: relative;
+            font-style: italic; color: var(--accent);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        .hero h1 em::after {
+            content: ''; position: absolute;
+            left: 0; right: 0; bottom: 0.08em; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent) 20%, var(--accent) 80%, transparent);
+            transform: scaleX(0); transform-origin: left;
+            animation: underline-in 1s cubic-bezier(0.16,1,0.3,1) 1.2s forwards;
+        }
+        @keyframes underline-in { to { transform: scaleX(1); } }
+        .word-rotator { display: inline-block; position: relative; min-width: 1ch; }
+        .word-rotator .word {
+            display: inline-block; white-space: nowrap;
+            opacity: 0; transform: translateY(18px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .word-rotator .word.active { opacity: 1; transform: translateY(0); }
+        .word-rotator .word.out { opacity: 0; transform: translateY(-18px); transition: opacity 0.4s ease, transform 0.4s ease; }
+        .word-rotator .word.stack { position: absolute; left: 0; top: 0; }
+        .hero-sub {
+            font-size: 1.08rem; color: var(--text-muted);
+            max-width: 560px; line-height: 1.7;
+            margin-bottom: 36px;
+            opacity: 0; transform: translateY(16px);
+            animation: fade-up 0.9s cubic-bezier(0.16,1,0.3,1) 0.8s forwards;
+        }
+        @keyframes fade-up { to { opacity: 1; transform: translateY(0); } }
+        .hero-cta {
+            display: flex; gap: 14px; flex-wrap: wrap;
+            margin-bottom: 36px;
+            opacity: 0; transform: translateY(16px);
+            animation: fade-up 0.9s cubic-bezier(0.16,1,0.3,1) 0.95s forwards;
+        }
+        .hero-availability {
+            display: inline-flex; align-items: center; gap: 12px;
+            font-size: 0.82rem; color: var(--text-muted);
+            letter-spacing: 0.5px;
+            opacity: 0; animation: fade-up 0.9s cubic-bezier(0.16,1,0.3,1) 1.15s forwards;
+        }
+        .hero-availability .live-dot {
+            width: 9px; height: 9px; border-radius: 50%;
+            background: #5fbf60;
+            box-shadow: 0 0 0 0 rgba(95,191,96,0.7);
+            animation: pulse-green 1.8s infinite;
+            flex-shrink: 0;
+        }
+        @keyframes pulse-green {
+            0%   { box-shadow: 0 0 0 0 rgba(95,191,96,0.6); }
+            70%  { box-shadow: 0 0 0 12px rgba(95,191,96,0); }
+            100% { box-shadow: 0 0 0 0 rgba(95,191,96,0); }
+        }
+        .hero-availability strong { color: var(--cream); font-weight: 500; }
+
+        /* Floating stats card */
+        .hero-right {
+            position: relative;
+            perspective: 1200px;
+            opacity: 0; transform: translateY(24px);
+            animation: fade-up 1s cubic-bezier(0.16,1,0.3,1) 1s forwards;
+        }
+        .stats-card {
+            position: relative;
+            background: linear-gradient(135deg, rgba(26,46,26,0.65) 0%, rgba(13,31,13,0.85) 100%);
+            border: 1px solid rgba(166,124,82,0.22);
+            border-radius: 6px;
+            padding: 32px;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            box-shadow: 0 40px 80px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.02) inset;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+        }
+        .stats-card::before {
+            content: ''; position: absolute; inset: -1px;
+            border-radius: 6px; pointer-events: none;
+            background: linear-gradient(135deg, rgba(166,124,82,0.4), transparent 40%, transparent 60%, rgba(74,103,65,0.3));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude;
+            padding: 1px;
+            opacity: 0.8;
+        }
+        .stats-card-head {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .stats-card-title {
+            font-size: 0.7rem; font-weight: 600;
+            letter-spacing: 2.5px; text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .stats-card-live {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 0.65rem; color: #5fbf60;
+            letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600;
+        }
+        .stats-card-live .dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: #5fbf60; animation: pulse-green 1.8s infinite;
+        }
+        .stats-rows { display: flex; flex-direction: column; gap: 18px; }
+        .stats-row { display: flex; justify-content: space-between; align-items: baseline; }
+        .stats-label { font-size: 0.78rem; color: var(--text-muted); letter-spacing: 0.5px; }
+        .stats-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.65rem; font-weight: 600;
+            color: var(--cream); letter-spacing: -0.01em;
+        }
+        .stats-value .unit { font-size: 0.9rem; color: var(--accent); margin-left: 2px; font-family: 'Inter', sans-serif; font-weight: 500; }
+        .stats-card-foot {
+            margin-top: 22px; padding-top: 18px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            font-size: 0.72rem; color: var(--text-muted);
+            letter-spacing: 0.3px; display: flex; align-items: center; gap: 8px;
+        }
+        .stats-card-foot .arrow { color: var(--accent); transition: transform 0.3s ease; }
+        .stats-card:hover .stats-card-foot .arrow { transform: translateX(4px); }
+
+        /* Floating mini-badge behind card */
+        .hero-right::before {
+            content: ''; position: absolute;
+            inset: 20px -30px -30px 30px;
+            background: radial-gradient(ellipse at center, rgba(166,124,82,0.18) 0%, transparent 70%);
+            filter: blur(40px);
+            z-index: -1;
+        }
+
+        /* Scroll indicator */
+        .hero-scroll {
+            position: absolute; bottom: 28px; left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase;
+            color: var(--text-muted);
+            opacity: 0; animation: fade-up 0.8s cubic-bezier(0.16,1,0.3,1) 1.6s forwards;
+        }
+        .hero-scroll-line {
+            width: 1px; height: 40px;
+            background: linear-gradient(180deg, rgba(166,124,82,0.8), transparent);
+            position: relative; overflow: hidden;
+        }
+        .hero-scroll-line::after {
+            content: ''; position: absolute; top: -40px; left: 0;
+            width: 1px; height: 40px;
+            background: linear-gradient(180deg, transparent, var(--accent), transparent);
+            animation: scroll-drop 2s ease-in-out infinite;
+        }
+        @keyframes scroll-drop {
+            0%   { top: -40px; }
+            100% { top: 100%; }
+        }
+
+        /* Hero responsive */
+        @media (max-width: 1024px) {
+            .hero-content { grid-template-columns: 1fr; gap: 48px; }
+            .hero-right { max-width: 440px; }
+        }
+        @media (max-width: 640px) {
+            .hero { padding: 100px 0 60px; }
+            .hero h1 { font-size: clamp(2.25rem, 11vw, 3.5rem); }
+            .stats-card { padding: 24px; }
+            .stats-value { font-size: 1.35rem; }
+            .hero-scroll { display: none; }
+        }
+
 
         /* === BUTTONS === */
         .btn {
@@ -326,16 +533,61 @@
     <!-- ========== HERO ========== -->
     <section class="hero" id="hero">
         <div class="hero-bg" id="hero-3d"></div>
+        <div class="hero-grid"></div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <div class="hero-tag">Sacramento Digital Marketing</div>
-            <h1>Your Brand Deserves<br>to <span>Stand Out</span></h1>
-            <p class="hero-sub">We build websites, run ads, and manage social media for Sacramento businesses that refuse to blend in.</p>
-            <div class="hero-cta">
-                <a href="#work" class="btn btn-primary">See Our Work</a>
-                <a href="#contact" class="btn btn-outline">Start a Project</a>
+            <div class="hero-left">
+                <div class="hero-tag">Trinh Media · Sacramento, CA</div>
+                <h1>
+                    <span class="line"><span>Websites that</span></span>
+                    <span class="line"><span>make people</span></span>
+                    <span class="line"><span><em><span class="word-rotator" id="word-rotator"><span class="word active">stop scrolling.</span></span></em></span></span>
+                </h1>
+                <p class="hero-sub">Cinematic websites, smart ads, and real social presence — built in a week by a Sacramento operator who's shipped 50+ sites.</p>
+                <div class="hero-cta">
+                    <a href="#work" class="btn btn-primary">See the Work</a>
+                    <a href="#contact" class="btn btn-outline">Book 15 Minutes</a>
+                </div>
+                <div class="hero-availability">
+                    <span class="live-dot"></span>
+                    <span><strong>Accepting 2 new projects</strong> &nbsp;·&nbsp; May 2026</span>
+                </div>
+            </div>
+            <div class="hero-right">
+                <div class="stats-card" id="stats-card">
+                    <div class="stats-card-head">
+                        <div class="stats-card-title">Studio · Live</div>
+                        <div class="stats-card-live"><span class="dot"></span>Shipping</div>
+                    </div>
+                    <div class="stats-rows">
+                        <div class="stats-row">
+                            <span class="stats-label">Sites shipped</span>
+                            <span class="stats-value" data-count="50"><span class="unit">+</span></span>
+                        </div>
+                        <div class="stats-row">
+                            <span class="stats-label">Avg. traffic lift</span>
+                            <span class="stats-value" data-count="3"><span class="unit">×</span></span>
+                        </div>
+                        <div class="stats-row">
+                            <span class="stats-label">Turnaround</span>
+                            <span class="stats-value" data-count="24"><span class="unit">hr</span></span>
+                        </div>
+                        <div class="stats-row">
+                            <span class="stats-label">Repeat clients</span>
+                            <span class="stats-value" data-count="100"><span class="unit">%</span></span>
+                        </div>
+                    </div>
+                    <div class="stats-card-foot">
+                        <span class="arrow">→</span>
+                        <span>Real projects. Real numbers. See them below.</span>
+                    </div>
+                </div>
             </div>
         </div>
+        <a href="#about" class="hero-scroll" aria-label="Scroll down">
+            <span>Scroll</span>
+            <span class="hero-scroll-line"></span>
+        </a>
     </section>
     <!-- ========== MARQUEE ========== -->
     <div class="marquee-section">
@@ -529,7 +781,7 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.2;
+        renderer.toneMappingExposure = 1.35;
         container.appendChild(renderer.domElement);
 
         // Lighting — cinematic 3-point
@@ -557,21 +809,28 @@
             color: 0x8B7355, specular: 0xE8E4D9, shininess: 120, transparent: true, opacity: 0.6
         });
 
-        // Create floating spheres
+        // Create floating spheres — expanded cinematic cluster
         const spheres = [];
         const geometries = [
-            new THREE.SphereGeometry(3, 64, 64),
-            new THREE.SphereGeometry(2, 48, 48),
-            new THREE.SphereGeometry(1.5, 48, 48),
-            new THREE.SphereGeometry(4, 64, 64),
-            new THREE.SphereGeometry(1, 32, 32),
-            new THREE.SphereGeometry(2.5, 48, 48),
-            new THREE.SphereGeometry(0.8, 32, 32),
+            new THREE.SphereGeometry(3.2, 64, 64),
+            new THREE.SphereGeometry(2.2, 48, 48),
+            new THREE.SphereGeometry(1.6, 48, 48),
+            new THREE.SphereGeometry(4.5, 64, 64),
+            new THREE.SphereGeometry(1.1, 32, 32),
+            new THREE.SphereGeometry(2.8, 48, 48),
+            new THREE.SphereGeometry(0.9, 32, 32),
+            new THREE.SphereGeometry(1.8, 48, 48),
+            new THREE.SphereGeometry(2.4, 48, 48),
+            new THREE.SphereGeometry(1.3, 32, 32),
+            new THREE.SphereGeometry(3.5, 64, 64),
+            new THREE.SphereGeometry(0.7, 32, 32),
         ];
-        const materials = [copperMat, greenMat, goldMat, greenMat, copperMat, goldMat, copperMat];
+        const materials = [copperMat, greenMat, goldMat, greenMat, copperMat, goldMat, copperMat, greenMat, copperMat, goldMat, greenMat, copperMat];
         const positions = [
-            [-8, 2, -5], [6, -3, -8], [10, 5, -12], [-12, -4, -10],
-            [3, 6, -6], [-5, -6, -15], [8, -1, -3]
+            [-8, 2, -5], [6, -3, -8], [10, 5, -12], [-14, -4, -14],
+            [3, 6, -6], [-5, -6, -15], [8, -1, -3],
+            [-10, 4, -18], [12, 2, -16], [-3, -5, -9],
+            [14, -6, -20], [-7, 7, -7]
         ];
         geometries.forEach((geo, i) => {
             const mesh = new THREE.Mesh(geo, materials[i]);
@@ -603,9 +862,12 @@
                 s.rotation.y += s.userData.rotSpeed;
                 s.rotation.x += s.userData.rotSpeed * 0.5;
             });
-            // Smooth camera follow mouse
-            camera.position.x += (mouseX * 3 - camera.position.x) * 0.02;
-            camera.position.y += (-mouseY * 2 - camera.position.y) * 0.02;
+            // Smooth camera follow mouse + slow drift for life
+            const drift = t * 0.05;
+            const driftX = Math.sin(drift) * 1.2;
+            const driftY = Math.cos(drift * 0.7) * 0.6;
+            camera.position.x += ((mouseX * 4 + driftX) - camera.position.x) * 0.015;
+            camera.position.y += ((-mouseY * 2.5 + driftY) - camera.position.y) * 0.015;
             camera.lookAt(0, 0, 0);
 
             renderer.render(scene, camera);
@@ -618,6 +880,83 @@
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
+    })();
+
+    // === HERO WORD ROTATOR ===
+    (function() {
+        const rotator = document.getElementById('word-rotator');
+        if (!rotator) return;
+        const words = [
+            'stop scrolling.',
+            'reach for their wallet.',
+            'book the table.',
+            'remember the name.',
+            'share it with friends.',
+            'say woah.'
+        ];
+        let i = 0;
+        const current = rotator.querySelector('.word');
+        setInterval(() => {
+            i = (i + 1) % words.length;
+            const out = rotator.querySelector('.word.active');
+            const next = document.createElement('span');
+            next.className = 'word stack';
+            next.textContent = words[i];
+            rotator.appendChild(next);
+            // force reflow then activate
+            void next.offsetWidth;
+            out.classList.remove('active');
+            out.classList.add('out');
+            next.classList.add('active');
+            setTimeout(() => { out.remove(); next.classList.remove('stack'); }, 500);
+        }, 2800);
+    })();
+
+    // === STATS COUNT-UP ===
+    (function() {
+        const stats = document.querySelectorAll('.stats-value[data-count]');
+        if (!stats.length) return;
+        const run = (el) => {
+            const target = parseInt(el.dataset.count, 10);
+            const duration = 1400;
+            const start = performance.now();
+            const unitHtml = el.innerHTML.match(/<span class="unit">.*?<\/span>/);
+            const unit = unitHtml ? unitHtml[0] : '';
+            const tick = (now) => {
+                const p = Math.min(1, (now - start) / duration);
+                const eased = 1 - Math.pow(1 - p, 3);
+                const val = Math.floor(target * eased);
+                el.innerHTML = val + unit;
+                if (p < 1) requestAnimationFrame(tick);
+                else el.innerHTML = target + unit;
+            };
+            requestAnimationFrame(tick);
+        };
+        // Trigger after entrance animation settles
+        setTimeout(() => { stats.forEach(run); }, 1200);
+    })();
+
+    // === STATS CARD 3D TILT ===
+    (function() {
+        const card = document.getElementById('stats-card');
+        if (!card) return;
+        const wrap = card.parentElement;
+        let rx = 0, ry = 0, trx = 0, try_ = 0;
+        wrap.addEventListener('mousemove', (e) => {
+            const r = card.getBoundingClientRect();
+            const cx = (e.clientX - r.left) / r.width - 0.5;
+            const cy = (e.clientY - r.top)  / r.height - 0.5;
+            trx = -cy * 8;
+            try_ = cx * 10;
+        });
+        wrap.addEventListener('mouseleave', () => { trx = 0; try_ = 0; });
+        function loop() {
+            rx += (trx - rx) * 0.08;
+            ry += (try_ - ry) * 0.08;
+            card.style.transform = 'rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg)';
+            requestAnimationFrame(loop);
+        }
+        loop();
     })();
 
     // === SCROLL REVEAL OBSERVER ===
