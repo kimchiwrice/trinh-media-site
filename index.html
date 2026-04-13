@@ -562,19 +562,19 @@
                     <div class="stats-rows">
                         <div class="stats-row">
                             <span class="stats-label">Sites shipped</span>
-                            <span class="stats-value" data-count="50"><span class="unit">+</span></span>
+                            <span class="stats-value" data-count="50">50<span class="unit">+</span></span>
                         </div>
                         <div class="stats-row">
                             <span class="stats-label">Avg. traffic lift</span>
-                            <span class="stats-value" data-count="3"><span class="unit">×</span></span>
+                            <span class="stats-value" data-count="3">3<span class="unit">×</span></span>
                         </div>
                         <div class="stats-row">
                             <span class="stats-label">Turnaround</span>
-                            <span class="stats-value" data-count="24"><span class="unit">hr</span></span>
+                            <span class="stats-value" data-count="24">24<span class="unit">hr</span></span>
                         </div>
                         <div class="stats-row">
                             <span class="stats-label">Repeat clients</span>
-                            <span class="stats-value" data-count="100"><span class="unit">%</span></span>
+                            <span class="stats-value" data-count="100">100<span class="unit">%</span></span>
                         </div>
                     </div>
                     <div class="stats-card-foot">
@@ -912,28 +912,48 @@
         }, 2800);
     })();
 
-    // === STATS COUNT-UP ===
+    // === STATS COUNT-UP (viewport-triggered, defensive) ===
     (function() {
         const stats = document.querySelectorAll('.stats-value[data-count]');
         if (!stats.length) return;
-        const run = (el) => {
-            const target = parseInt(el.dataset.count, 10);
+        stats.forEach(el => {
+            const m = el.innerHTML.match(/<span class="unit">.*?<\/span>/);
+            el.__unit = m ? m[0] : '';
+            el.__target = parseInt(el.dataset.count, 10) || 0;
+        });
+        const animate = (el) => {
+            if (el.__ran) return; el.__ran = true;
             const duration = 1400;
             const start = performance.now();
-            const unitHtml = el.innerHTML.match(/<span class="unit">.*?<\/span>/);
-            const unit = unitHtml ? unitHtml[0] : '';
             const tick = (now) => {
                 const p = Math.min(1, (now - start) / duration);
                 const eased = 1 - Math.pow(1 - p, 3);
-                const val = Math.floor(target * eased);
-                el.innerHTML = val + unit;
+                const val = Math.floor(el.__target * eased);
+                el.innerHTML = val + el.__unit;
                 if (p < 1) requestAnimationFrame(tick);
-                else el.innerHTML = target + unit;
+                else el.innerHTML = el.__target + el.__unit;
             };
+            el.innerHTML = '0' + el.__unit;
             requestAnimationFrame(tick);
         };
-        // Trigger after entrance animation settles
-        setTimeout(() => { stats.forEach(run); }, 1200);
+        const card = document.getElementById('stats-card');
+        if (!card || !('IntersectionObserver' in window)) {
+            setTimeout(() => stats.forEach(animate), 1200);
+            return;
+        }
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    stats.forEach(animate);
+                    obs.disconnect();
+                }
+            });
+        }, { threshold: 0.4 });
+        obs.observe(card);
+        // Extra safety: also trigger if page was hidden on load
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) stats.forEach(animate);
+        }, { once: true });
     })();
 
     // === STATS CARD 3D TILT ===
