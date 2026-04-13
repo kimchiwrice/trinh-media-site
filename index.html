@@ -612,9 +612,191 @@
             section { padding: 80px 0; }
             .container { padding: 0 20px; }
         }
+    
+        /* === FINESSE LAYER v1 === */
+        :root {
+            --sig-1: #C8A878;   /* warm champagne */
+            --sig-2: #9D7BFF;   /* electric violet */
+            --sig-3: #F5B544;   /* amber gold */
+            --sig-4: #5EEAD4;   /* seafoam */
+            --accent-live: var(--sig-1);
+            --accent-live-glow: rgba(200,168,120,0.35);
+        }
+        /* Top hairline animated gradient bar */
+        .sig-bar {
+            position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 200;
+            background: linear-gradient(90deg,
+                var(--sig-1) 0%, var(--sig-2) 25%, var(--sig-3) 50%, var(--sig-4) 75%, var(--sig-1) 100%);
+            background-size: 300% 100%;
+            animation: sig-bar-shift 14s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes sig-bar-shift {
+            0%   { background-position: 0% 50%; }
+            100% { background-position: 300% 50%; }
+        }
+        /* Aurora color wash over hero video */
+        .hero-aurora {
+            position: absolute; inset: 0; z-index: 1;
+            pointer-events: none;
+            mix-blend-mode: soft-light;
+            opacity: 0.85;
+            background:
+                radial-gradient(60% 50% at 20% 30%, rgba(157,123,255,0.38), transparent 60%),
+                radial-gradient(55% 45% at 80% 70%, rgba(245,181,68,0.32), transparent 62%),
+                radial-gradient(45% 40% at 60% 20%, rgba(94,234,212,0.24), transparent 60%),
+                radial-gradient(50% 50% at 30% 80%, rgba(200,168,120,0.30), transparent 58%);
+            animation: aurora-drift 24s ease-in-out infinite alternate;
+            filter: blur(8px) saturate(1.1);
+        }
+        @keyframes aurora-drift {
+            0%   { transform: translate3d(0,0,0) scale(1); filter: blur(8px) saturate(1.1) hue-rotate(0deg); }
+            33%  { transform: translate3d(-2%, 1%, 0) scale(1.03); filter: blur(10px) saturate(1.2) hue-rotate(15deg); }
+            66%  { transform: translate3d(1.5%,-1.5%,0) scale(1.04); filter: blur(9px) saturate(1.15) hue-rotate(-10deg); }
+            100% { transform: translate3d(2%, 0%, 0) scale(1.02); filter: blur(8px) saturate(1.25) hue-rotate(20deg); }
+        }
+        /* Second aurora layer for color depth */
+        .hero-aurora-2 {
+            position: absolute; inset: 0; z-index: 1;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+            opacity: 0.45;
+            background: conic-gradient(from 0deg at 50% 50%,
+                rgba(157,123,255,0.18) 0deg,
+                rgba(245,181,68,0.14) 90deg,
+                rgba(94,234,212,0.15) 180deg,
+                rgba(200,168,120,0.2) 270deg,
+                rgba(157,123,255,0.18) 360deg);
+            animation: aurora-spin 60s linear infinite;
+            filter: blur(40px);
+        }
+        @keyframes aurora-spin {
+            to { transform: rotate(360deg); }
+        }
+        /* Custom glowing cursor (desktop only) */
+        @media (hover: hover) and (pointer: fine) {
+            body.sig-cursor-on { cursor: none; }
+            body.sig-cursor-on a, body.sig-cursor-on button, body.sig-cursor-on .work-card { cursor: none; }
+            .sig-cursor {
+                position: fixed; top: 0; left: 0; width: 14px; height: 14px;
+                border-radius: 50%;
+                background: var(--accent-live);
+                box-shadow: 0 0 18px 4px var(--accent-live-glow), 0 0 40px 10px var(--accent-live-glow);
+                transform: translate3d(-100px,-100px,0);
+                pointer-events: none; z-index: 9999;
+                mix-blend-mode: screen;
+                transition: width 0.25s ease, height 0.25s ease, background 0.6s ease, box-shadow 0.6s ease;
+            }
+            .sig-cursor.hover { width: 38px; height: 38px; background: transparent;
+                border: 1.5px solid var(--accent-live); box-shadow: 0 0 30px 6px var(--accent-live-glow); }
+            .sig-cursor-ring {
+                position: fixed; top: 0; left: 0; width: 40px; height: 40px;
+                border-radius: 50%;
+                border: 1px solid var(--accent-live);
+                opacity: 0.35;
+                transform: translate3d(-100px,-100px,0);
+                pointer-events: none; z-index: 9998;
+                transition: border-color 0.6s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+                mix-blend-mode: screen;
+            }
+        }
+        /* Magnetic CTA spotlight */
+        .btn-primary, .nav-cta {
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+        }
+        .btn-primary::before, .nav-cta::before {
+            content: '';
+            position: absolute;
+            width: 160px; height: 160px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 55%);
+            top: var(--my, 50%); left: var(--mx, 50%);
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .btn-primary:hover::before, .nav-cta:hover::before {
+            opacity: 1;
+        }
+        /* Gradient text sweep on rotator word */
+        .word-rotator .word.active {
+            background: linear-gradient(90deg, var(--sig-1) 0%, var(--sig-2) 25%, var(--sig-3) 50%, var(--sig-4) 75%, var(--sig-1) 100%);
+            background-size: 300% 100%;
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent; color: transparent;
+            animation: rotator-shift 8s linear infinite, reveal-up 0.5s cubic-bezier(0.16,1,0.3,1) forwards;
+        }
+        @keyframes rotator-shift {
+            0%   { background-position: 0% 50%; }
+            100% { background-position: 300% 50%; }
+        }
+        /* Section accent color (live-shifting via JS) */
+        .hero-tag {
+            border-color: color-mix(in oklab, var(--accent-live) 40%, transparent) !important;
+            background: color-mix(in oklab, var(--accent-live) 10%, transparent) !important;
+            color: var(--accent-live) !important;
+            transition: color 0.8s ease, border-color 0.8s ease, background 0.8s ease;
+        }
+        .hero-tag::before {
+            background: var(--accent-live) !important;
+            box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent-live) 70%, transparent) !important;
+        }
+        /* Section headings — subtle accent underline in live color */
+        .section-title, .section h2, section h2 {
+            position: relative;
+        }
+        .section-title::after, .section h2::after, section h2::after {
+        }
+        /* Work card color bloom */
+        .work-card {
+            --card-accent: var(--sig-1);
+            position: relative;
+            transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s ease, border-color 0.5s ease;
+        }
+        .work-card:nth-child(1) { --card-accent: var(--sig-2); } /* violet — T4 */
+        .work-card:nth-child(2) { --card-accent: var(--sig-4); } /* seafoam — Paws */
+        .work-card:nth-child(3) { --card-accent: var(--sig-3); } /* amber — Reptiles */
+        .work-card:nth-child(4) { --card-accent: var(--sig-1); } /* champagne — Emyies */
+        .work-card::after {
+            content: '';
+            position: absolute; inset: 0; border-radius: inherit;
+            pointer-events: none;
+            box-shadow: 0 0 0 1px transparent inset, 0 30px 60px -20px transparent;
+            transition: box-shadow 0.5s ease;
+        }
+        .work-card:hover {
+            transform: translateY(-6px);
+        }
+        .work-card:hover::after {
+            box-shadow: 0 0 0 1px color-mix(in oklab, var(--card-accent) 45%, transparent) inset,
+                        0 30px 60px -10px color-mix(in oklab, var(--card-accent) 30%, transparent);
+        }
+        .work-card:hover .work-tag {
+            color: var(--card-accent);
+            border-color: color-mix(in oklab, var(--card-accent) 50%, transparent);
+        }
+        .work-card .work-link {
+            transition: color 0.4s ease;
+        }
+        .work-card:hover .work-link {
+            color: var(--card-accent);
+        }
+        /* Reduced motion fallback */
+        @media (prefers-reduced-motion: reduce) {
+            .sig-bar, .hero-aurora, .hero-aurora-2, .word-rotator .word.active { animation: none !important; }
+            .hero-aurora, .hero-aurora-2 { opacity: 0.25; }
+        }
+        /* === FINESSE LAYER END === */
+
     </style>
 </head>
 <body>
+    <div class="sig-bar"></div>
+    <div class="sig-cursor" aria-hidden="true"></div>
+    <div class="sig-cursor-ring" aria-hidden="true"></div>
     <!-- ========== NAVIGATION ========== -->
     <nav class="nav" id="nav">
         <div class="container">
@@ -640,6 +822,8 @@
                 <source src="https://videos.pexels.com/video-files/36087643/15304576_640_360_50fps.mp4" type="video/mp4">
             </video>
             <img class="hero-video-fallback" src="https://images.unsplash.com/photo-1514565131-fce0801e5785?w=1600&q=80" alt="">
+        <div class="hero-aurora"></div>
+        <div class="hero-aurora-2"></div>
         </div>
         <div class="hero-grid"></div>
         <div class="hero-overlay"></div>
@@ -1035,6 +1219,70 @@
         window.addEventListener('scroll', () => {
             if (window.scrollY > 60) { nav.classList.add('scrolled'); }
             else { nav.classList.remove('scrolled'); }
+        });
+    })();
+    </script>
+
+
+    <!-- === FINESSE JS === -->
+    <script>
+    (function(){
+        // -- Live accent color swapping per section --
+        const ROOT = document.documentElement;
+        const PALETTE = {
+            hero:     { c: '#C8A878', g: 'rgba(200,168,120,0.35)' },  // champagne
+            work:     { c: '#9D7BFF', g: 'rgba(157,123,255,0.35)' },  // violet
+            services: { c: '#F5B544', g: 'rgba(245,181,68,0.35)' },   // amber
+            about:    { c: '#5EEAD4', g: 'rgba(94,234,212,0.32)' },   // seafoam
+            contact:  { c: '#F0A5B8', g: 'rgba(240,165,184,0.35)' }   // rose
+        };
+        const sections = ['hero','work','services','about','contact']
+            .map(id => document.getElementById(id))
+            .filter(Boolean);
+        const io = new IntersectionObserver((entries) => {
+            // Pick the most visible one
+            let best = null, bestRatio = 0;
+            entries.forEach(e => { if (e.intersectionRatio > bestRatio) { best = e.target; bestRatio = e.intersectionRatio; } });
+            if (!best) return;
+            const id = best.id;
+            const pal = PALETTE[id] || PALETTE.hero;
+            ROOT.style.setProperty('--accent-live', pal.c);
+            ROOT.style.setProperty('--accent-live-glow', pal.g);
+        }, { threshold: [0.15, 0.35, 0.55, 0.75] });
+        sections.forEach(s => io.observe(s));
+
+        // -- Custom glowing cursor --
+        const isFine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+        const cursor = document.querySelector('.sig-cursor');
+        const ring = document.querySelector('.sig-cursor-ring');
+        if (isFine && cursor && ring) {
+            document.body.classList.add('sig-cursor-on');
+            let tx=0, ty=0, cx=0, cy=0, rx=0, ry=0;
+            window.addEventListener('mousemove', (e) => { tx = e.clientX; ty = e.clientY; });
+            function raf(){
+                cx += (tx - cx) * 0.22;
+                cy += (ty - cy) * 0.22;
+                rx += (tx - rx) * 0.12;
+                ry += (ty - ry) * 0.12;
+                cursor.style.transform = 'translate3d('+(cx-7)+'px,'+(cy-7)+'px,0)';
+                ring.style.transform = 'translate3d('+(rx-20)+'px,'+(ry-20)+'px,0)';
+                requestAnimationFrame(raf);
+            }
+            raf();
+            const hovers = 'a,button,.work-card,.btn-primary,.nav-cta';
+            document.querySelectorAll(hovers).forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+            });
+        }
+
+        // -- Magnetic CTA spotlight tracking --
+        document.querySelectorAll('.btn-primary, .nav-cta').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const r = btn.getBoundingClientRect();
+                btn.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+                btn.style.setProperty('--my', (e.clientY - r.top) + 'px');
+            });
         });
     })();
     </script>
