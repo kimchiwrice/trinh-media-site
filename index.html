@@ -3,1352 +3,644 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trinh Media — Sean Trinh</title>
-    <meta name="description" content="Websites, ads, and digital marketing for local businesses. Hand-coded sites, Meta ad campaigns, and real results. Sean Trinh — Sacramento, CA.">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+    <title>Trinh Media | Digital Marketing &amp; Web Design — Sacramento, CA</title>
+    <meta name="description" content="Trinh Media builds websites, runs ads, and manages social media for Sacramento businesses. Premium digital marketing that drives real results.">
+    <meta property="og:title" content="Trinh Media | Digital Marketing &amp; Web Design">
+    <meta property="og:description" content="Websites, ads, and social media management for Sacramento businesses.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://trinh-media-site.vercel.app">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+    <!-- ========== DESIGNER AGENT: ALL STYLES ========== -->
+    <style>
+        /* === RESET === */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: #0D1F0D;
+            color: #E5E0D5;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }        img { max-width: 100%; display: block; }
+        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
+        ::selection { background: rgba(166,124,82,0.3); color: #E5E0D5; }
+
+        /* === THEME VARIABLES === */
         :root {
-            --copper: #A67C52;
-            --cream: #E8E4D9;
-            --dark: #0D1F0D;
-            --dark-2: #132613;
-            --dark-3: #1A2E1A;
+            --primary: #0D1F0D;
+            --primary-2: #132613;
+            --primary-3: #1A2E1A;
+            --accent: #A67C52;
+            --gold: #8B7355;
+            --gold-dark: #6B5740;
             --text: #E5E0D5;
             --text-muted: #A8B8A0;
-            --glass: rgba(255, 255, 255, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.09);
+            --cream: #E8E4D9;
+            --glass: rgba(255,255,255,0.04);
+            --glass-border: rgba(255,255,255,0.08);
             --accent-cool: #4A6741;
         }
 
-        html { scroll-behavior: smooth; overflow-y: auto; }
+        /* === SCROLLBAR === */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--primary); }
+        ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-            background: var(--dark);
-            color: var(--text);
-            overflow-x: clip;
-            line-height: 1.6;
-            cursor: none;
-        }
-
-        h1, h2, h3 { font-family: 'Syne', sans-serif; font-weight: 700; line-height: 1.05; }
-
-        a { color: var(--copper); text-decoration: none; transition: all 0.3s ease; cursor: none; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-
-        /* ==================== CUSTOM CURSOR ==================== */
-        .cursor {
-            width: 16px;
-            height: 16px;
-            border: 1.5px solid var(--copper);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10000;
-            transition: width 0.2s, height 0.2s, border-color 0.2s, transform 0.2s;
-            transform: translate(-50%, -50%);
-        }
-
-        .cursor-dot {
-            width: 4px;
-            height: 4px;
-            background: var(--copper);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10001;
-            transform: translate(-50%, -50%);
-        }
-
-        .cursor-glow {
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(166,124,82,0.05), transparent 70%);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 0;
-            transform: translate(-50%, -50%);
-            transition: opacity 0.3s;
-        }
-
-        .cursor.hovering {
-            width: 50px;
-            height: 50px;
-            border-color: var(--copper);
-            background: rgba(166, 124, 82, 0.08);
-        }
-
-        /* ==================== FILM GRAIN ==================== */
-        .grain {
-            position: fixed;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            z-index: 9998;
-            pointer-events: none;
-            opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-            animation: grain 0.4s steps(5) infinite;
-        }
-
-        @keyframes grain {
-            0% { transform: translate(0,0); }
-            20% { transform: translate(-5%,-10%); }
-            40% { transform: translate(3%,-15%); }
-            60% { transform: translate(12%,9%); }
-            80% { transform: translate(-1%,7%); }
-        }
-
-        /* ==================== NAV ==================== */
-        nav {
-            position: fixed;
-            top: 0; width: 100%; z-index: 100;
-            padding: 1.5rem 2rem;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            background: transparent;
-        }
-
-        nav.scrolled {
-            background: rgba(13, 31, 13, 0.92);
+        /* === NAVIGATION === */
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 20px 0;
+            background: rgba(13,31,13,0.85);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
-            padding: 1rem 2rem;
-        }
-
-        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-
+            transition: all 0.4s ease;
+        }        .nav.scrolled { padding: 12px 0; background: rgba(13,31,13,0.95); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+        .nav .container { display: flex; justify-content: space-between; align-items: center; }
         .nav-logo {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--text);
-            letter-spacing: -0.02em;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem; font-weight: 600;
+            color: var(--accent); letter-spacing: 0.5px;
         }
-        .nav-logo span { color: var(--copper); }
-
-        .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
-        .nav-links a { color: var(--text-muted); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a {
+            font-size: 0.875rem; font-weight: 400;
+            color: var(--text-muted); letter-spacing: 0.5px;
+            text-transform: uppercase; position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 1px; background: var(--accent);
+            transition: width 0.3s ease;
+        }
         .nav-links a:hover { color: var(--text); }
-
+        .nav-links a:hover::after { width: 100%; }
         .nav-cta {
-            background: transparent;
-            color: var(--copper) !important;
-            padding: 0.55rem 1.4rem;
-            border: 1px solid rgba(166,124,82,0.4);
-            border-radius: 4px;
-            font-weight: 600;
-            font-size: 0.82rem;
-            transition: all 0.3s ease;
+            padding: 10px 24px; background: var(--accent);
+            color: var(--primary); font-weight: 600; font-size: 0.8rem;
+            letter-spacing: 1px; text-transform: uppercase;
+            border-radius: 2px; transition: all 0.3s ease;
         }
-        .nav-cta:hover { background: var(--copper); color: var(--dark) !important; }
+        .nav-cta:hover { background: var(--cream); transform: translateY(-1px); }
+        /* === HAMBURGER MENU === */
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 101; }
+        .hamburger span { width: 24px; height: 2px; background: var(--text); transition: all 0.3s ease; }
 
-        .mobile-toggle { display: none; background: none; border: none; cursor: none; padding: 0.5rem; }
-        .mobile-toggle span { display: block; width: 22px; height: 1.5px; background: var(--text); margin: 5px 0; }
-
-        .nav-links.mobile-open {
-            display: flex; flex-direction: column; position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: var(--dark); justify-content: center; align-items: center; gap: 2rem; z-index: 200;
-        }
-
-        /* ==================== HERO ==================== */
+        /* === HERO === */
         .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
+            position: relative; min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
             overflow: hidden;
         }
-
-        .hero-content { position: relative; z-index: 2; width: 100%; }
-
-        .hero-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--copper);
-            margin-bottom: 2rem;
-            opacity: 0;
-            animation: fadeUp 0.8s 0.3s forwards;
+        .hero-bg { position: absolute; inset: 0; z-index: 0; }
+        .hero-bg canvas { width: 100%; height: 100%; }
+        .hero-overlay {
+            position: absolute; inset: 0; z-index: 1;
+            background: linear-gradient(180deg, rgba(13,31,13,0.3) 0%, rgba(13,31,13,0.6) 60%, rgba(13,31,13,0.95) 100%);
         }
-
+        .hero-content {
+            position: relative; z-index: 2;
+            text-align: center; max-width: 800px; padding: 0 32px;
+        }
+        .hero-tag {
+            display: inline-block; font-size: 0.75rem; font-weight: 600;
+            letter-spacing: 3px; text-transform: uppercase;
+            color: var(--accent); margin-bottom: 24px;
+            padding: 8px 20px; border: 1px solid rgba(166,124,82,0.3);
+        }
         .hero h1 {
-            font-size: clamp(3.5rem, 8vw, 7rem);
-            color: var(--cream);
-            letter-spacing: -0.04em;
-            margin-bottom: 0;
-            line-height: 1;
-        }
-
-        .hero h1 .line {
-            display: block;
-            overflow: hidden;
-        }
-
-        .hero h1 .line-inner {
-            display: block;
-            opacity: 0;
-            transform: translateY(100%);
-            animation: lineReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .hero h1 .line:nth-child(2) .line-inner { animation-delay: 0.15s; }
-        .hero h1 .line:nth-child(3) .line-inner { animation-delay: 0.3s; }
-
-        @keyframes lineReveal {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero h1 em {
-            font-style: italic;
-            color: var(--copper);
-            font-weight: 800;
-        }
-
-        .hero-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-top: 3rem;
-            opacity: 0;
-            animation: fadeUp 0.8s 0.6s forwards;
-        }
-
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 600; line-height: 1.1;
+            margin-bottom: 24px; color: var(--cream);
+        }        .hero h1 span { color: var(--accent); }
         .hero-sub {
-            font-size: 1rem;
-            color: var(--text-muted);
-            max-width: 400px;
-            line-height: 1.7;
+            font-size: 1.125rem; color: var(--text-muted);
+            max-width: 560px; margin: 0 auto 40px; line-height: 1.7;
         }
+        .hero-cta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
-        .hero-ctas { display: flex; gap: 1rem; }
-
+        /* === BUTTONS === */
+        .btn {
+            display: inline-block; padding: 14px 36px;
+            font-size: 0.8rem; font-weight: 600;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            border-radius: 2px; transition: all 0.3s ease; cursor: pointer;
+        }
         .btn-primary {
-            display: inline-block;
-            background: var(--copper);
-            color: var(--dark);
-            padding: 0.9rem 2.2rem;
-            border-radius: 4px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            letter-spacing: 0.02em;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: none;
-            position: relative;
-            overflow: hidden;
+            background: var(--accent); color: var(--primary); border: none;
         }
-        .btn-primary:hover { background: var(--copper); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(166,124,82,0.2); }
-
+        .btn-primary:hover { background: var(--cream); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(166,124,82,0.3); }
         .btn-outline {
-            display: inline-block;
+            background: transparent; color: var(--text);
             border: 1px solid var(--glass-border);
-            color: var(--text-muted);
-            padding: 0.9rem 2.2rem;
-            border-radius: 4px;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            cursor: none;
         }
-        .btn-outline:hover { border-color: var(--copper); color: var(--copper); }
+        .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
 
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2.5rem; left: 2rem;
-            display: flex; align-items: center; gap: 1rem;
-            color: var(--text-muted);
-            font-size: 0.7rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            z-index: 2;
-            opacity: 0;
-            animation: fadeUp 0.8s 1s forwards;
-        }
-
-        .scroll-line-h {
-            width: 50px; height: 1px;
-            background: linear-gradient(90deg, var(--copper), transparent);
-            animation: scrollPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes scrollPulse {
-            0%, 100% { width: 50px; }
-            50% { width: 30px; }
-        }
-
-        /* ==================== MARQUEE ==================== */
-        .marquee {
-            padding: 1.5rem 0;
-            border-top: 1px solid var(--glass-border);
-            border-bottom: 1px solid var(--glass-border);
-            overflow: hidden;
-            white-space: nowrap;
-            position: relative;
-        }
-
+        /* === MARQUEE === */
+        .marquee-section { padding: 24px 0; border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); overflow: hidden; background: var(--primary-2); }
         .marquee-track {
-            display: inline-flex;
-            animation: marquee 25s linear infinite;
+            display: flex; gap: 48px; animation: marquee 25s linear infinite; width: max-content;
         }
-
-        .marquee-item {
-            font-family: 'Syne', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            padding: 0 2.5rem;
+        .marquee-track span {
+            font-size: 0.8rem; font-weight: 500; letter-spacing: 2px;
+            text-transform: uppercase; color: var(--text-muted); white-space: nowrap;
         }
-
-        .marquee-item .dot {
-            display: inline-block;
-            width: 4px; height: 4px;
-            background: var(--copper);
-            border-radius: 50%;
-            margin-left: 2.5rem;
-            vertical-align: middle;
+        .marquee-track span::before { content: '◆'; margin-right: 48px; color: var(--accent); font-size: 0.5rem; vertical-align: middle; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        /* === SECTION DEFAULTS === */
+        section { padding: 120px 0; }
+        .section-tag {
+            display: inline-block; font-size: 0.7rem; font-weight: 600;
+            letter-spacing: 3px; text-transform: uppercase;
+            color: var(--accent); margin-bottom: 16px;
         }
-
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        /* ==================== ABOUT ==================== */
-        .about { padding: 6rem 0 5rem; position: relative; }
-
-        .about-layout {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 6rem;
-            align-items: start;
-        }
-
-        .about-left { position: sticky; top: 8rem; }
-
-        .section-eyebrow {
-            font-size: 0.72rem;
-            font-weight: 600;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--copper);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .eyebrow-line { width: 30px; height: 1px; background: var(--copper); }
-
-        .about h2 {
-            font-size: clamp(2.2rem, 4vw, 3.2rem);
-            color: var(--cream);
-            letter-spacing: -0.03em;
-            margin-bottom: 2rem;
-        }
-
-        .about p { color: var(--text-muted); font-size: 1rem; line-height: 1.85; margin-bottom: 1.2rem; }
-
-        .about-right { padding-top: 2rem; }
-
-        .stat-row {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-        }
-
-        .stat-block {
-            padding: 2rem 0;
-            border-top: 1px solid var(--glass-border);
-            transition: border-color 0.3s;
-        }
-        .stat-block:hover { border-color: var(--copper); }
-
-        .stat-number {
-            font-family: 'Syne', sans-serif;
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--copper);
-            line-height: 1;
-            margin-bottom: 0.3rem;
-        }
-
-        .stat-label { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
-
-        /* ==================== SERVICES ==================== */
-        .services { padding: 5rem 0; }
-
-        .services-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 4rem;
-        }
-
-        .services-header h2 {
+        .section-title {
+            font-family: 'Playfair Display', serif;
             font-size: clamp(2rem, 4vw, 3rem);
-            color: var(--cream);
-            letter-spacing: -0.03em;
+            font-weight: 600; color: var(--cream);
+            margin-bottom: 20px; line-height: 1.2;
+        }
+        .section-sub {
+            font-size: 1.05rem; color: var(--text-muted);
+            max-width: 560px; line-height: 1.7;
         }
 
-        .services-header p { color: var(--text-muted); font-size: 0.9rem; max-width: 350px; text-align: right; line-height: 1.6; }
-
-        .service-list { display: flex; flex-direction: column; gap: 0; }
-
-        .service-item {
-            display: grid;
-            grid-template-columns: 80px 1fr 1.2fr;
-            gap: 3rem;
-            align-items: start;
-            padding: 3rem 0;
-            border-top: 1px solid var(--glass-border);
-            transition: all 0.4s ease;
-            cursor: none;
+        /* === ABOUT === */
+        .about { background: var(--primary); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-top: 60px; }
+        .about-text p { color: var(--text-muted); margin-bottom: 20px; line-height: 1.8; }
+        .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 40px; }
+        .stat { padding: 24px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 4px; }
+        .stat-number { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; color: var(--accent); }
+        .stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+        /* === SERVICES === */
+        .services { background: var(--primary-2); }
+        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 60px; }
+        .service-card {
+            padding: 40px 32px; background: var(--glass);
+            border: 1px solid var(--glass-border); border-radius: 4px;
+            transition: all 0.4s ease; position: relative; overflow: hidden;
         }
-
-        .service-item:last-child { border-bottom: 1px solid var(--glass-border); }
-
-        .service-item:hover { padding-left: 1.5rem; border-color: rgba(166,124,82,0.3); }
-
-        .service-num {
-            font-family: 'Syne', sans-serif;
-            font-size: 1rem;
-            font-weight: 800;
-            color: var(--copper);
-            opacity: 0.4;
-            padding-top: 0.3rem;
+        .service-card::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 100%; height: 2px; background: var(--accent);
+            transform: scaleX(0); transition: transform 0.4s ease;
         }
-
-        .service-item h3 {
-            font-size: 1.6rem;
-            color: var(--cream);
-            letter-spacing: -0.02em;
-            transition: color 0.3s;
+        .service-card:hover { transform: translateY(-4px); border-color: rgba(166,124,82,0.2); }
+        .service-card:hover::before { transform: scaleX(1); }
+        .service-icon { font-size: 2rem; margin-bottom: 20px; }
+        .service-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem; font-weight: 600;
+            color: var(--cream); margin-bottom: 12px;
         }
+        .service-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; }
 
-        .service-item:hover h3 { color: var(--copper); }
+        /* === PROCESS === */
+        .process { background: var(--primary); }
+        .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin-top: 60px; }
+        .step { text-align: center; padding: 32px 24px; position: relative; }
+        .step-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem; font-weight: 700;
+            color: rgba(166,124,82,0.15); margin-bottom: 16px;
+        }        .step h3 { font-size: 1.1rem; color: var(--cream); margin-bottom: 8px; }
+        .step p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
 
-        .service-item p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
-
-        /* ==================== PORTFOLIO ==================== */
-        .portfolio { padding: 5rem 0; overflow: hidden; }
-
-        .portfolio-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 3rem;
-        }
-
-        .portfolio-header h2 { font-size: clamp(2rem, 4vw, 3rem); color: var(--cream); letter-spacing: -0.03em; }
-
-        .portfolio-scroll {
-            display: flex;
-            gap: 2rem;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            padding-bottom: 2rem;
-            scrollbar-width: none;
-        }
-
-        .portfolio-scroll::-webkit-scrollbar { display: none; }
-
-        .portfolio-item {
-            flex: 0 0 min(70vw, 700px);
-            scroll-snap-align: start;
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-            aspect-ratio: 16/10;
-            background: var(--dark-2);
+        /* === PORTFOLIO === */
+        .portfolio { background: var(--primary-2); }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; margin-top: 60px; }
+        .portfolio-card {
+            position: relative; overflow: hidden; border-radius: 4px;
             border: 1px solid var(--glass-border);
-            transition: all 0.4s ease;
-            cursor: none;
+            aspect-ratio: 16/10; cursor: pointer;
+            background: var(--primary-3);
         }
-
-        .portfolio-item:hover {
-            border-color: var(--copper);
-            box-shadow: 0 20px 60px rgba(166,124,82,0.08);
+        .portfolio-card-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, transparent 40%, rgba(13,31,13,0.95) 100%);
+            display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 32px; transition: all 0.4s ease;
         }
-
-        .portfolio-item canvas, .portfolio-item .t4-slideshow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-
-        .portfolio-info {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            padding: 2.5rem;
-            background: linear-gradient(to top, rgba(13,31,13,0.95) 30%, transparent);
-            z-index: 2;
-        }
-
+        .portfolio-card:hover .portfolio-card-overlay { background: linear-gradient(180deg, transparent 20%, rgba(13,31,13,0.98) 100%); }
+        .portfolio-card h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--cream); margin-bottom: 8px; }
+        .portfolio-card p { font-size: 0.9rem; color: var(--text-muted); }
         .portfolio-tag {
-            font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em;
-            text-transform: uppercase; color: var(--copper); margin-bottom: 0.5rem;
+            display: inline-block; font-size: 0.65rem; padding: 4px 12px;
+            border: 1px solid var(--accent); color: var(--accent);
+            text-transform: uppercase; letter-spacing: 1px;
+            border-radius: 2px; margin-bottom: 12px;
         }
-
-        .portfolio-item h3 { font-size: 2rem; color: var(--cream); margin-bottom: 0.3rem; letter-spacing: -0.02em; }
-        .portfolio-item p { color: var(--text-muted); font-size: 0.88rem; max-width: 500px; }
-
-        .portfolio-placeholder {
-            flex: 0 0 min(35vw, 350px);
-            scroll-snap-align: start;
-            border-radius: 10px;
-            border: 1px dashed var(--glass-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* === CTA === */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-3) 0%, var(--primary) 100%);
             text-align: center;
-            padding: 2rem;
-            aspect-ratio: 16/10;
-        }
-
-        .portfolio-placeholder h3 { font-size: 1.2rem; color: var(--text-muted); font-weight: 500; margin-bottom: 0.3rem; }
-        .portfolio-placeholder p { font-size: 0.8rem; color: rgba(112,107,98,0.5); }
-
-        /* ==================== PROCESS ==================== */
-        .process { padding: 5rem 0; background: var(--dark-2); }
-
-        .process-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0;
-            margin-top: 4rem;
-        }
-
-        .process-step {
-            padding: 2.5rem;
-            border-left: 1px solid var(--glass-border);
-            transition: all 0.4s ease;
-            position: relative;
-        }
-
-        .process-step:first-child { border-left: none; }
-
-        .process-step:hover { background: rgba(166,124,82,0.03); }
-
-        .process-step::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -1px;
-            width: 1px; height: 0;
-            background: var(--copper);
-            transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .process-step:hover::before { height: 100%; }
-
-        .step-num {
-            font-family: 'Syne', sans-serif;
-            font-size: 3rem; font-weight: 800;
-            color: var(--copper); opacity: 0.12;
-            line-height: 1; margin-bottom: 1.5rem;
-        }
-
-        .process-step h3 { font-size: 1.15rem; color: var(--cream); margin-bottom: 0.75rem; letter-spacing: -0.01em; }
-        .process-step p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.65; }
-
-        /* ==================== CTA ==================== */
-        .cta { padding: 6rem 0; text-align: center; position: relative; }
-
-        .cta h2 {
-            font-size: clamp(2.8rem, 5.5vw, 5rem);
-            color: var(--cream);
-            letter-spacing: -0.04em;
-            margin-bottom: 1.5rem;
-        }
-        .cta h2 em { font-style: italic; color: var(--copper); }
-        .cta p { color: var(--text-muted); font-size: 1rem; max-width: 480px; margin: 0 auto 2.5rem; }
-
-        /* ==================== CONTACT ==================== */
-        .contact { padding: 6rem 0; border-top: 1px solid var(--glass-border); }
-
-        .contact-layout {
-            display: grid;
-            grid-template-columns: 1fr 1.3fr;
-            gap: 6rem;
-        }
-
-        .contact h2 { font-size: 2.5rem; color: var(--cream); margin-bottom: 1rem; letter-spacing: -0.03em; }
-        .contact-text { color: var(--text-muted); margin-bottom: 2.5rem; font-size: 1rem; line-height: 1.7; }
-
-        .contact-detail {
-            display: flex; align-items: center; gap: 1rem;
-            margin-bottom: 1rem; color: var(--text-muted); font-size: 0.9rem;
-        }
-        .contact-detail span:first-child { color: var(--copper); font-size: 0.9rem; width: 16px; }
-
-        .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
-
-        .form-input, .form-textarea {
-            background: transparent;
-            border: none;
+            border-top: 1px solid var(--glass-border);
             border-bottom: 1px solid var(--glass-border);
-            padding: 1rem 0;
-            color: var(--text);
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.95rem;
-            transition: border-color 0.3s;
-            outline: none;
-            border-radius: 0;
-            cursor: none;
         }
-        .form-input:focus, .form-textarea:focus { border-color: var(--copper); }
-        .form-textarea { min-height: 100px; resize: none; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .cta-section .section-sub { margin: 0 auto 40px; }
 
-        select.form-input { appearance: auto; background: #0D1F0D; }
-
-        /* ==================== FOOTER ==================== */
-        footer { padding: 4rem 0 3rem; text-align: center; }
-        .footer-logo { font-family: 'Syne'; font-size: 1.1rem; font-weight: 800; color: var(--text); margin-bottom: 0.5rem; letter-spacing: -0.02em; }
-        .footer-logo span { color: var(--copper); }
-        .footer-sub { color: var(--text-muted); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
-
-        /* ==================== HERO IMAGE BG ==================== */
-        .hero-bg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0;
-            background:
-                linear-gradient(135deg, rgba(13,31,13,0.78) 0%, rgba(13,31,13,0.52) 50%, rgba(13,31,13,0.72) 100%),
-                url('images/hero-bg.png') center/cover no-repeat;
-            animation: heroScale 20s ease-in-out infinite alternate;
+        /* === CONTACT === */
+        .contact { background: var(--primary); }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 60px; }
+        .contact-info p { color: var(--text-muted); line-height: 1.8; margin-bottom: 24px; }
+        .contact-detail { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .contact-detail span { color: var(--accent); font-size: 1.1rem; }
+        .contact-detail a { color: var(--text-muted); transition: color 0.3s; }
+        .contact-detail a:hover { color: var(--accent); }
+        .contact-form { display: flex; flex-direction: column; gap: 16px; }
+        .contact-form input, .contact-form textarea {
+            width: 100%; padding: 14px 20px;
+            background: var(--glass); border: 1px solid var(--glass-border);
+            color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.95rem;
+            border-radius: 2px; transition: border-color 0.3s ease; outline: none;
         }
+        .contact-form input:focus, .contact-form textarea:focus { border-color: var(--accent); }
+        .contact-form textarea { resize: vertical; min-height: 140px; }
+        .contact-form input::placeholder, .contact-form textarea::placeholder { color: var(--text-muted); }
+        /* === FOOTER === */
+        .footer {
+            padding: 48px 0; background: var(--primary-2);
+            border-top: 1px solid var(--glass-border);
+        }
+        .footer .container { display: flex; justify-content: space-between; align-items: center; }
+        .footer p { font-size: 0.85rem; color: var(--text-muted); }
+        .footer-links { display: flex; gap: 24px; }
+        .footer-links a { font-size: 0.85rem; color: var(--text-muted); }
+        .footer-links a:hover { color: var(--accent); }
 
-        @keyframes heroScale {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.06); }
-        }
-
-        /* ==================== NICHE SHOWCASE ==================== */
-        .niches { padding: 5rem 0; }
-
-        .niches-header { margin-bottom: 3.5rem; }
-        .niches-header h2 {
-            font-size: clamp(2rem, 4vw, 3rem);
-            color: var(--cream);
-            letter-spacing: -0.03em;
-            margin-top: 1rem;
-        }
-
-        .niche-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 1.2rem;
-        }
-
-        .niche-card {
-            position: relative;
-            aspect-ratio: 3/4;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid var(--glass-border);
-            cursor: default;
-            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
-        }
-
-        .niche-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(166,124,82,0.35);
-        }
-
-        .niche-card img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            filter: saturate(0.9) brightness(0.85);
-        }
-
-        .niche-card:hover img {
-            transform: scale(1.06);
-            filter: saturate(1.05) brightness(0.95);
-        }
-
-        .niche-overlay {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            padding: 1.5rem 1.2rem 1.2rem;
-            background: linear-gradient(to top, rgba(13,31,13,0.92) 40%, transparent);
-        }
-
-        .niche-label {
-            font-size: 0.65rem;
-            font-weight: 600;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: var(--copper);
-            margin-bottom: 0.25rem;
-        }
-
-        .niche-card h3 {
-            font-size: 1rem;
-            color: var(--cream);
-            letter-spacing: -0.01em;
-            font-family: 'Syne', sans-serif;
-            font-weight: 700;
-        }
-
-        @media (max-width: 968px) {
-            .niche-grid { grid-template-columns: repeat(3, 1fr); }
-        }
-        @media (max-width: 600px) {
-            .niche-grid { grid-template-columns: repeat(2, 1fr); }
-            .niche-card:last-child { display: none; }
-        }
-
-        /* ==================== T4 SLIDESHOW ==================== */
-        .t4-slideshow {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            overflow: hidden;
-        }
-
-        .t4-slideshow img {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover;
-            object-position: center 30%;
-            opacity: 0;
-            animation: t4Fade 25s ease-in-out infinite;
-            will-change: opacity, transform, filter;
-            filter: saturate(1.1) contrast(1.05);
-        }
-
-        /* Each image gets a unique cinematic motion — push-in, drift-right, pull-out, pan-left, slow-rise */
-        .t4-slideshow img:nth-child(1) { animation-delay: 0s; animation-name: t4Fade, t4Move1; }
-        .t4-slideshow img:nth-child(2) { animation-delay: 5s; animation-name: t4Fade, t4Move2; }
-        .t4-slideshow img:nth-child(3) { animation-delay: 10s; animation-name: t4Fade, t4Move3; }
-        .t4-slideshow img:nth-child(4) { animation-delay: 15s; animation-name: t4Fade, t4Move4; }
-        .t4-slideshow img:nth-child(5) { animation-delay: 20s; animation-name: t4Fade, t4Move5; }
-
-        @keyframes t4Fade {
-            0% { opacity: 0; filter: saturate(0.6) contrast(1.05) brightness(0.8); }
-            2% { opacity: 1; filter: saturate(1.1) contrast(1.05) brightness(1); }
-            16% { opacity: 1; filter: saturate(1.15) contrast(1.08) brightness(1.02); }
-            20% { opacity: 0; filter: saturate(1.1) contrast(1.05) brightness(0.9); }
-            100% { opacity: 0; }
-        }
-
-        /* Push-in center */
-        @keyframes t4Move1 {
-            0% { transform: scale(1.02); }
-            20% { transform: scale(1.18); }
-            100% { transform: scale(1.18); }
-        }
-        /* Drift right with slight zoom */
-        @keyframes t4Move2 {
-            0% { transform: scale(1.12) translateX(-3%); }
-            20% { transform: scale(1.08) translateX(1%); }
-            100% { transform: scale(1.08) translateX(1%); }
-        }
-        /* Pull-out with tilt */
-        @keyframes t4Move3 {
-            0% { transform: scale(1.2) translateY(-2%); }
-            20% { transform: scale(1.05) translateY(0%); }
-            100% { transform: scale(1.05) translateY(0%); }
-        }
-        /* Pan left slow */
-        @keyframes t4Move4 {
-            0% { transform: scale(1.1) translateX(2%); }
-            20% { transform: scale(1.14) translateX(-2%); }
-            100% { transform: scale(1.14) translateX(-2%); }
-        }
-        /* Slow rise */
-        @keyframes t4Move5 {
-            0% { transform: scale(1.08) translateY(3%); }
-            20% { transform: scale(1.15) translateY(-1%); }
-            100% { transform: scale(1.15) translateY(-1%); }
-        }
-
-        /* Cinematic vignette + warm gradient overlay */
-        .t4-slideshow::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background:
-                radial-gradient(ellipse at center, transparent 40%, rgba(13,31,13,0.5) 100%),
-                linear-gradient(135deg, rgba(166,124,82,0.08), transparent 50%, rgba(74,103,65,0.06));
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        /* Animated light sweep across the card */
-        .t4-slideshow::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%; width: 60%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
-            z-index: 2;
-            pointer-events: none;
-            animation: t4LightSweep 8s ease-in-out infinite;
-        }
-
-        @keyframes t4LightSweep {
-            0% { left: -60%; }
-            50% { left: 120%; }
-            100% { left: 120%; }
-        }
-
-        /* ==================== EMYIES SLIDESHOW ==================== */
-        .emyies-slideshow {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            overflow: hidden;
-        }
-
-        .emyies-slideshow img {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover;
-            object-position: center;
-            opacity: 0;
-            animation: emyiesFade 15s ease-in-out infinite;
-            will-change: opacity, transform;
-            filter: saturate(1.15) contrast(1.05);
-        }
-
-        .emyies-slideshow img:nth-child(1) { animation-delay: 0s; animation-name: emyiesFade, t4Move1; }
-        .emyies-slideshow img:nth-child(2) { animation-delay: 5s; animation-name: emyiesFade, t4Move2; }
-        .emyies-slideshow img:nth-child(3) { animation-delay: 10s; animation-name: emyiesFade, t4Move3; }
-
-        @keyframes emyiesFade {
-            0% { opacity: 0; filter: saturate(0.6) contrast(1.05) brightness(0.8); }
-            3% { opacity: 1; filter: saturate(1.15) contrast(1.05) brightness(1); }
-            28% { opacity: 1; filter: saturate(1.2) contrast(1.08) brightness(1.02); }
-            33% { opacity: 0; filter: saturate(1.1) contrast(1.05) brightness(0.9); }
-            100% { opacity: 0; }
-        }
-
-        .emyies-slideshow::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background:
-                radial-gradient(ellipse at center, transparent 40%, rgba(13,31,13,0.5) 100%),
-                linear-gradient(135deg, rgba(37,99,235,0.08), transparent 50%, rgba(30,41,59,0.06));
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .emyies-slideshow::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%; width: 60%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
-            z-index: 2;
-            pointer-events: none;
-            animation: t4LightSweep 8s ease-in-out infinite;
-        }
-
-        /* ==================== REVEALS ==================== */
-        .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+        /* === REVEAL ANIMATIONS === */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal.visible { opacity: 1; transform: translateY(0); }
-        .reveal-d1 { transition-delay: 0.08s; }
-        .reveal-d2 { transition-delay: 0.16s; }
-        .reveal-d3 { transition-delay: 0.24s; }
-        .reveal-d4 { transition-delay: 0.32s; }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
 
-        /* ==================== RESPONSIVE ==================== */
+        /* === RESPONSIVE === */
         @media (max-width: 968px) {
-            body { cursor: auto; }
-            .cursor, .cursor-dot, .cursor-glow { display: none; }
-            a, .btn-primary, .btn-outline, .form-input, .form-textarea, .service-item, .mobile-toggle { cursor: auto; }
             .nav-links { display: none; }
-            .mobile-toggle { display: block; }
-            .about-layout { grid-template-columns: 1fr; gap: 3rem; }
-            .about-left { position: static; }
-            .services-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-            .services-header p { text-align: left; }
-            .service-item { grid-template-columns: 50px 1fr; }
-            .service-item p { grid-column: 2; }
-            .process-grid { grid-template-columns: repeat(2, 1fr); }
-            .process-step { border-left: none; border-top: 1px solid var(--glass-border); }
-            .process-step:first-child { border-top: none; }
-            .process-step::before { top: -1px; left: 0; width: 0; height: 1px; }
-            .process-step:hover::before { width: 100%; height: 1px; }
-            .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
-            .hero h1 { font-size: clamp(2.5rem, 7vw, 4rem); }
-            .hero-bottom { flex-direction: column; gap: 2rem; }
-            .portfolio-item { flex: 0 0 85vw; }
-            .portfolio-placeholder { flex: 0 0 60vw; }
+            .hamburger { display: flex; }
+            .nav-links.open {
+                display: flex; flex-direction: column;
+                position: fixed; top: 0; right: 0;
+                width: 280px; height: 100vh;
+                background: rgba(13,31,13,0.98);
+                padding: 100px 40px 40px;
+                gap: 24px; backdrop-filter: blur(20px);
+                border-left: 1px solid var(--glass-border);
+            }            .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+            .services-grid { grid-template-columns: 1fr; }
+            .process-steps { grid-template-columns: 1fr 1fr; }
+            .portfolio-grid { grid-template-columns: 1fr; }
         }
-
         @media (max-width: 600px) {
-            .process-grid { grid-template-columns: 1fr; }
-            .form-row { grid-template-columns: 1fr; }
-            .stat-row { grid-template-columns: 1fr; }
-            .service-item { grid-template-columns: 1fr; gap: 0.5rem; }
-            .service-num { display: none; }
+            .process-steps { grid-template-columns: 1fr; }
+            section { padding: 80px 0; }
+            .container { padding: 0 20px; }
         }
     </style>
 </head>
 <body>
-
-    <!-- CUSTOM CURSOR -->
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor-dot" id="cursorDot"></div>
-    <div class="cursor-glow" id="cursorGlow"></div>
-
-    <!-- FILM GRAIN -->
-    <div class="grain"></div>
-
-    <!-- NAV -->
-    <nav id="navbar">
-        <div class="nav-inner">
-            <a href="#" class="nav-logo">TRINH<span>.</span></a>
-            <ul class="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#portfolio">Work</a></li>
-                <li><a href="#process">Process</a></li>
-                <li><a href="#contact" class="nav-cta">Work With Me</a></li>
-            </ul>
-            <button class="mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('mobile-open')" aria-label="Menu">
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="nav" id="nav">
+        <div class="container">
+            <a href="#" class="nav-logo">Trinh Media</a>
+            <div class="nav-links" id="navLinks">
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#process">Process</a>
+                <a href="#work">Work</a>
+                <a href="#contact" class="nav-cta">Get In Touch</a>
+            </div>
+            <div class="hamburger" id="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
                 <span></span><span></span><span></span>
-            </button>
+            </div>
         </div>
     </nav>
 
-    <!-- HERO -->
-    <section class="hero">
+    <!-- ========== HERO ========== -->
+    <section class="hero" id="hero">
         <div class="hero-bg" id="hero-3d"></div>
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-label">Sean Trinh — Sacramento, CA</div>
-                <h1>
-                    <span class="line"><span class="line-inner">I help local brands</span></span>
-                    <span class="line"><span class="line-inner">get online, get seen,</span></span>
-                    <span class="line"><span class="line-inner">and <em>get customers</em></span></span>
-                </h1>
-                <div class="hero-bottom">
-                    <p class="hero-sub">Websites, Meta ads, and social media — built and managed by someone who actually runs a business too.</p>
-                    <div class="hero-ctas">
-                        <a href="#portfolio" class="btn-primary magnetic">See My Work</a>
-                        <a href="#contact" class="btn-outline magnetic">Let's Talk</a>
-                    </div>
-                </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-tag">Sacramento Digital Marketing</div>
+            <h1>Your Brand Deserves<br>to <span>Stand Out</span></h1>
+            <p class="hero-sub">We build websites, run ads, and manage social media for Sacramento businesses that refuse to blend in.</p>
+            <div class="hero-cta">
+                <a href="#work" class="btn btn-primary">See Our Work</a>
+                <a href="#contact" class="btn btn-outline">Start a Project</a>
             </div>
         </div>
-        <div class="scroll-indicator">
-            <div class="scroll-line-h"></div>
-            <span>Scroll</span>
-        </div>
     </section>
-
-    <!-- MARQUEE -->
-    <div class="marquee">
+    <!-- ========== MARQUEE ========== -->
+    <div class="marquee-section">
         <div class="marquee-track">
-            <span class="marquee-item">Custom Websites <span class="dot"></span></span>
-            <span class="marquee-item">Meta + Instagram Ads <span class="dot"></span></span>
-            <span class="marquee-item">Social Media Management <span class="dot"></span></span>
-            <span class="marquee-item">Online Ordering Systems <span class="dot"></span></span>
-            <span class="marquee-item">Hand-Coded <span class="dot"></span></span>
-            <span class="marquee-item">Sacramento CA <span class="dot"></span></span>
-            <span class="marquee-item">Real Results <span class="dot"></span></span>
-            <span class="marquee-item">Local Business Focused <span class="dot"></span></span>
-            <!-- Duplicate for seamless loop -->
-            <span class="marquee-item">Custom Websites <span class="dot"></span></span>
-            <span class="marquee-item">Meta + Instagram Ads <span class="dot"></span></span>
-            <span class="marquee-item">Social Media Management <span class="dot"></span></span>
-            <span class="marquee-item">Online Ordering Systems <span class="dot"></span></span>
-            <span class="marquee-item">Hand-Coded <span class="dot"></span></span>
-            <span class="marquee-item">Sacramento CA <span class="dot"></span></span>
-            <span class="marquee-item">Real Results <span class="dot"></span></span>
-            <span class="marquee-item">Local Business Focused <span class="dot"></span></span>
+            <span>Web Design</span><span>Social Media</span><span>Paid Ads</span>
+            <span>Brand Strategy</span><span>SEO</span><span>Content Creation</span>
+            <span>Local Marketing</span><span>Analytics</span>
+            <span>Web Design</span><span>Social Media</span><span>Paid Ads</span>
+            <span>Brand Strategy</span><span>SEO</span><span>Content Creation</span>
+            <span>Local Marketing</span><span>Analytics</span>
         </div>
     </div>
 
-    <!-- ABOUT -->
+    <!-- ========== ABOUT ========== -->
     <section class="about" id="about">
         <div class="container">
-            <div class="about-layout">
-                <div class="about-left reveal">
-                    <div class="section-eyebrow"><span class="eyebrow-line"></span> About</div>
-                    <h2>Business owner first.<br>Your digital guy second.</h2>
-                    <p>I'm Sean Trinh. I run T4 Tea For U in Folsom, manage its marketing, and built everything digital from the ground up — the website, the online ordering, the ad campaigns. Trinh Media is how I do the same thing for other local businesses.</p>
-                    <p>I'm not an agency with a sales team and a markup. I'm one person who actually runs a business, so I know what matters: more customers, less wasted money, and a brand that looks like you take it seriously.</p>
+            <div class="reveal">
+                <span class="section-tag">About</span>
+                <h2 class="section-title">Built by an Operator,<br>Not an Agency</h2>
+            </div>
+            <div class="about-grid">
+                <div class="about-text reveal reveal-delay-1">
+                    <p>I'm Sean Trinh — a multi-venture operator out of Sacramento. I run a boba shop, trade markets, and build digital systems for local businesses that want real results, not fancy decks.</p>
+                    <p>Trinh Media exists because I got tired of watching talented business owners get ignored online. Your food is fire, your service is solid, your shop has a vibe — but nobody can find you. That's the problem I fix.</p>
+                    <p>No retainers you can't cancel. No jargon. Just work that moves the needle.</p>
                 </div>
-                <div class="about-right reveal reveal-d1">
-                    <div class="stat-row">
-                        <div class="stat-block">
-                            <div class="stat-number">100%</div>
-                            <div class="stat-label">Hand-Coded</div>
-                        </div>
-                        <div class="stat-block">
-                            <div class="stat-number">0</div>
-                            <div class="stat-label">Templates Used</div>
-                        </div>
-                        <div class="stat-block">
-                            <div class="stat-number">&lt;2s</div>
-                            <div class="stat-label">Load Speed</div>
-                        </div>
-                        <div class="stat-block">
-                            <div class="stat-number">Meta</div>
-                            <div class="stat-label">Ad Certified</div>
-                        </div>
-                    </div>
+                <div class="about-stats reveal reveal-delay-2">
+                    <div class="stat"><div class="stat-number">50+</div><div class="stat-label">Websites Built</div></div>
+                    <div class="stat"><div class="stat-number">3x</div><div class="stat-label">Avg. Traffic Increase</div></div>
+                    <div class="stat"><div class="stat-number">24hr</div><div class="stat-label">Turnaround Time</div></div>
+                    <div class="stat"><div class="stat-number">100%</div><div class="stat-label">Sacramento Based</div></div>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- SERVICES -->
+    <!-- ========== SERVICES ========== -->
     <section class="services" id="services">
         <div class="container">
-            <div class="services-header reveal">
-                <div>
-                    <div class="section-eyebrow"><span class="eyebrow-line"></span> Services</div>
-                    <h2>What I do.</h2>
-                </div>
-                <p>Everything your business needs to look good online and actually get found. One person, no runaround.</p>
+            <div class="reveal">
+                <span class="section-tag">Services</span>
+                <h2 class="section-title">Everything Your Business<br>Needs Online</h2>
+                <p class="section-sub">Three services. One operator. No middlemen.</p>
             </div>
-            <div class="service-list">
-                <div class="service-item reveal">
-                    <div class="service-num">01</div>
-                    <h3>Custom Websites</h3>
-                    <p>Hand-coded from scratch — no WordPress, no Squarespace, no templates. Fast, mobile-first sites that actually represent your brand. Let's talk about yours.</p>
+            <div class="services-grid">
+                <div class="service-card reveal reveal-delay-1">
+                    <div class="service-icon">&#9672;</div>
+                    <h3>Web Design &amp; Development</h3>
+                    <p>Premium, hand-built websites that load fast, look cinematic, and convert visitors into customers. No templates. No WordPress themes.</p>
                 </div>
-                <div class="service-item reveal reveal-d1">
-                    <div class="service-num">02</div>
-                    <h3>Meta + Instagram Ads</h3>
-                    <p>Targeted ad campaigns on Facebook and Instagram that bring real local customers through your door. Strategy, creative, targeting, and reporting — all handled.</p>
+                <div class="service-card reveal reveal-delay-2">
+                    <div class="service-icon">&#9670;</div>
+                    <h3>Paid Ads &amp; SEO</h3>
+                    <p>Google Ads, Meta Ads, and local SEO that put your business in front of the right people at the right time. Every dollar tracked.</p>
                 </div>
-                <div class="service-item reveal reveal-d2">
-                    <div class="service-num">03</div>
-                    <h3>Online Ordering Systems</h3>
-                    <p>Full menu and cart built into your website. DoorDash, Grubhub, Clover integration. Customers order directly from you — not a third-party app taking 30%.</p>
-                </div>
-                <div class="service-item reveal reveal-d3">
-                    <div class="service-num">04</div>
+                <div class="service-card reveal reveal-delay-3">
+                    <div class="service-icon">&#9671;</div>
                     <h3>Social Media Management</h3>
-                    <p>Consistent content, real engagement, and a feed that makes your brand look alive. I handle the posting so you can handle the business.</p>
-                </div>
-                <div class="service-item reveal reveal-d4">
-                    <div class="service-num">05</div>
-                    <h3>Hosting + Maintenance</h3>
-                    <p>Global CDN hosting, updates, and ongoing support. Your site stays fast, secure, and always live. I don't build it and disappear.</p>
+                    <p>Content creation, scheduling, and engagement that builds your brand without you lifting a finger. We handle the feed so you can handle the floor.</p>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- NICHE SHOWCASE -->
-    <section class="niches">
-        <div class="container">
-            <div class="niches-header reveal">
-                <div class="section-eyebrow"><span class="eyebrow-line"></span> Who I Work With</div>
-                <h2>Built for local businesses<br>that want to stand out.</h2>
-            </div>
-            <div class="niche-grid">
-                <div class="niche-card reveal">
-                    <img src="images/niche-restaurant.png" alt="Restaurant & Food" loading="lazy">
-                    <div class="niche-overlay">
-                        <div class="niche-label">Niche</div>
-                        <h3>Food & Drink</h3>
-                    </div>
-                </div>
-                <div class="niche-card reveal reveal-d1">
-                    <img src="images/niche-retail.png" alt="Retail" loading="lazy">
-                    <div class="niche-overlay">
-                        <div class="niche-label">Niche</div>
-                        <h3>Retail</h3>
-                    </div>
-                </div>
-                <div class="niche-card reveal reveal-d2">
-                    <img src="images/niche-professional.png" alt="Professional Services" loading="lazy">
-                    <div class="niche-overlay">
-                        <div class="niche-label">Niche</div>
-                        <h3>Professional Services</h3>
-                    </div>
-                </div>
-                <div class="niche-card reveal reveal-d3">
-                    <img src="images/niche-creative.png" alt="Creative" loading="lazy">
-                    <div class="niche-overlay">
-                        <div class="niche-label">Niche</div>
-                        <h3>Creative Studios</h3>
-                    </div>
-                </div>
-                <div class="niche-card reveal reveal-d4">
-                    <img src="images/niche-wellness.png" alt="Wellness" loading="lazy">
-                    <div class="niche-overlay">
-                        <div class="niche-label">Niche</div>
-                        <h3>Health & Wellness</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- PORTFOLIO -->
-    <section class="portfolio" id="portfolio">
-        <div class="container">
-            <div class="portfolio-header reveal">
-                <div>
-                    <div class="section-eyebrow"><span class="eyebrow-line"></span> Work</div>
-                    <h2>Selected projects.</h2>
-                </div>
-            </div>
-        </div>
-        <div class="portfolio-scroll" style="padding-left: max(2rem, calc((100vw - 1200px)/2 + 2rem));">
-            <a href="https://t4-folsom.vercel.app" target="_blank" class="portfolio-item reveal">
-                <div class="t4-slideshow">
-                    <img src="https://t4-folsom.vercel.app/images/2H0A1219.jpg" alt="Jasmine Milk Tea" loading="lazy">
-                    <img src="https://t4-folsom.vercel.app/images/DSC00290.jpg" alt="Brown Sugar Coffee Latte" loading="lazy">
-                    <img src="https://t4-folsom.vercel.app/images/DSC09328-HDR.jpg" alt="Green Thai Milk Tea" loading="lazy">
-                    <img src="https://t4-folsom.vercel.app/images/2H0A1226.jpg" alt="Honey Peach Royal Tea" loading="lazy">
-                    <img src="https://t4-folsom.vercel.app/images/2H0A3400.jpg" alt="Passion Fruit Smoothie" loading="lazy">
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-tag">Restaurant + Online Ordering</div>
-                    <h3>T4 Tea For U</h3>
-                    <p>Full cinematic site with 88+ item ordering system, delivery integration, cart — DoorDash, Grubhub, Clover connected.</p>
-                </div>
-            </a>
-            <a href="https://emyies-shop.vercel.app" target="_blank" class="portfolio-item reveal reveal-d1">
-                <div class="emyies-slideshow">
-                    <img src="images/emyies-hero.png" alt="Emyies Shop Koi Fish" loading="lazy">
-                    <img src="images/emyies-about.png" alt="Emyies Shop Koi Art" loading="lazy">
-                    <img src="images/emyies-cta.png" alt="Emyies Shop Koi Heart" loading="lazy">
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-tag">E-Commerce + Brand Website</div>
-                    <h3>Emyies Shop</h3>
-                    <p>Handcrafted wire jewelry brand. Custom site with AI-generated koi imagery, Shopify integration, cinematic scroll design.</p>
-                </div>
-            </a>
-            <div class="portfolio-placeholder reveal reveal-d2">
-                <div>
-                    <h3>Your business?</h3>
-                    <p>Let's talk</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- PROCESS -->
+    <!-- ========== PROCESS ========== -->
     <section class="process" id="process">
         <div class="container">
-            <div class="section-eyebrow reveal"><span class="eyebrow-line"></span> Process</div>
-            <h2 class="section-title reveal" style="font-size:clamp(2rem,4vw,3rem);color:var(--cream);letter-spacing:-0.03em;margin-bottom:0;">Simple. No runaround.</h2>
-            <div class="process-grid">
-                <div class="process-step reveal">
-                    <div class="step-num">01</div>
-                    <h3>Talk</h3>
-                    <p>Tell me about your business — what's working, what's not, and where you want to grow. Free consultation, no pressure.</p>
+            <div class="reveal" style="text-align:center;">
+                <span class="section-tag">How It Works</span>
+                <h2 class="section-title">Four Steps. That's It.</h2>
+            </div>
+            <div class="process-steps">
+                <div class="step reveal reveal-delay-1">
+                    <div class="step-number">01</div>
+                    <h3>Discovery Call</h3>
+                    <p>15 minutes. You tell me what you need. I tell you exactly what I'll build and what it costs.</p>
                 </div>
-                <div class="process-step reveal reveal-d1">
-                    <div class="step-num">02</div>
-                    <h3>Plan</h3>
-                    <p>I put together a clear game plan — whether that's a site build, an ad strategy, or both. You see exactly what you're getting before we start.</p>
+                <div class="step reveal reveal-delay-1">
+                    <div class="step-number">02</div>
+                    <h3>Build</h3>
+                    <p>I build your site and campaigns using AI-powered tools that let me move at startup speed.</p>
                 </div>
-                <div class="process-step reveal reveal-d2">
-                    <div class="step-num">03</div>
-                    <h3>Execute</h3>
-                    <p>I build it, launch it, and run it. Sites go live fast. Ad campaigns start bringing traffic. You stay in the loop the whole time.</p>
+                <div class="step reveal reveal-delay-2">
+                    <div class="step-number">03</div>
+                    <h3>Review</h3>
+                    <p>You see a working prototype within 24 hours. We refine until it's exactly right.</p>
                 </div>
-                <div class="process-step reveal reveal-d3">
-                    <div class="step-num">04</div>
-                    <h3>Grow</h3>
-                    <p>This isn't a one-and-done thing. I monitor your ads, keep your site updated, and adjust as your business evolves.</p>
+                <div class="step reveal reveal-delay-3">
+                    <div class="step-number">04</div>
+                    <h3>Launch</h3>
+                    <p>Site goes live. Ads go on. Analytics start flowing. You start seeing results.</p>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- CTA -->
-    <section class="cta">
-        <div class="container reveal">
-            <h2>Ready to stop blending in<br>with <em>everyone else?</em></h2>
-            <p>Whether you need a website, ads that actually work, or someone to handle your social media — I keep it simple and I get it done.</p>
-            <a href="#contact" class="btn-primary magnetic">Let's Work Together</a>
+    <!-- ========== PORTFOLIO ========== -->
+    <section class="portfolio" id="work">
+        <div class="container">
+            <div class="reveal">
+                <span class="section-tag">Portfolio</span>
+                <h2 class="section-title">Recent Work</h2>
+                <p class="section-sub">Real projects. Real businesses. Real results.</p>
+            </div>
+            <div class="portfolio-grid">
+                <div class="portfolio-card reveal reveal-delay-1">
+                    <div class="portfolio-card-overlay">
+                        <span class="portfolio-tag">Web Design</span>
+                        <h3>T4 Tea For U</h3>
+                        <p>Premium boba shop website — cinematic imagery, menu showcase, and location finder for the Folsom/Sacramento area.</p>
+                    </div>
+                </div>
+                <div class="portfolio-card reveal reveal-delay-2">
+                    <div class="portfolio-card-overlay">
+                        <span class="portfolio-tag">Full Service</span>
+                        <h3>Trinh Media</h3>
+                        <p>Our own brand site — built with the same AI-powered pipeline we use for every client. Proof of process.</p>
+                    </div>
+                </div>
+                <a href="https://paws-and-co-eta.vercel.app" target="_blank" class="portfolio-card reveal reveal-delay-1" style="grid-column: span 2;">
+                    <div style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=900&q=80') center/cover;"></div>
+                    <div class="portfolio-card-overlay">
+                        <span class="portfolio-tag">Web Design + 3D</span>
+                        <h3>Paws &amp; Co Pet Shop</h3>
+                        <p>Full-service pet shop site with cinematic video hero, 4D depth parallax gallery, Three.js animated orbs, and scroll-reveal animations. Live on Vercel.</p>
+                    </div>
+                </a>
+            </div>
         </div>
     </section>
 
-    <!-- CONTACT -->
+    <!-- ========== CTA ========== -->
+    <section class="cta-section" id="cta">
+        <div class="container reveal">
+            <span class="section-tag">Ready?</span>
+            <h2 class="section-title">Let's Build Something<br>Your Customers Remember</h2>
+            <p class="section-sub">Most Sacramento businesses are invisible online. Don't be one of them.</p>
+            <a href="#contact" class="btn btn-primary">Start Your Project</a>
+        </div>
+    </section>
+    <!-- ========== CONTACT ========== -->
     <section class="contact" id="contact">
         <div class="container">
-            <div class="contact-layout">
-                <div class="reveal">
-                    <h2>Let's talk.</h2>
-                    <p class="contact-text">Tell me a little about your business and what you're looking for. No commitment — just a conversation to see if I can help.</p>
-                    <div class="contact-detail"><span>@</span><span>trinhmedia.sean@gmail.com</span></div>
-                    <div class="contact-detail"><span>&#9679;</span><span>Sacramento, CA</span></div>
-                </div>
-                <form class="contact-form reveal reveal-d1" onsubmit="handleSubmit(event)">
-                    <div class="form-row">
-                        <input type="text" class="form-input" placeholder="Name" required>
-                        <input type="email" class="form-input" placeholder="Email" required>
+            <div class="reveal">
+                <span class="section-tag">Contact</span>
+                <h2 class="section-title">Get In Touch</h2>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info reveal reveal-delay-1">
+                    <p>Whether you need a full website, ad campaigns, or social media management — the first step is the same. Reach out. I'll respond within 24 hours.</p>
+                    <div class="contact-detail">
+                        <span>&#9993;</span>
+                        <a href="mailto:sean@trinh.media">sean@trinh.media</a>
                     </div>
-                    <input type="text" class="form-input" placeholder="Business name">
-                    <select class="form-input">
-                        <option value="" disabled selected>What are you looking for?</option>
-                        <option>New Website</option>
-                        <option>Website Redesign</option>
-                        <option>Meta / Instagram Ads</option>
-                        <option>Social Media Management</option>
-                        <option>Online Ordering System</option>
-                        <option>Full Package (Site + Ads + Social)</option>
-                        <option>Something Else</option>
-                    </select>
-                    <textarea class="form-textarea" placeholder="Tell me about your project..."></textarea>
-                    <button type="submit" class="btn-primary magnetic" style="align-self:flex-start;">Send Message</button>
+                    <div class="contact-detail">
+                        <span>&#9906;</span>
+                        <a href="#">Sacramento, CA</a>
+                    </div>
+                </div>
+                <form class="contact-form reveal reveal-delay-2" onsubmit="event.preventDefault(); this.innerHTML='<p style=\'color:var(--accent);padding:40px;text-align:center;\'>Message sent. I\'ll be in touch within 24 hours.</p>';">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <input type="text" name="business" placeholder="Business Name">
+                    <textarea name="message" placeholder="Tell me about your project..." required></textarea>
+                    <button type="submit" class="btn btn-primary" style="border:none;cursor:pointer;width:100%;">Send Message</button>
                 </form>
             </div>
         </div>
     </section>
-
-    <!-- FOOTER -->
-    <footer>
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
         <div class="container">
-            <div class="footer-logo">TRINH<span>.</span></div>
-            <p class="footer-sub">Websites, ads, and digital marketing for Sacramento businesses</p>
+            <p>&copy; 2026 Trinh Media. Sacramento, CA. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#services">Services</a>
+                <a href="#work">Work</a>
+                <a href="#contact">Contact</a>
+            </div>
         </div>
     </footer>
-
+    <!-- ========== ANIMATOR AGENT: ALL SCRIPTS ========== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-    // ==================== BULLETPROOF REVEAL FALLBACK ====================
-    // Runs immediately — forces all .reveal elements visible after 1.5s no matter what
-    document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(function() {
-            document.querySelectorAll('.reveal').forEach(function(el) {
-                el.classList.add('visible');
-            });
-        }, 1500);
-    });
-
-    // ==================== REVEALS (IntersectionObserver) ====================
-    // Runs independently at top-level so no other code can kill it
+    // === THREE.JS HERO — CINEMATIC COPPER & GREEN SPHERES ===
     (function() {
-        try {
-            var obs = new IntersectionObserver(function(entries) {
-                entries.forEach(function(e) {
-                    if (e.isIntersecting) e.target.classList.add('visible');
-                });
-            }, { threshold: 0.12 });
-            document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
-        } catch(err) {
-            // Observer failed — fallback already scheduled above
+        const container = document.getElementById('hero-3d');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x0D1F0D, 0.015);
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 0, 30);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.2;
+        container.appendChild(renderer.domElement);
+
+        // Lighting — cinematic 3-point
+        const keyLight = new THREE.DirectionalLight(0xA67C52, 1.5);
+        keyLight.position.set(5, 8, 5);
+        scene.add(keyLight);
+
+        const fillLight = new THREE.DirectionalLight(0x4A6741, 0.6);
+        fillLight.position.set(-5, 3, 3);
+        scene.add(fillLight);
+
+        const rimLight = new THREE.DirectionalLight(0xE8E4D9, 0.8);
+        rimLight.position.set(0, -5, -5);
+        scene.add(rimLight);
+        scene.add(new THREE.AmbientLight(0x0D1F0D, 0.4));
+
+        // Materials — solid, premium, NO wireframe
+        const copperMat = new THREE.MeshPhongMaterial({
+            color: 0xA67C52, specular: 0xE8E4D9, shininess: 90, transparent: true, opacity: 0.85
+        });
+        const greenMat = new THREE.MeshPhongMaterial({
+            color: 0x4A6741, specular: 0x8B7355, shininess: 60, transparent: true, opacity: 0.7
+        });
+        const goldMat = new THREE.MeshPhongMaterial({
+            color: 0x8B7355, specular: 0xE8E4D9, shininess: 120, transparent: true, opacity: 0.6
+        });
+
+        // Create floating spheres
+        const spheres = [];
+        const geometries = [
+            new THREE.SphereGeometry(3, 64, 64),
+            new THREE.SphereGeometry(2, 48, 48),
+            new THREE.SphereGeometry(1.5, 48, 48),
+            new THREE.SphereGeometry(4, 64, 64),
+            new THREE.SphereGeometry(1, 32, 32),
+            new THREE.SphereGeometry(2.5, 48, 48),
+            new THREE.SphereGeometry(0.8, 32, 32),
+        ];
+        const materials = [copperMat, greenMat, goldMat, greenMat, copperMat, goldMat, copperMat];
+        const positions = [
+            [-8, 2, -5], [6, -3, -8], [10, 5, -12], [-12, -4, -10],
+            [3, 6, -6], [-5, -6, -15], [8, -1, -3]
+        ];
+        geometries.forEach((geo, i) => {
+            const mesh = new THREE.Mesh(geo, materials[i]);
+            mesh.position.set(positions[i][0], positions[i][1], positions[i][2]);
+            mesh.userData = {
+                baseY: positions[i][1],
+                speed: 0.3 + Math.random() * 0.4,
+                amplitude: 0.8 + Math.random() * 1.2,
+                rotSpeed: (Math.random() - 0.5) * 0.005
+            };
+            scene.add(mesh);
+            spheres.push(mesh);
+        });
+
+        // Mouse tracking for parallax
+        let mouseX = 0, mouseY = 0;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+        });
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            const t = Date.now() * 0.001;
+
+            spheres.forEach((s) => {
+                s.position.y = s.userData.baseY + Math.sin(t * s.userData.speed) * s.userData.amplitude;
+                s.rotation.y += s.userData.rotSpeed;
+                s.rotation.x += s.userData.rotSpeed * 0.5;
+            });
+            // Smooth camera follow mouse
+            camera.position.x += (mouseX * 3 - camera.position.x) * 0.02;
+            camera.position.y += (-mouseY * 2 - camera.position.y) * 0.02;
+            camera.lookAt(0, 0, 0);
+
+            renderer.render(scene, camera);
         }
+        animate();
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
     })();
 
-    // ==================== CUSTOM CURSOR ====================
-    try {
-        const cursor = document.getElementById('cursor');
-        const dot = document.getElementById('cursorDot');
-        const glow = document.getElementById('cursorGlow');
-        if (cursor && dot && glow) {
-            let cx = 0, cy = 0, dx = 0, dy = 0;
-
-            document.addEventListener('mousemove', e => {
-                dx = e.clientX; dy = e.clientY;
-                dot.style.left = dx + 'px';
-                dot.style.top = dy + 'px';
-                glow.style.left = dx + 'px';
-                glow.style.top = dy + 'px';
+    // === SCROLL REVEAL OBSERVER ===
+    (function() {
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
             });
-
-            function animateCursor() {
-                cx += (dx - cx) * 0.12;
-                cy += (dy - cy) * 0.12;
-                cursor.style.left = cx + 'px';
-                cursor.style.top = cy + 'px';
-                requestAnimationFrame(animateCursor);
-            }
-            animateCursor();
-
-            // Hover states
-            document.querySelectorAll('a, button, .service-item, .portfolio-item, .process-step').forEach(el => {
-                el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
-                el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
-            });
-        }
-    } catch(err) { /* cursor failed — non-critical */ }
-
-    // ==================== MAGNETIC BUTTONS ====================
-    try {
-        document.querySelectorAll('.magnetic').forEach(btn => {
-            btn.addEventListener('mousemove', e => {
-                const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
-            });
-            btn.addEventListener('mouseleave', () => {
-                btn.style.transform = '';
-            });
-        });
-    } catch(err) { /* magnetic failed — non-critical */ }
-
-    // ==================== NAV ====================
-    try {
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        reveals.forEach(el => observer.observe(el));
+    })();
+    // === NAV SCROLL EFFECT ===
+    (function() {
+        const nav = document.getElementById('nav');
         window.addEventListener('scroll', () => {
-            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+            if (window.scrollY > 60) { nav.classList.add('scrolled'); }
+            else { nav.classList.remove('scrolled'); }
         });
-    } catch(err) {}
-
-    // ==================== COUNTER ====================
-    try {
-        const cObs = new IntersectionObserver(entries => {
-            entries.forEach(e => {
-                if (!e.isIntersecting) return;
-                const el = e.target, val = parseInt(el.dataset.count);
-                if (isNaN(val)) return;
-                let cur = 0;
-                const iv = setInterval(() => { cur++; if (cur >= val) { cur = val; clearInterval(iv); } el.textContent = cur; }, 80);
-                cObs.unobserve(el);
-            });
-        }, { threshold: 0.5 });
-        document.querySelectorAll('[data-count]').forEach(el => cObs.observe(el));
-    } catch(err) {}
-
-    // ==================== FORM ====================
-    function handleSubmit(e) {
-        e.preventDefault();
-        const form = e.target;
-        const inputs = form.querySelectorAll('input, select, textarea');
-        const name = inputs[0].value.trim();
-        const email = inputs[1].value.trim();
-        const business = inputs[2].value.trim();
-        const service = inputs[3].value.trim();
-        const message = inputs[4].value.trim();
-        const body = [
-            'Name: ' + name,
-            'Email: ' + email,
-            'Business: ' + (business || 'N/A'),
-            'Service: ' + (service || 'N/A'),
-            '',
-            'Message:',
-            message
-        ].join('%0A');
-        const subject = encodeURIComponent('New Lead from Trinh Media');
-        window.location.href = 'mailto:trinhmedia.sean@gmail.com?subject=' + subject + '&body=' + body;
-        const b = form.querySelector('button[type="submit"]');
-        b.textContent = 'Opening email...'; b.style.background = '#4CAF50';
-        setTimeout(() => { b.textContent = 'Send Message'; b.style.background = ''; form.reset(); }, 3000);
-    }
-
-    // ==================== SMOOTH SCROLL ====================
-    try {
-        document.querySelectorAll('a[href^="#"]').forEach(a => {
-            a.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector('.nav-links').classList.remove('mobile-open');
-                const t = document.querySelector(this.getAttribute('href'));
-                if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        });
-    } catch(err) {}
+    })();
     </script>
+
 </body>
 </html>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
