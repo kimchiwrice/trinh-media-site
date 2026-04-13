@@ -789,6 +789,30 @@
             .sig-bar, .hero-aurora, .hero-aurora-2, .word-rotator .word.active { animation: none !important; }
             .hero-aurora, .hero-aurora-2 { opacity: 0.25; }
         }
+        
+        /* === LIVE-FETCH SKELETONS === */
+        .work-skeleton {
+            background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.06));
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 6px; min-height: 360px;
+            position: relative; overflow: hidden;
+        }
+        .work-skeleton::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            animation: shimmer 1.6s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .data-meta {
+            font-size: 0.68rem; color: var(--text-muted);
+            letter-spacing: 2px; text-transform: uppercase;
+            text-align: center; margin-top: 32px; opacity: 0.55;
+        }
+        .data-meta strong { color: var(--text); font-weight: 500; }
+
         /* === FINESSE LAYER END === */
 
     </style>
@@ -877,10 +901,10 @@
                     <p>No retainers you can't cancel. No jargon. Just work that moves the needle.</p>
                 </div>
                 <div class="about-stats reveal reveal-delay-2">
-                    <div class="stat"><div class="stat-number">50+</div><div class="stat-label">Websites Built</div></div>
-                    <div class="stat"><div class="stat-number">3x</div><div class="stat-label">Avg. Traffic Increase</div></div>
-                    <div class="stat"><div class="stat-number">24hr</div><div class="stat-label">Turnaround Time</div></div>
-                    <div class="stat"><div class="stat-number">100%</div><div class="stat-label">Sacramento Based</div></div>
+                    <div class="stat"><div class="stat-number">4</div><div class="stat-label">Live Sites Shipped</div></div>
+                    <div class="stat"><div class="stat-number">3x</div><div class="stat-label">Retainers Required</div></div>
+                    <div class="stat"><div class="stat-number">< 7d</div><div class="stat-label">Typical Turnaround</div></div>
+                    <div class="stat"><div class="stat-number">100%</div><div class="stat-label">Code You Own</div></div>
                 </div>
             </div>
         </div>
@@ -955,70 +979,11 @@
                 <a href="#contact" class="portfolio-head-cta">Start your project <span>&rarr;</span></a>
             </div>
 
-            <div class="work-grid">
-                <!-- T4 Tea For U -->
-                <a href="https://t4-folsom.vercel.app" target="_blank" rel="noopener" class="work-card reveal reveal-delay-1">
-                    <div class="work-thumb">
-                        <img src="https://t4-folsom.vercel.app/images/2H0A1219.jpg" alt="T4 Tea For U" loading="lazy">
-                    </div>
-                    <div class="work-meta">
-                        <div class="work-row">
-                            <span class="work-tag">Restaurant · Web</span>
-                            <span class="work-live"><span class="dot"></span>Live</span>
-                        </div>
-                        <h3>T4 Tea For U</h3>
-                        <p>Premium boba shop site with cinematic food photography, menu showcase, and Folsom location finder.</p>
-                        <span class="work-link">t4-folsom.vercel.app &nbsp;&rarr;</span>
-                    </div>
-                </a>
-
-                <!-- Paws & Co -->
-                <a href="https://paws-and-co-eta.vercel.app" target="_blank" rel="noopener" class="work-card reveal reveal-delay-2">
-                    <div class="work-thumb">
-                        <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=900&q=80" alt="Paws & Co" loading="lazy">
-                    </div>
-                    <div class="work-meta">
-                        <div class="work-row">
-                            <span class="work-tag">Pet Retail · 3D</span>
-                            <span class="work-live"><span class="dot"></span>Live</span>
-                        </div>
-                        <h3>Paws &amp; Co Pet Shop</h3>
-                        <p>Full-service pet shop with cinematic video hero, parallax depth gallery, and Three.js orb animations.</p>
-                        <span class="work-link">paws-and-co-eta.vercel.app &nbsp;&rarr;</span>
-                    </div>
-                </a>
-
-                <!-- Underground Reptiles -->
-                <a href="https://underground-reptiles.vercel.app" target="_blank" rel="noopener" class="work-card reveal reveal-delay-1">
-                    <div class="work-thumb">
-                        <img src="https://images.unsplash.com/photo-1531386151447-fd76ad50012f?w=900&q=80" alt="Underground Reptiles" loading="lazy">
-                    </div>
-                    <div class="work-meta">
-                        <div class="work-row">
-                            <span class="work-tag">E-commerce · Retail</span>
-                            <span class="work-live"><span class="dot"></span>Live</span>
-                        </div>
-                        <h3>Underground Reptiles</h3>
-                        <p>Premium captive-bred reptile e-commerce with product grid, cart drawer, and atmospheric dark-gold styling.</p>
-                        <span class="work-link">underground-reptiles.vercel.app &nbsp;&rarr;</span>
-                    </div>
-                </a>
-
-                <!-- Emyies Shop -->
-                <a href="https://emyies-shop.vercel.app" target="_blank" rel="noopener" class="work-card reveal reveal-delay-2">
-                    <div class="work-thumb">
-                        <img src="images/emyies-hero.png" alt="Emyies Shop" loading="lazy">
-                    </div>
-                    <div class="work-meta">
-                        <div class="work-row">
-                            <span class="work-tag">Artisan · E-com</span>
-                            <span class="work-live"><span class="dot"></span>Live</span>
-                        </div>
-                        <h3>Emyies Shop</h3>
-                        <p>Handcrafted wire-jewelry storefront with koi-themed slideshow and artisan brand storytelling.</p>
-                        <span class="work-link">emyies-shop.vercel.app &nbsp;&rarr;</span>
-                    </div>
-                </a>
+            <div class="work-grid" id="workGrid" aria-live="polite">
+                <div class="work-skeleton" aria-hidden="true"></div>
+                <div class="work-skeleton" aria-hidden="true"></div>
+                <div class="work-skeleton" aria-hidden="true"></div>
+                <div class="work-skeleton" aria-hidden="true"></div>
             </div>
         </div>
     </section>
@@ -1254,6 +1219,56 @@
                 btn.style.setProperty('--my', (e.clientY - r.top) + 'px');
             });
         });
+    })();
+    </script>
+
+
+    <!-- === LIVE PORTFOLIO FETCH === -->
+    <script>
+    (async function(){
+        const MANIFEST = 'https://raw.githubusercontent.com/kimchiwrice/ai-agency/master/projects.json?t=' + Date.now();
+        const grid = document.getElementById('workGrid');
+        if (!grid) return;
+        try {
+            const res = await fetch(MANIFEST, { cache: 'no-cache' });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const data = await res.json();
+            const visible = (data.projects || []).filter(p => p.portfolioVisible !== false);
+            grid.innerHTML = visible.map((p, idx) => `
+                <a href="${p.url}" target="_blank" rel="noopener"
+                   class="work-card reveal reveal-delay-${Math.min(idx + 1, 4)}" style="--card-idx: ${idx}">
+                    <div class="work-thumb">
+                        <img src="${p.thumb}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.style.opacity='0.3'">
+                    </div>
+                    <div class="work-meta">
+                        <div class="work-row">
+                            <span class="work-tag">${escapeHtml(p.tag || '')}</span>
+                            <span class="work-live"><span class="dot"></span>${p.status === 'live' ? 'Live' : p.status}</span>
+                        </div>
+                        <h3>${escapeHtml(p.name)}</h3>
+                        <p>${escapeHtml(p.description || '')}</p>
+                        <span class="work-link">${new URL(p.url).hostname} &nbsp;&rarr;</span>
+                    </div>
+                </a>
+            `).join('');
+            // Attach meta footer line
+            const meta = document.createElement('div');
+            meta.className = 'data-meta';
+            const updatedDate = new Date(data.updated || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            meta.innerHTML = `<strong>${visible.length}</strong> live projects &nbsp;·&nbsp; last synced ${updatedDate}`;
+            grid.parentNode.insertBefore(meta, grid.nextSibling);
+            // Re-trigger reveal observer if present
+            if (window.IntersectionObserver) {
+                const io = new IntersectionObserver((entries) => {
+                    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); io.unobserve(e.target); } });
+                }, { threshold: 0.1 });
+                grid.querySelectorAll('.reveal').forEach(el => io.observe(el));
+            }
+        } catch (e) {
+            console.error('Portfolio fetch failed:', e);
+            grid.innerHTML = '<div style="grid-column: 1/-1; padding: 40px; text-align: center; color: var(--text-muted);">Portfolio loading failed. Try refreshing.</div>';
+        }
+        function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
     })();
     </script>
 
