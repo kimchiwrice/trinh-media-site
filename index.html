@@ -791,13 +791,18 @@
         }
         
         
-        /* === REVEAL FALLBACK (no-JS / observer failure safety net) === */
-        #workGrid .work-card.reveal { opacity: 1; transform: none; transition: opacity 0.6s ease, transform 0.6s ease; }
-        #workGrid .work-card.reveal:not(.revealed) { animation: card-fade-in 0.8s cubic-bezier(0.16,1,0.3,1) forwards; }
-        @keyframes card-fade-in {
-            from { opacity: 0; transform: translateY(20px); }
-            to   { opacity: 1; transform: translateY(0); }
+        /* === REVEAL BULLETPROOF (overrides all prior rules — no animation dependency) === */
+        #workGrid .work-card,
+        #workGrid .work-card.reveal,
+        #workGrid .work-card.reveal:not(.revealed),
+        #workGrid .work-card.revealed {
+            opacity: 1 !important;
+            transform: none !important;
+            animation: none !important;
+            transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s ease, border-color 0.3s ease !important;
         }
+        #workGrid .work-card:hover { transform: translateY(-6px) !important; }
+        /* === END REVEAL BULLETPROOF === */
 
         /* === LIVE-FETCH SKELETONS === */
         .work-skeleton {
@@ -1245,7 +1250,7 @@
             const visible = (data.projects || []).filter(p => p.portfolioVisible !== false);
             grid.innerHTML = visible.map((p, idx) => `
                 <a href="${p.url}" target="_blank" rel="noopener"
-                   class="work-card reveal reveal-delay-${Math.min(idx + 1, 4)}" style="--card-idx: ${idx}">
+                   class="work-card revealed" style="--card-idx: ${idx}">
                     <div class="work-thumb">
                         <img src="${p.thumb}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.style.opacity='0.3'">
                     </div>
@@ -1266,13 +1271,7 @@
             const updatedDate = new Date(data.updated || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
             meta.innerHTML = `<strong>${visible.length}</strong> live projects &nbsp;·&nbsp; last synced ${updatedDate}`;
             grid.parentNode.insertBefore(meta, grid.nextSibling);
-            // Re-trigger reveal observer if present
-            // Force-reveal with stagger (skip IntersectionObserver — more reliable for dynamic content)
-            requestAnimationFrame(() => {
-                grid.querySelectorAll('.reveal').forEach((el, i) => {
-                    setTimeout(() => el.classList.add('revealed'), 80 + i * 120);
-                });
-            });
+            // Cards are rendered visible by default (no animation dependency — bulletproof against tab throttling)
         } catch (e) {
             console.error('Portfolio fetch failed:', e);
             grid.innerHTML = '<div style="grid-column: 1/-1; padding: 40px; text-align: center; color: var(--text-muted);">Portfolio loading failed. Try refreshing.</div>';
