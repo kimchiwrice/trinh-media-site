@@ -585,15 +585,17 @@
 
         /* === REVEAL ANIMATIONS === */
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-        .reveal.visible, .reveal.force-show { opacity: 1; transform: translateY(0); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        /* Force-show: snap instantly with NO transition — used by safety net + visibility-change recovery.
+           Overrides the transition so content appears immediately when tab is backgrounded (Chrome throttles transitions on hidden tabs). */
+        .reveal.force-show { opacity: 1 !important; transform: none !important; transition: none !important; animation: none !important; }
         .reveal-delay-1 { transition-delay: 0.1s; }
         .reveal-delay-2 { transition-delay: 0.2s; }
         .reveal-delay-3 { transition-delay: 0.3s; }
-        /* Bulletproof fallback: any device or context that prefers reduced motion, or any browser that blocks JS/observer, still shows content */
+        /* Reduced-motion and no-JS fallbacks */
         @media (prefers-reduced-motion: reduce) {
             .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
         }
-        /* No-JS safety net: if JS never runs, reveal content after 1.5s via CSS animation */
         html.no-js .reveal { opacity: 1 !important; transform: none !important; }
 
         /* === RESPONSIVE === */
@@ -1159,7 +1161,8 @@
     // === SCROLL REVEAL OBSERVER (with bulletproof fallbacks) ===
     (function() {
         const selector = '.reveal';
-        const revealAll = () => document.querySelectorAll(selector).forEach(el => el.classList.add('visible'));
+        // Force-show snaps opacity to 1 with NO transition — critical for hidden/backgrounded tabs where transitions are throttled
+        const revealAll = () => document.querySelectorAll(selector).forEach(el => { el.classList.add('visible'); el.classList.add('force-show'); });
 
         // 1) If IntersectionObserver isn't supported, reveal everything immediately
         if (!('IntersectionObserver' in window)) { revealAll(); return; }
