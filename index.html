@@ -1038,12 +1038,15 @@
                         <a href="#">Sacramento, CA</a>
                     </div>
                 </div>
-                <form class="contact-form reveal reveal-delay-2" onsubmit="event.preventDefault(); this.innerHTML='<p style=\'color:var(--accent);padding:40px;text-align:center;\'>Message sent. I\'ll be in touch within 24 hours.</p>';">
-                    <input type="text" name="name" placeholder="Your Name" required>
-                    <input type="email" name="email" placeholder="Your Email" required>
-                    <input type="text" name="business" placeholder="Business Name">
+                <form id="contactForm" class="contact-form reveal reveal-delay-2" novalidate>
+                    <input type="text" name="name" placeholder="Your Name" required autocomplete="name">
+                    <input type="email" name="email" placeholder="Your Email" required autocomplete="email">
+                    <input type="text" name="business" placeholder="Business Name" autocomplete="organization">
                     <textarea name="message" placeholder="Tell me about your project..." required></textarea>
+                    <!-- honeypot: real users won't fill this; bots will -->
+                    <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;">
                     <button type="submit" class="btn btn-primary" style="border:none;cursor:pointer;width:100%;">Send Message</button>
+                    <div id="formStatus" style="font-size:0.88rem;letter-spacing:0.3px;min-height:20px;"></div>
                 </form>
             </div>
         </div>
@@ -1314,6 +1317,79 @@
             grid.innerHTML = '<div style="grid-column: 1/-1; padding: 40px; text-align: center; color: var(--text-muted);">Portfolio loading failed. Try refreshing.</div>';
         }
         function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    })();
+    </script>
+
+    <!-- === CONTACT FORM SUBMISSION ===
+         Primary: Formspree (set FORMSPREE_ID below — takes 60s to set up at formspree.io)
+         Fallback: mailto — opens user's email client pre-filled. Works immediately, zero config.
+    -->
+    <script>
+    (function(){
+        const FORMSPREE_ID = ''; // <-- paste Formspree form ID here after signing up (e.g. 'xnqkvpzr')
+        const FALLBACK_EMAIL = 'seantrinh5031@gmail.com';
+
+        const form = document.getElementById('contactForm');
+        const status = document.getElementById('formStatus');
+        if (!form || !status) return;
+
+        function setStatus(msg, ok) {
+            status.textContent = msg || '';
+            status.style.color = ok === true ? 'var(--accent)' : (ok === false ? '#F56572' : 'var(--text-muted)');
+        }
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            // Spam honeypot — silently drop
+            if (form.elements['_gotcha'] && form.elements['_gotcha'].value) { setStatus('Thanks.', true); return; }
+            const fd = new FormData(form);
+            const name = (fd.get('name') || '').toString().trim();
+            const email = (fd.get('email') || '').toString().trim();
+            const biz  = (fd.get('business') || '').toString().trim();
+            const msg  = (fd.get('message') || '').toString().trim();
+
+            if (!name || !email || !msg) { setStatus('Please fill in name, email, and message.', false); return; }
+
+            const btn = form.querySelector('button[type="submit"]');
+            const origBtn = btn.textContent;
+            btn.disabled = true; btn.textContent = 'Sending…';
+            setStatus('Sending…');
+
+            const sent = FORMSPREE_ID
+                ? await submitFormspree(fd)
+                : false;
+
+            if (sent) {
+                form.innerHTML = '<p style="color:var(--accent);padding:40px;text-align:center;font-size:1.05rem;">Message sent. You\'ll hear back within 24 hours.</p>';
+                return;
+            }
+
+            // Fallback: open user's email client with pre-filled message
+            const subject = encodeURIComponent('New lead from Trinh Media site — ' + (biz || name));
+            const body = encodeURIComponent(
+                'Name: ' + name + '\n' +
+                'Email: ' + email + '\n' +
+                (biz ? 'Business: ' + biz + '\n' : '') +
+                '\n' + msg + '\n\n---\nSent from trinh-media-site.vercel.app'
+            );
+            window.location.href = 'mailto:' + FALLBACK_EMAIL + '?subject=' + subject + '&body=' + body;
+            setStatus('Opening your email app — hit send to deliver this message.', true);
+            btn.disabled = false; btn.textContent = origBtn;
+        });
+
+        async function submitFormspree(fd) {
+            try {
+                const res = await fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+                    method: 'POST',
+                    body: fd,
+                    headers: { 'Accept': 'application/json' }
+                });
+                return res.ok;
+            } catch (err) {
+                console.error('Formspree failed:', err);
+                return false;
+            }
+        }
     })();
     </script>
 
