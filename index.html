@@ -1288,9 +1288,15 @@
             if (!res.ok) throw new Error('HTTP ' + res.status);
             const data = await res.json();
             const visible = (data.projects || []).filter(p => p.portfolioVisible !== false);
-            grid.innerHTML = visible.map((p, idx) => `
-                <a href="${p.url}" target="_blank" rel="noopener"
-                   class="work-card revealed" style="--card-idx: ${idx}">
+            grid.innerHTML = visible.map((p, idx) => {
+                // Route: case study page if available (internal), else live project URL (external)
+                const href = p.caseStudyUrl || p.url;
+                const isInternal = !!p.caseStudyUrl;
+                const linkLabel = isInternal ? 'Read case study &nbsp;&rarr;' : new URL(p.url).hostname + ' &nbsp;&rarr;';
+                const targetAttr = isInternal ? '' : 'target="_blank" rel="noopener"';
+                return `
+                <a href="${href}" ${targetAttr}
+                   class="work-card revealed${isInternal ? ' has-case-study' : ''}" style="--card-idx: ${idx}">
                     <div class="work-thumb">
                         <img src="${p.thumb}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.style.opacity='0.3'">
                     </div>
@@ -1301,10 +1307,10 @@
                         </div>
                         <h3>${escapeHtml(p.name)}</h3>
                         <p>${escapeHtml(p.description || '')}</p>
-                        <span class="work-link">${new URL(p.url).hostname} &nbsp;&rarr;</span>
+                        <span class="work-link">${linkLabel}</span>
                     </div>
                 </a>
-            `).join('');
+            `;}).join('');
             // Attach meta footer line
             const meta = document.createElement('div');
             meta.className = 'data-meta';

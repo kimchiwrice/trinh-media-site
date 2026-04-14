@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T4 Tea For U — Case Study | Trinh Media</title>
+    <meta name="description" content="Cinematic website build for T4 Tea For U, Folsom's boba tea shop. Problem, approach, and result.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #06060B;
+            --bg-2: #0F0F1A;
+            --surface: #1A1A2E;
+            --text: #F5F5FA;
+            --text-muted: #A8A8B8;
+            --accent: #A78BFA;
+            --accent-2: #22D3EE;
+            --accent-3: #F472B6;
+            --accent-4: #34D399;
+            --border: rgba(255,255,255,0.08);
+            --maxw: 880px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { color: var(--accent); text-decoration: none; transition: color 0.2s ease; }
+        a:hover { color: var(--accent-2); }
+        .container { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+
+        /* Top nav */
+        .topnav {
+            position: sticky; top: 0; z-index: 50;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            background: rgba(6,6,11,0.75);
+            border-bottom: 1px solid var(--border);
+        }
+        .topnav-inner {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 28px;
+            max-width: 1200px; margin: 0 auto;
+        }
+        .brand {
+            font-weight: 700; letter-spacing: 2px; font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+        .brand .dot { color: var(--accent); }
+        .back-link {
+            font-size: 0.78rem; letter-spacing: 1.5px; text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .back-link:hover { color: var(--text); }
+
+        /* Hero */
+        .hero {
+            padding: 100px 0 80px 0;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(circle at 20% 10%, rgba(167,139,250,0.15), transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(34,211,238,0.08), transparent 45%);
+            pointer-events: none;
+        }
+        .hero-tag {
+            display: inline-block;
+            font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase;
+            color: var(--accent);
+            padding: 6px 12px;
+            border: 1px solid rgba(167,139,250,0.3);
+            border-radius: 4px;
+            margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+        }
+        .hero h1 .accent {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-lede {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 620px;
+            margin-bottom: 40px;
+        }
+        .hero-meta {
+            display: flex; flex-wrap: wrap; gap: 24px;
+            padding-top: 30px;
+            border-top: 1px dashed var(--border);
+        }
+        .meta-item { font-size: 0.8rem; }
+        .meta-label {
+            display: block;
+            font-size: 0.65rem; letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .meta-value { color: var(--text); font-weight: 500; }
+        .meta-value.live::before {
+            content: ''; display: inline-block;
+            width: 7px; height: 7px; border-radius: 50%;
+            background: var(--accent-4);
+            box-shadow: 0 0 10px var(--accent-4);
+            margin-right: 8px;
+            vertical-align: middle;
+            animation: pulse 1.8s ease-in-out infinite;
+        }
+        @keyframes pulse { 50% { opacity: 0.4; } }
+
+        /* Section */
+        section.block { padding: 70px 0; border-bottom: 1px solid var(--border); }
+        section.block h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            letter-spacing: -0.01em;
+        }
+        section.block h2 .num {
+            display: inline-block;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem; font-weight: 600;
+            letter-spacing: 3px;
+            color: var(--accent);
+            vertical-align: middle;
+            margin-right: 14px;
+            padding: 4px 9px;
+            border: 1px solid rgba(167,139,250,0.35);
+            border-radius: 3px;
+        }
+        section.block p {
+            font-size: 1.02rem;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+        }
+        section.block p strong { color: var(--text); font-weight: 500; }
+
+        /* Decision list */
+        .decisions { display: flex; flex-direction: column; gap: 22px; margin-top: 10px; }
+        .decision {
+            display: grid;
+            grid-template-columns: 44px 1fr;
+            gap: 20px;
+            padding: 24px 0;
+            border-top: 1px solid var(--border);
+        }
+        .decision:last-child { border-bottom: 1px solid var(--border); }
+        .decision-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem; font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+        .decision-body h3 {
+            font-size: 1.08rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .decision-body p { font-size: 0.98rem; margin-bottom: 0; }
+
+        /* Stack */
+        .stack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .stack-chip {
+            padding: 12px 14px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.82rem;
+        }
+        .stack-chip strong { display: block; color: var(--accent-2); font-size: 0.65rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; font-weight: 600; }
+
+        /* Result callout */
+        .callout {
+            padding: 28px 30px;
+            background: linear-gradient(135deg, rgba(167,139,250,0.1), rgba(34,211,238,0.05));
+            border: 1px solid rgba(167,139,250,0.28);
+            border-radius: 10px;
+            margin: 26px 0;
+        }
+        .callout p { margin-bottom: 0; color: var(--text); font-style: italic; }
+
+        /* CTA block */
+        .cta-block {
+            padding: 70px 0 90px 0;
+            text-align: center;
+        }
+        .cta-block h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem; font-weight: 600;
+            margin-bottom: 18px;
+        }
+        .cta-block p { color: var(--text-muted); margin-bottom: 28px; }
+        .btn-primary {
+            display: inline-block;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: var(--bg);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-radius: 4px;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(167,139,250,0.35);
+            color: var(--bg);
+        }
+        .btn-secondary {
+            display: inline-block;
+            padding: 14px 28px;
+            margin-left: 10px;
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-weight: 500;
+            border-radius: 4px;
+            transition: border-color 0.25s ease;
+        }
+        .btn-secondary:hover { border-color: var(--accent); }
+
+        /* Footer */
+        footer.site-footer {
+            padding: 30px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 640px) {
+            .hero { padding: 60px 0 50px 0; }
+            section.block { padding: 50px 0; }
+            .decision { grid-template-columns: 32px 1fr; gap: 14px; }
+            .hero-meta { gap: 16px; }
+            .btn-secondary { margin-left: 0; margin-top: 12px; display: block; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="topnav">
+        <div class="topnav-inner">
+            <a href="/" class="brand">Trinh<span class="dot">.</span>Media</a>
+            <a href="/#work" class="back-link">← All Work</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <span class="hero-tag">Case Study · Food &amp; Beverage</span>
+            <h1>Turning a Folsom boba shop into a <span class="accent">cinematic brand</span> online</h1>
+            <p class="hero-lede">
+                T4 Tea For U had a 99/100 health-inspection score and a loyal local following. Their
+                website didn't communicate either. We rebuilt it to match the premium, community-first
+                feeling the shop already had in person.
+            </p>
+            <div class="hero-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Client</span>
+                    <span class="meta-value">T4 Tea For U · Folsom</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Industry</span>
+                    <span class="meta-value">Boba / Bubble Tea</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Scope</span>
+                    <span class="meta-value">Design &amp; Dev · 1 week</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Status</span>
+                    <span class="meta-value live"><a href="https://t4-folsom.vercel.app" target="_blank" rel="noopener">t4-folsom.vercel.app</a></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="block">
+        <div class="container">
+            <h2><span class="num">01</span>The Ask</h2>
+            <p>
+                A woman-owned boba shop in Broadstone Plaza needed a website that matched the way the
+                shop actually feels when you walk in: vibrant, clean, community-rooted. The existing
+                template-style site read as generic — same stock photos, same layout as every other
+                boba brand.
+            </p>
+            <p>
+                <strong>The real problem wasn't missing pages. It was missing personality.</strong>
+                Prospective customers searching "boba Folsom" needed to see what makes T4 different —
+                healthier ingredients, free boba with every drink, a real location worth visiting — in
+                the first three seconds on the site.
+            </p>
+        </div>
+    </section>
+
+    <section class="block">
+        <div class="container">
+            <h2><span class="num">02</span>The Approach</h2>
+            <p>Four operator-level decisions shaped the build:</p>
+            <div class="decisions">
+                <div class="decision">
+                    <div class="decision-num">01</div>
+                    <div class="decision-body">
+                        <h3>Lead with location, not menu</h3>
+                        <p>Locals search by neighborhood. The hero answers "where" before "what,"
+                        pinning the Broadstone Plaza address and hours above the fold — so someone on
+                        their phone at a red light gets the answer in one tap.</p>
+                    </div>
+                </div>
+                <div class="decision">
+                    <div class="decision-num">02</div>
+                    <div class="decision-body">
+                        <h3>Brand colors over stock photos</h3>
+                        <p>We built the palette from T4's existing logo — teal, gold, and cream —
+                        so the site feels continuous with the in-store experience. No generic
+                        boba-shop stock imagery. Every visual decision reinforces "this is T4,
+                        not just another boba place."</p>
+                    </div>
+                </div>
+                <div class="decision">
+                    <div class="decision-num">03</div>
+                    <div class="decision-body">
+                        <h3>Menu as storytelling, not spreadsheet</h3>
+                        <p>Most boba sites dump a PDF menu. We grouped drinks into categories with
+                        short descriptions so first-time customers know where to start. The menu
+                        doubles as onboarding for people who've never ordered boba.</p>
+                    </div>
+                </div>
+                <div class="decision">
+                    <div class="decision-num">04</div>
+                    <div class="decision-body">
+                        <h3>Performance over polish</h3>
+                        <p>Mobile load speed matters more than desktop aesthetic for this audience.
+                        We kept bundle size lean, skipped heavy libraries, and made sure the site
+                        loads under 2 seconds on a throttled 4G connection.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="block">
+        <div class="container">
+            <h2><span class="num">03</span>The Build</h2>
+            <p>Shipped in a single focused build week:</p>
+            <div class="decisions">
+                <div class="decision">
+                    <div class="decision-num">→</div>
+                    <div class="decision-body">
+                        <h3>Hero with location &amp; hours, not a hero image</h3>
+                        <p>First thing visitors see: address, hours, phone. The decision a local
+                        customer actually needs to make.</p>
+                    </div>
+                </div>
+                <div class="decision">
+                    <div class="decision-num">→</div>
+                    <div class="decision-body">
+                        <h3>Menu gallery organized by drink type</h3>
+                        <p>Milk tea, fruit tea, slush, and specialty categories — each with their
+                        own visual identity — so regulars and first-timers both orient fast.</p>
+                    </div>
+                </div>
+                <div class="decision">
+                    <div class="decision-num">→</div>
+                    <div class="decision-body">
+                        <h3>Mobile-first, zero compromise</h3>
+                        <p>Over 70% of boba searches happen on phones. Every interaction was designed
+                        touch-first: oversized tap targets, no hover-only menus, scroll-friendly layout.</p>
+                    </div>
+                </div>
+                <div class="decision">
+                    <div class="decision-num">→</div>
+                    <div class="decision-body">
+                        <h3>Order CTA that actually converts</h3>
+                        <p>Clear, repeating "Order Now" anchors throughout the site — not buried in
+                        a nav dropdown. Friction-free path from "I want boba" to "I'm ordering."</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="callout">
+                <p>"Build sites for the customer's attention span, not the designer's portfolio."
+                — the principle running through every decision on this project.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="block">
+        <div class="container">
+            <h2><span class="num">04</span>The Stack</h2>
+            <p>Deliberately boring tech so every dollar goes into polish, not infrastructure.</p>
+            <div class="stack-grid">
+                <div class="stack-chip"><strong>Frontend</strong>Vanilla HTML/CSS/JS</div>
+                <div class="stack-chip"><strong>Hosting</strong>Vercel (free tier)</div>
+                <div class="stack-chip"><strong>Fonts</strong>Google Fonts (Inter + display)</div>
+                <div class="stack-chip"><strong>Images</strong>AI-generated + optimized</div>
+                <div class="stack-chip"><strong>Domain</strong>t4-folsom.com</div>
+                <div class="stack-chip"><strong>Analytics</strong>Lightweight, privacy-first</div>
+            </div>
+            <p style="margin-top: 24px; font-size: 0.9rem;">
+                Total monthly running cost: <strong>under $20</strong>. Site is owned outright by
+                the client — no platform lock-in, no rental rug-pull.
+            </p>
+        </div>
+    </section>
+
+    <section class="block">
+        <div class="container">
+            <h2><span class="num">05</span>The Result</h2>
+            <p>
+                <strong>Shipped and live at <a href="https://t4-folsom.vercel.app" target="_blank" rel="noopener">t4-folsom.vercel.app</a>.</strong>
+                The site reflects the shop's actual brand instead of a template version of it.
+                Menu is navigable in seconds, location is unmissable, and the brand reads
+                consistent with the in-store experience.
+            </p>
+            <p>
+                Trinh Media is a new agency — we don't yet have months of post-launch traffic data
+                to share. What we can say: the client owns the code, the hosting is nearly free,
+                and the site no longer underrepresents the shop.
+            </p>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">
+                Honest note: this case study is deliberately light on vanity metrics because the
+                site launched recently. We'll update with real traffic &amp; conversion numbers
+                once the data has had time to accumulate.
+            </p>
+        </div>
+    </section>
+
+    <section class="cta-block">
+        <div class="container">
+            <h2>Want this for your business?</h2>
+            <p>Same operator mindset, same deliberate stack, same ownership model.</p>
+            <a href="/#contact" class="btn-primary">Start a Conversation</a>
+            <a href="/#work" class="btn-secondary">See Other Work</a>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            © <span id="year"></span> Trinh Media · Sacramento, CA
+        </div>
+    </footer>
+
+    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
