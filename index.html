@@ -585,10 +585,16 @@
 
         /* === REVEAL ANIMATIONS === */
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal.visible, .reveal.force-show { opacity: 1; transform: translateY(0); }
         .reveal-delay-1 { transition-delay: 0.1s; }
         .reveal-delay-2 { transition-delay: 0.2s; }
         .reveal-delay-3 { transition-delay: 0.3s; }
+        /* Bulletproof fallback: any device or context that prefers reduced motion, or any browser that blocks JS/observer, still shows content */
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+        }
+        /* No-JS safety net: if JS never runs, reveal content after 1.5s via CSS animation */
+        html.no-js .reveal { opacity: 1 !important; transform: none !important; }
 
         /* === RESPONSIVE === */
         @media (max-width: 968px) {
@@ -1150,17 +1156,45 @@
         loop();
     })();
 
-    // === SCROLL REVEAL OBSERVER ===
+    // === SCROLL REVEAL OBSERVER (with bulletproof fallbacks) ===
     (function() {
-        const reveals = document.querySelectorAll('.reveal');
+        const selector = '.reveal';
+        const revealAll = () => document.querySelectorAll(selector).forEach(el => el.classList.add('visible'));
+
+        // 1) If IntersectionObserver isn't supported, reveal everything immediately
+        if (!('IntersectionObserver' in window)) { revealAll(); return; }
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-        reveals.forEach(el => observer.observe(el));
+
+        document.querySelectorAll(selector).forEach(el => observer.observe(el));
+
+        // 2) Hard safety net — no element stays invisible past 2.5s, ever
+        setTimeout(revealAll, 2500);
+
+        // 3) When tab returns to foreground (animations un-throttle), force-reveal any stragglers
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') revealAll();
+        });
+
+        // 4) If user tries to jump directly to a hash, reveal ancestors of target immediately
+        if (location.hash) {
+            const target = document.querySelector(location.hash);
+            if (target) {
+                let node = target;
+                while (node && node !== document.body) {
+                    if (node.classList && node.classList.contains('reveal')) node.classList.add('visible');
+                    node.querySelectorAll && node.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+                    node = node.parentElement;
+                }
+            }
+        }
     })();
     // === NAV SCROLL EFFECT ===
     (function() {
