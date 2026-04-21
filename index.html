@@ -1520,10 +1520,10 @@
     <div class="stats-grid">
       <div class="stat-item gs-hidden">
         <div class="stat-number" data-target="5" data-suffix="">0</div>
-        <div class="stat-label">Live Businesses</div>
+        <div class="stat-label">Sites Built</div>
       </div>
       <div class="stat-item gs-hidden">
-        <div class="stat-number" data-target="88" data-suffix="+">0</div>
+        <div class="stat-number" data-target="92" data-suffix="+">0</div>
         <div class="stat-label">Menu Items Built</div>
       </div>
       <div class="stat-item gs-hidden">
@@ -1627,7 +1627,7 @@
             <div class="portfolio-card-content">
               <div class="portfolio-tag">Restaurant + Ordering</div>
               <h3>T4 Tea For U</h3>
-              <p>Full website and 88-item online ordering system for a boba tea shop in Folsom. Dark cinematic design with delivery platform integration.</p>
+              <p>Full website and 92-item online ordering system for a boba tea shop in Folsom. Dark cinematic design with delivery platform integration.</p>
             </div>
           </div>
         </a>
@@ -1685,10 +1685,10 @@
       <div class="case-study-content gs-hidden-right">
         <h3>From zero online presence to a <span>full ordering system</span></h3>
         <p>T4 Tea For U is a boba tea shop in Folsom, CA. They had no website, no online ordering, and were losing delivery orders to competitors with better digital presence. They needed a site that matched the quality of their drinks — premium, inviting, and functional.</p>
-        <p>I built a dark cinematic website with an 88-item online ordering menu, integrated delivery platform links (DoorDash, UberEats, GrubHub), real product photography, and a fully responsive design — all hand-coded in a single HTML file with zero dependencies.</p>
+        <p>I built a dark cinematic website with a 92-item online ordering menu, integrated delivery platform links (DoorDash, UberEats, GrubHub), real product photography, and a fully responsive design — all hand-coded in a single HTML file with zero dependencies.</p>
         <div class="case-study-metrics">
           <div class="cs-metric">
-            <div class="cs-metric-value">88+</div>
+            <div class="cs-metric-value">92+</div>
             <div class="cs-metric-label">Menu Items</div>
           </div>
           <div class="cs-metric">
@@ -2152,7 +2152,20 @@
         }
       });
 
-      // === STATS COUNTER ANIMATION ===
+      // === STATS COUNTER ANIMATION (with background tab safety) ===
+      let statsResolved = false;
+      function forceStatValues() {
+        document.querySelectorAll('.stat-number').forEach(el => {
+          const target = parseInt(el.getAttribute('data-target'));
+          const suffix = el.getAttribute('data-suffix') || '';
+          const prefix = el.textContent.includes('$') ? '$' : '';
+          el.textContent = prefix + target + suffix;
+          const parent = el.closest('.stat-item');
+          if (parent) { parent.style.opacity = '1'; parent.style.transform = 'translateY(0)'; }
+        });
+        statsResolved = true;
+      }
+
       const statNumbers = document.querySelectorAll('.stat-number');
       statNumbers.forEach((el) => {
         const target = parseInt(el.getAttribute('data-target'));
@@ -2164,11 +2177,9 @@
           start: 'top 85%',
           once: true,
           onEnter: () => {
-            // Fade in parent
             gsap.to(el.closest('.stat-item'), {
               opacity: 1, y: 0, duration: 0.6, ease: 'power3.out'
             });
-            // Counter
             let counter = { val: 0 };
             gsap.to(counter, {
               val: target,
@@ -2176,10 +2187,19 @@
               ease: 'power2.out',
               onUpdate: () => {
                 el.textContent = prefix + Math.round(counter.val) + suffix;
+              },
+              onComplete: () => {
+                el.textContent = prefix + target + suffix;
               }
             });
           }
         });
+      });
+
+      // Safety net: force values if tab was in background
+      setTimeout(forceStatValues, 4000);
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && !statsResolved) forceStatValues();
       });
 
       // === SERVICE CARDS — STICKY STACK (desktop) ===
