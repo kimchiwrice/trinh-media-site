@@ -1366,6 +1366,29 @@
     .gs-hidden-left { opacity: 0; transform: translateX(-60px); }
     .gs-hidden-right { opacity: 0; transform: translateX(60px); }
     .gs-hidden-scale { opacity: 0; transform: scale(0.92); }
+
+    /* === TESTIMONIALS === */
+    .testimonials-section { padding: 120px 0; background: var(--bg); }
+    .testimonials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; max-width: 1100px; margin: 60px auto 0; }
+    .testimonial-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 40px; position: relative; }
+    .testimonial-quote { font-size: 0.95rem; line-height: 1.7; color: rgba(255,255,255,0.7); font-style: italic; margin-bottom: 24px; }
+    .testimonial-quote::before { content: '\201C'; font-size: 3rem; color: var(--accent); position: absolute; top: 20px; left: 24px; line-height: 1; opacity: 0.5; }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+    .testimonial-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.75rem; color: var(--bg); }
+    .testimonial-name { font-weight: 600; color: var(--cream); font-size: 0.9rem; }
+    .testimonial-role { font-size: 0.78rem; color: rgba(255,255,255,0.4); }
+    @media (max-width: 768px) { .testimonials-grid { grid-template-columns: 1fr; } }
+
+    /* === FAQ === */
+    .faq-section { padding: 120px 0; background: rgba(255,255,255,0.01); }
+    .faq-list { max-width: 760px; margin: 60px auto 0; }
+    .faq-item { border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .faq-question { display: flex; justify-content: space-between; align-items: center; width: 100%; background: none; border: none; cursor: pointer; padding: 20px 0; text-align: left; font-family: inherit; font-size: 1.05rem; font-weight: 500; color: var(--cream); letter-spacing: -0.01em; }
+    .faq-toggle { font-size: 1.4rem; color: var(--accent); transition: transform 0.3s ease; flex-shrink: 0; margin-left: 16px; }
+    .faq-item.open .faq-toggle { transform: rotate(45deg); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; }
+    .faq-answer p { color: rgba(255,255,255,0.6); font-size: 0.92rem; line-height: 1.7; }
+    .faq-item.open .faq-answer { max-height: 300px; padding-top: 4px; padding-bottom: 20px; }
   </style>
 </head>
 <body>
@@ -1753,6 +1776,101 @@
         I build the ones people screenshot and send to their friends.
       </blockquote>
       <cite>— Sean Trinh, Founder</cite>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials-section">
+    <div class="container">
+      <div class="eyebrow gs-hidden">What Clients Say</div>
+      <h2 class="section-title gs-hidden">Don't Take My Word For It</h2>
+      <p class="section-desc gs-hidden">Real businesses. Real results. Real words.</p>
+      <div class="testimonials-grid">
+        <div class="testimonial-card gs-hidden">
+          <div class="testimonial-quote">Sean built our entire online presence from scratch — menu, ordering, everything. We went from no website to a full system with DoorDash and Grubhub integration in under a week. Our online orders went up immediately.</div>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">T4</div>
+            <div>
+              <div class="testimonial-name">T4 Tea For U — Folsom</div>
+              <div class="testimonial-role">92+ menu items · Live ordering · 7-day build</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card gs-hidden">
+          <div class="testimonial-quote">The site he built us isn't just pretty — it actually works. Fast loading, looks great on mobile, and customers can find everything they need. This isn't some cookie-cutter template. You can tell someone actually thought about every detail.</div>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">UR</div>
+            <div>
+              <div class="testimonial-name">Underground Reptiles</div>
+              <div class="testimonial-role">E-commerce · Custom catalog · Dark premium theme</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="container">
+      <div class="eyebrow gs-hidden">FAQ</div>
+      <h2 class="section-title gs-hidden">Questions I Always Get</h2>
+      <div class="faq-list">
+        <div class="faq-item gs-hidden">
+          <button class="faq-question" aria-expanded="false">
+            <span>How much does a website cost?</span>
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Most sites start around $500–$1,500 depending on scope. You get an exact quote before we start — no surprise fees, no hourly billing. You pay for a finished product.</p>
+          </div>
+        </div>
+        <div class="faq-item gs-hidden">
+          <button class="faq-question" aria-expanded="false">
+            <span>How long does it take?</span>
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Most sites go live in 5–7 days. Bigger projects might take 2 weeks. I move fast because I build everything myself — no waiting on teams or agencies.</p>
+          </div>
+        </div>
+        <div class="faq-item gs-hidden">
+          <button class="faq-question" aria-expanded="false">
+            <span>What's included?</span>
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Design, development, mobile optimization, SEO basics, contact form, hosting setup, and deployment. Everything you need to go live. No hidden costs for "extras" that should be standard.</p>
+          </div>
+        </div>
+        <div class="faq-item gs-hidden">
+          <button class="faq-question" aria-expanded="false">
+            <span>Why hand-coded instead of WordPress or Wix?</span>
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Template sites load slow, look generic, and break when plugins update. Hand-coded sites are faster, lighter, fully custom, and you actually own the code. No monthly platform fees eating your margins.</p>
+          </div>
+        </div>
+        <div class="faq-item gs-hidden">
+          <button class="faq-question" aria-expanded="false">
+            <span>How many revisions do I get?</span>
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>I include 2 rounds of revisions, but I nail direction early so most clients approve on the first pass. Not here to waste your time or mine.</p>
+          </div>
+        </div>
+        <div class="faq-item gs-hidden">
+          <button class="faq-question" aria-expanded="false">
+            <span>Do you do maintenance after launch?</span>
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Yes. Optional monthly maintenance for updates, edits, and performance monitoring. Or come back anytime for one-off changes. Your site doesn't get abandoned after launch.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -2540,6 +2658,22 @@
           btn.innerHTML = origHTML;
       });
   })();
+
+  // === FAQ ACCORDION ===
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-question').setAttribute('aria-expanded','false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded','true');
+      }
+    });
+  });
   </script>
 </body>
 </html>
